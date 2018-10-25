@@ -22,13 +22,10 @@ class Task extends CI_Controller {
 		$data['count_acc'] = $this->m_task->countAcc($ms_num);
 		$data['count_finding'] = $this->m_task->countFinding($ms_num);
 		$data['task_process_detail'] = $this->m_task->task_process_detail($ms_num, $ac_type);
+		$data['task_evaluation'] = $this->m_task->task_evaluation($ms_num, $ac_type);
+		$data['task_remarks'] = $this->m_task->task_remarks($ms_num, $ac_type);
 
 		$this->load->view("layout/v_template", $data);
-	}
-
-	public function task_process()
-	{
-
 	}
 
 	public function summary()

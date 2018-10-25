@@ -35,27 +35,16 @@ class Assignment extends CI_Controller {
 		$data = array(
 						'ms_num' => $ms_num,
 						'ac_type' => $ac_type,
-						'id_user' => $user_id,
-						'create_date' => date("Y-m-d")
+						'id_user' => $user_id
 						);
 		$this->m_assignment->assign('ev_task_assign', $data);
 		$data = array(
 						'ms_num' => $ms_num,
 						'ac_type' => $ac_type,
 						'id_user' => $user_id,
-						'status' => $status+1,
-						'create_date' => date("Y-m-d")
+						'status' => $status+1
 						);
 		$this->m_assignment->assign('ev_task_process', $data);
-		$data = array(
-						'ms_num' => $ms_num,
-						'ac_type' => $ac_type,
-						'id_user' => $user_id,
-						'status' => $status+1,
-						'create_date' => date("Y-m-d")
-						);
-		$this->m_assignment->assign('ev_task_process', $data);
-		
 	}
 }
 

@@ -73,17 +73,46 @@
                   ?>
                   <td>
                     <div class="form-group">
-                      <select onchange="changePIC(<?php echo $i; ?>)" id="changepic<?php echo $i; ?>" class="form-control">
-                        <option value="">--Select PIC--</option>
-                        <?php
-                          foreach ($list_user as $lu)
-                          {
-                        ?>
-                        <option value="<?php echo $lu['id_user']; ?>" <?php if($lu['id_user'] == $la['id_user']){echo 'selected';}?>><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
-                        <?php
-                          }
-                        ?>
-                      </select>
+                      <?php
+                        if($la['status'] == "" || $la['status'] == 0 )
+                        {
+                      ?>
+                          <select onchange="changePIC(<?php echo $i; ?>)" id="changepic<?php echo $i; ?>" class="form-control">
+                            <option value="">--Select PIC--</option>
+                            <?php
+                              foreach ($list_user as $lu)
+                              {
+                            ?>
+                            <option value="<?php echo $lu['id_user']; ?>"><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
+                            <?php
+                              }
+                            ?>
+                          </select>
+                      <?php
+                        }
+                        else
+                        {
+                      ?>
+                          <input type="hidden" id="changepic<?php echo $i; ?>" value="<?php echo $la['id_user']; ?>">
+                          <select class="form-control" disabled>
+                            <?php
+                              foreach ($list_user as $lu)
+                              {
+                            ?>
+                            <option <?php if($lu['id_user'] == $la['id_user']){echo 'selected';}?>><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
+                            <?php
+                              }
+                            ?>
+                          </select>
+                      <?php
+                        } 
+                        if($this->session->userdata('role') == 1 && $la['status'] >= 1 )
+                        {
+                      ?>
+                          <button onclick="reassign(<?php echo $i; ?>)">Re-assign</button>        
+                      <?php
+                        }
+                      ?>
                     </div>
                   </td>
                 </tr>
@@ -120,7 +149,8 @@
   //   });
   // }
 
-  function changePIC($i){
+  function changePIC($i)
+  {
     var user_id = document.getElementById("changepic"+$i).value;
     var ms_num = document.getElementById("msnum"+$i).value;
     var ac_type = document.getElementById("actype"+$i).value;
@@ -150,6 +180,37 @@
         else
         {
           document.getElementById("changepic"+$i).selectedIndex = temp;
+        }
+      });
+    }
+  }
+
+  function reassign($i)
+  {
+    var user_id = document.getElementById("changepic"+$i).value;
+    var ms_num = document.getElementById("msnum"+$i).value;
+    var ac_type = document.getElementById("actype"+$i).value;
+    var status = 0;
+    if(user_id != "")
+    {
+      swal({
+        title: "Are you sure you want to re-assign the task?",
+        icon: "warning",
+        buttons: true,
+      })
+        .then((isChange) => {
+        if (isChange){
+          $.ajax({
+            url: '<?php echo base_url("index.php/assignment/assignment"); ?>',
+            type: 'POST',
+            data: { user_id: user_id, ms_num: ms_num, ac_type: ac_type, status: status},
+            success: function(data){
+              swal("The task has been reassigned!", {
+                icon: "success",
+              }); 
+              location.reload();
+            }
+          });
         }
       });
     }

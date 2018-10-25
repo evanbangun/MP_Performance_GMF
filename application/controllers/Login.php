@@ -4,10 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends CI_Controller {
 
 	/*
-		ROLE 1 : admin garuda
-		ROLE 2 : admin gmf
-		ROLE 3 : user garuda
-		ROLE 4 : user gmf
+		ROLE 1 : admin gmf
+		ROLE 2 : admin garuda
+		ROLE 3 : user gmf
+		ROLE 4 : user garuda
 	*/
 
 	function __construct() {

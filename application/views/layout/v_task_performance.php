@@ -219,22 +219,93 @@
 									</div>
 									<hr>
 									<!-- Recommendation -->
+									<form method="POST" action="<?php echo base_url("index.php/user/insert_eval"); ?>" id="eval_form">
+									<input type="hidden" name="ms_num" value="<?php echo $list_task->ms_num; ?>">
+									<input type="hidden" name="ac_type" value="<?php echo $list_task->ac_type; ?>">
+									<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">
 									<div class="row">
 										<div class="col-md-2"><b>Recommendation:</b></div>
-										<div class="col-md-2">Remain <input onchange="rec_change()" type="radio" name="rec" value="1"></div>
-										<div class="col-md-2">Extend <input onchange="rec_change()" type="radio" name="rec" value="2"></div>
-										<div class="col-md-2">Decoalation <input onchange="rec_change()" type="radio" name="rec" value="3"></div>
-										<div class="col-md-2">Add Task <input onchange="rec_change()" type="radio" name="rec" value="4"></div>
-										<div class="col-md-2">Remove Task <input onchange="rec_change()" type="radio" name="rec" value="5"></div>
+										<div class="col-md-2">Remain <input onchange="rec_change()" type="radio" name="rec" value="1" 
+										<?php
+											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 1)
+											{
+												echo " checked";
+											}
+											if($task_process_detail->status != 1)
+											{
+												echo " disabled";
+											}
+										?>
+										></div>
+										<div class="col-md-2">Extend <input onchange="rec_change()" type="radio" name="rec" value="2" 
+										<?php
+											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 2)
+											{
+												echo " checked";
+											}
+											if($task_process_detail->status != 1)
+											{
+												echo " disabled";
+											}
+										?>></div>
+										<div class="col-md-2">Decoalation <input onchange="rec_change()" type="radio" name="rec" value="3" 
+										<?php
+											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 3)
+											{
+												echo " checked";
+											}
+											if($task_process_detail->status != 1)
+											{
+												echo " disabled";
+											}
+										?>></div>
+										<div class="col-md-2">Add Task <input onchange="rec_change()" type="radio" name="rec" value="4" 
+										<?php
+											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 4)
+											{
+												echo " checked";
+											}
+											if($task_process_detail->status != 1)
+											{
+												echo " disabled";
+											}
+										?>></div>
+										<div class="col-md-2">Remove Task <input onchange="rec_change()" type="radio" name="rec" value="5" 
+										<?php
+											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 5)
+											{
+												echo " checked";
+											}
+											if($task_process_detail->status != 1)
+											{
+												echo " disabled";
+											}
+										?>></div>
 									</div>
+									</form>
 									<div class="row">
 										<br>
-										<div class="col-md-12"><b>Reason: </b><a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-reason">Edit</a>
+										<div class="col-md-12"><b>Reason: </b>
+											<?php
+												if($this->session->userdata('role') == 3 && $task_process_detail->status == 1)
+												{
+													?>
+													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-reason">Edit</a>
+													<?php
+												}
+											?>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<p>This task is required by MPD and MRB and there is no reliability issue. This task is required by MPD and MRB and there is no reliability issue. This task is required by MPD and MRB and there is no reliability issue.</p>
+											<p>
+												<?php 
+													if($task_evaluation != NULL)
+													{
+														echo $task_evaluation[0]['reason'];
+													}
+												?>
+											</p>
 										</div>
 									</div>
 
@@ -246,12 +317,27 @@
 									</div> -->
 									<div class="row">
 										<br>
-										<div class="col-md-12"><b>Remarks: </b><a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-remarks">Edit</a>
+										<div class="col-md-12"><b>Remarks: </b>
+											<?php
+												if($this->session->userdata('role') == 4)
+												{
+													?>
+													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-remarks">Edit</a>
+													<?php
+												}
+											?>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<p>Remarks dari garuda. Remarks dari garuda. Remarks dari garuda. Remarks dari garuda</p>
+											<p>
+												<?php 
+													if($task_remarks != NULL)
+													{
+														echo $task_remarks[0]['remarks'];
+													}
+												?>
+											</p>
 										</div>
 									</div>
 								</div>
@@ -416,7 +502,7 @@
 					<div class="modal-body">
 						 <div class="form-group">
 							<label for="comment">Reason:</label>
-							<textarea class="form-control" rows="5" id="comment"></textarea>
+							<textarea class="form-control" rows="5" name="reason" form="eval_form"></textarea>
 						</div> 
 						<table class="table table-bordered table-striped">
                 <thead>
@@ -428,18 +514,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Roni Iskandar</td>
-                  <td>Isi Reason</td>
-                  <td>2018-08-10</td>
-                </tr>
+            	<?php
+            		$i = 0;
+            		foreach ($task_evaluation as $te)
+            		{
+            	?>
+		                <tr>
+		                  <td><?php echo ++$i; ?></td>
+		                  <td><?php echo $te['name']; ?></td>
+		                  <td><?php echo $te['reason']; ?></td>
+		                  <td><?php echo $te['create_date']; ?></td>
+		                </tr>
+                <?php
+                	}
+                ?>
                 </tbody>
               </table>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<a href="" type="button" class="btn btn-success pull-right"><i class="fa fa-pencil"></i> Digital Sign</a>
+						<button type="submit" form="eval_form" class="btn btn-success pull-right"><i class="fa fa-pencil"></i> Digital Sign</button>
 						<!-- <button type="button" class="btn btn-primary">Save</button> -->
 					</div>
 				</div>
@@ -473,12 +567,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>User Garuda</td>
-                  <td>Isi Remarks</td>
-                  <td>2018-08-10</td>
-                </tr>
+            	<?php
+            		$i = 0;
+            		foreach ($task_remarks as $tr)
+            		{
+            	?>
+		                <tr>
+		                  <td><?php echo ++$i; ?></td>
+		                  <td><?php echo $tr['name']; ?></td>
+		                  <td><?php echo $tr['remarks']; ?></td>
+		                  <td><?php echo $tr['create_date']; ?></td>
+		                </tr>
+                <?php
+                	}
+                ?>
                 </tbody>
               </table>
 					</div>
@@ -556,7 +658,32 @@
 	<script type="text/javascript">
 		function rec_change()
 		{
-			
+			swal({
+			      title: "Change the recommendation ?",
+			      icon: "warning",
+			      buttons: true,
+			    })
+			    .then((isChange) => {
+			      if (!isChange)
+			      {  
+			      	<?php
+			      		if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] != NULL)
+			      		{
+			      	?>
+			      			var index = "<?php echo $task_evaluation[0]['recommendation'] - 1; ?>";
+			      			$(":radio[name='rec']")[index].checked = true;
+			      	<?php
+			      		}
+			      		else
+			      		{
+					?>
+							var radioIdx = $(":radio[name='rec']").index($(":radio[name='rec']:checked")); 
+							$(":radio[name='rec']")[radioIdx].checked = false;
+	      			<?php
+			      		}
+			      	?>	
+			      } 
+			    });
 		}
 
 		function rejectFinding(){

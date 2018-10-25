@@ -137,6 +137,28 @@ class M_task extends CI_Model{
     	return ($q_hitung_acc->count_acc - $q_hitung_nil->count_nil);
     }
 
+    public function task_evaluation($ms_num, $ac_type)
+    {
+    	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name
+    								FROM ev_evaluation ee
+    								LEFT JOIN users u ON ee.id_user = u.id_user
+    								WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'
+    								ORDER BY ee.create_date DESC
+    								");
+    	return $query->result_array();
+    }
+
+    public function task_remarks($ms_num, $ac_type)
+    {
+    	$query = $this->db->query(" SELECT ev.remarks, ev.create_date, u.name
+    								FROM ev_remarks ev
+    								LEFT JOIN users u ON ev.id_user = u.id_user
+    								WHERE ev.ms_num = '$ms_num' AND ev.ac_type = '$ac_type'
+    								ORDER BY ev.create_date DESC
+    								");
+    	return $query->result_array();
+    }
+
     public function insert_task($table, $data)
     {
 		$this->db->insert($table,$data);
