@@ -159,6 +159,18 @@ class M_task extends CI_Model{
     	return $query->result_array();
     }
 
+    public function back_and_forth($ms_num, $ac_type, $status)
+    {
+    	$query = $this->db->query(" SELECT ms_num, ac_type, id_user, min(status) as status, create_date,
+    								SUBSTRING_INDEX(GROUP_CONCAT(CAST(back_and_forth AS CHAR) ORDER BY create_date DESC),',',1) AS back_and_forth
+    								FROM ev_task_process
+    								WHERE ms_num = '$ms_num' AND ac_type = '$ac_type' AND status = '$status'
+    								GROUP BY ms_num, ac_type, id_user
+    								ORDER BY create_date DESC
+    								");
+    	return $query->result_array();
+    }
+
     public function insert_task($table, $data)
     {
 		$this->db->insert($table,$data);

@@ -72,7 +72,11 @@
                     }
                   ?>
                   <td>
-                    <div class="form-group">
+                    <?php
+                    if($this->session->userdata('role') == 1)
+                    {
+                    ?>
+                      <div class="form-group">
                       <?php
                         if($la['status'] == "" || $la['status'] == 0 )
                         {
@@ -90,7 +94,7 @@
                           </select>
                       <?php
                         }
-                        else
+                        else if($la['status'] >= 1)
                         {
                       ?>
                           <input type="hidden" id="changepic<?php echo $i; ?>" value="<?php echo $la['id_user']; ?>">
@@ -104,16 +108,56 @@
                               }
                             ?>
                           </select>
-                      <?php
-                        } 
-                        if($this->session->userdata('role') == 1 && $la['status'] >= 1 )
-                        {
-                      ?>
-                          <button onclick="reassign(<?php echo $i; ?>)">Re-assign</button>        
+                          <button onclick="reassign(<?php echo $i; ?>)">Re-assign</button>  
                       <?php
                         }
                       ?>
-                    </div>
+                      </div>
+                    <?php
+                    }
+                    else if($this->session->userdata('role') == 2)
+                    {
+                    ?>
+                      <div class="form-group">
+                      <?php
+                        if($la['status'] == 2 && $la['checked'] < 3 )
+                        {
+                      ?>
+                          <select onchange="changePIC(<?php echo $i; ?>)" id="changepic<?php echo $i; ?>" class="form-control">
+                            <option value="">--Select PIC--</option>
+                            <?php
+                              foreach ($list_user as $lu)
+                              {
+                            ?>
+                            <option value="<?php echo $lu['id_user']; ?>"><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
+                            <?php
+                              }
+                            ?>
+                          </select>
+                      <?php
+                        }
+                        else if($la['status'] >= 1)
+                        {
+                      ?>
+                          <input type="hidden" id="changepic<?php echo $i; ?>" >
+                          <select class="form-control" disabled>
+                          <option><?php echo $la['name']; ?> - <?php echo $la['no_pegawai']; ?></option>
+                          </select>
+                          <?php
+                            if($la['status'] == 2)
+                            {
+                          ?>
+                              <button onclick="reassign(<?php echo $i; ?>)">Re-assign</button>
+                          <?php
+                            }
+                          ?>
+                      <?php
+                        }
+                      ?>
+                      </div>
+                    <?php
+                    }
+                    ?>
                   </td>
                 </tr>
             <?php
@@ -155,7 +199,7 @@
     var ms_num = document.getElementById("msnum"+$i).value;
     var ac_type = document.getElementById("actype"+$i).value;
     var status = document.getElementById("status"+$i).value;
-    var temp = document.getElementById("changepic"+$i).index;
+    var temp = document.getElementById("changepic"+$i).index + 1;
     if(user_id != "")
     {
       swal({

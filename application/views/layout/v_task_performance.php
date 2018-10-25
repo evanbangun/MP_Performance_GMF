@@ -231,7 +231,7 @@
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1)
+											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
 											{
 												echo " disabled";
 											}
@@ -243,7 +243,7 @@
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1)
+											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
 											{
 												echo " disabled";
 											}
@@ -254,7 +254,7 @@
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1)
+											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
 											{
 												echo " disabled";
 											}
@@ -265,7 +265,7 @@
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1)
+											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
 											{
 												echo " disabled";
 											}
@@ -276,7 +276,7 @@
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1)
+											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
 											{
 												echo " disabled";
 											}
@@ -319,7 +319,7 @@
 										<br>
 										<div class="col-md-12"><b>Remarks: </b>
 											<?php
-												if($this->session->userdata('role') == 4)
+												if($this->session->userdata('role') == 4 && $task_process_detail->status == 3 )
 												{
 													?>
 													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-remarks">Edit</a>
@@ -555,7 +555,7 @@
 					<div class="modal-body">
 						 <div class="form-group">
 							<label for="comment">Remarks:</label>
-							<textarea class="form-control" rows="5" id="comment"></textarea>
+							<textarea class="form-control" rows="5" name="remarks" form="rem_form"></textarea>
 						</div> 
 						<table class="table table-bordered table-striped">
                 <thead>
@@ -585,9 +585,14 @@
               </table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-danger">Deny</button>
-						<button type="button" class="btn btn-primary">Verify</button>
+						<form method="POST" action="<?php echo base_url("index.php/user/insert_rem"); ?>" id="rem_form">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<input type="hidden" name="ms_num" value="<?php echo $list_task->ms_num; ?>">
+							<input type="hidden" name="ac_type" value="<?php echo $list_task->ac_type; ?>">
+							<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">
+							<input type="submit" name="submit_rem" value="Deny" class="btn btn-danger">
+							<input type="submit" name="submit_rem" value="Verify" class="btn btn-primary">
+						</form>
 					</div>
 				</div>
 				<!-- /.modal-content -->
