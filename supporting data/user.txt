@@ -1,0 +1,18 @@
+username : admin_gmf
+password : admin_gmf
+
+username : admin_garuda
+password : admin_garuda
+
+username : user_gmf
+password : user_gmf
+
+username : user_garuda
+password : user_garuda
+
+username : gmf_user
+password : gmf_user
+
+username : garuda_user
+password : garuda_user
+
