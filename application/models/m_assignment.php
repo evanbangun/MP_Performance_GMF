@@ -16,7 +16,7 @@ class m_assignment extends CI_Model
 					 	   LEFT JOIN msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
 						   LEFT JOIN msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
 						   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
-						   GROUP BY md.ms_num
+						   GROUP BY md.ms_num, md.ac_type
 						   ORDER BY md.ms_num ASC
 						   LIMIT 100";
 		}
@@ -34,7 +34,7 @@ class m_assignment extends CI_Model
 						   LEFT JOIN msi_sg ms ON ms.ms_num = etp.ms_num AND ms.ac_type = etp.ac_type
 						   LEFT JOIN users u ON u.id_user = etp.id_user
 						   WHERE status >= 2 
-						   GROUP BY etp.ms_num
+						   GROUP BY etp.ms_num, etp.ac_type
 						   ORDER BY etp.ms_num ASC
 						   LIMIT 100";
 		}
