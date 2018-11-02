@@ -18,9 +18,10 @@ class Task extends CI_Controller {
 		$data['table_delay'] = $this->m_task->getTableDelay($ms_num);
 		$data['table_removal'] = $this->m_task->getTableRemoval($ms_num);
 		//$data['table_summary'] = $this->m_task->getTableSummary($ms_num);
-		$data['finding'] = $this->m_task->getFinding($ms_num);
-		$data['count_acc'] = $this->m_task->countAcc($ms_num);
-		$data['count_finding'] = $this->m_task->countFinding($ms_num);
+		$data['finding'] = $this->m_task->getFinding($ms_num, $ac_type);
+		$data['count_acc'] = $this->m_task->countAcc($ms_num, $ac_type);
+		$data['count_finding'] = $this->m_task->countFinding($ms_num, $ac_type);
+		$data['rejected_finding'] = $this->m_task->rejectFinding($ms_num, $ac_type);
 		$data['task_process_detail'] = $this->m_task->task_process_detail($ms_num, $ac_type);
 		$data['task_evaluation'] = $this->m_task->task_evaluation($ms_num, $ac_type);
 		$data['task_remarks'] = $this->m_task->task_remarks($ms_num, $ac_type);

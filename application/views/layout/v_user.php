@@ -29,6 +29,7 @@
               <th>Camp SG</th>
               <th>Referensi</th>
               <th>Status</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
@@ -38,11 +39,25 @@
               $i = 0;
               foreach ($list_assignment as $la)
               {
+                $eva_ver = explode("&", $la['eva_ver']);
             ?>
                 <tr>
                   <td><?php echo ++$i ?></td>
-                  <td><a href="<?php echo base_url('index.php/task/task_performance/'.$la['ms_num'].'/'.$la['ac_type']); ?>"><?php echo $la['ms_num']; ?></a></td>
-                  <td><?php echo $la['ac_type']; ?></td>
+                  <?php
+                  if(in_array($this->session->userdata('id_user'), $eva_ver))
+                  {
+                  ?>
+                    <td><a href="<?php echo base_url('index.php/task/task_performance/'.$la['ms_num'].'/'.$la['ac_type']); ?>"><?php echo $la['ms_num']; ?></a></td>
+                  <?php  
+                  }
+                  else
+                  {
+                  ?>
+                    <td><?php echo $la['ms_num']; ?></td>
+                  <?php
+                  }
+                  ?>
+                  <td><?php echo $la['ac_type']; ?></td>  
                   <td><?php echo $la['descr']; ?></td>
                   <td><?php echo $la['task_code']; ?></td>
                   <td><?php echo $la['intval']; ?></td>
@@ -51,25 +66,61 @@
                   <td><?php echo $la['camp_sg']; ?></td>
                   <td><?php echo $la['ref']; ?></td>
                   <?php
-                    if($la['status'] == "" || $la['status'] == 0 )
+                    if($la['status'] == 1)
                     {
-                      echo '<td><span class="label label-default">Unassigned</span></td>';
-                    }
-                    else if($la['status'] == 1)
-                    {
-                      echo '<td><span class="label label-warning">Evaluating</span></td>';
+                  ?>
+                      <td><span class="label label-primary">Assigned</span></td>
+                  <?php
+                      if($this->session->userdata('role') == 3)
+                      {
+                  ?>
+                        <td><a href="<?php echo base_url('index.php/user/assign_task/'.$la['ms_num'].'/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Evaluate</button></a></td>
+                  <?php
+                      }
+                      else
+                      {
+                    ?>
+                        <td>Awaiting Evaluation</td>
+                    <?php
+                      }
                     }
                     else if($la['status'] == 2)
                     {
-                      echo '<td><span class="label label-success">Evaluated</span></td>';
+                      echo '<td><span class="label label-warning">Evaluating</span></td>
+                            <td></td>';
                     }
                     else if($la['status'] == 3)
                     {
-                      echo '<td><span class="label label-warning">Verifying</span></td>';
+                      echo '<td><span class="label label-info">Evaluated</span></td>
+                            <td></td>';
                     }
                     else if($la['status'] == 4)
                     {
-                      echo '<td><span class="label label-success">Verified</span></td>';
+                    ?>
+                      <td><span class="label label-primary">Assigned</span></td>
+                    <?php
+                      if($this->session->userdata('role') == 4)
+                      {
+                    ?>
+                        <td><a href="<?php echo base_url('index.php/user/assign_task/'.$la['ms_num'].'/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Verify</button></a></td>
+                    <?php
+                      }
+                      else
+                      {
+                    ?>
+                        <td>Awaiting Verification</td>
+                    <?php
+                      }
+                    }
+                    else if($la['status'] == 5)
+                    {
+                      echo '<td><span class="label label-warning">Verifying</span></td>
+                            <td></td>';
+                    }
+                    else if($la['status'] == 6)
+                    {
+                      echo '<td><span class="label label-success">Verified</span></td>
+                            <td></td>';
                     }
                   ?>
                 </tr>

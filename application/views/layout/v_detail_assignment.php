@@ -20,13 +20,13 @@
               <th>No.</th>
               <th>MP Number</th>
               <th>Type</th>
+              <th>Resp</th>
               <th>Description</th>
-              <th>TCode</th>
               <th>IntVal</th>
               <th>RVCD</th>
               <th>Camp SG</th>
               <th>Status</th>
-              <th>PIC</th>
+              <!-- <th>PIC</th> -->
             </tr>
             </thead>
             <tbody>
@@ -43,8 +43,8 @@
                   <input type="hidden" id="actype<?php echo $i; ?>" value="<?php echo $la['ac_type']; ?>">
                   <td><a href="<?php echo base_url('index.php/task/task_performance/'.$la['ms_num'].'/'.$la['ac_type']); ?>"><?php echo $la['ms_num']; ?></a></td>
                   <td><?php echo $la['ac_type']; ?></td>
+                  <td><?php echo $la['resp']; ?></td>
                   <td><?php echo $la['descr']; ?></td>
-                  <td><?php echo $la['task_code']; ?></td>
                   <td><?php echo $la['intval']; ?></td>
                   <td><?php echo $la['rvcd']; ?></td>
                   <td><?php echo $la['camp_sg']; ?></td>
@@ -54,24 +54,28 @@
                     {
                       echo '<td><span class="label label-default">Unassigned</span></td>';
                     }
-                    else if($la['status'] == 1)
+                    else if($la['status'] == 1 || $la['status'] == 4)
                     {
-                      echo '<td><span class="label label-warning">Evaluating</span></td>';
+                      echo '<td><span class="label label-primary">Assigned</span></td>';
                     }
                     else if($la['status'] == 2)
                     {
-                      echo '<td><span class="label label-success">Evaluated</span></td>';
+                      echo '<td><span class="label label-warning">Evaluating</span></td>';
                     }
                     else if($la['status'] == 3)
                     {
+                      echo '<td><span class="label label-info">Evaluated</span></td>';
+                    }
+                    else if($la['status'] == 5)
+                    {
                       echo '<td><span class="label label-warning">Verifying</span></td>';
                     }
-                    else if($la['status'] == 4)
+                    else if($la['status'] == 6)
                     {
                       echo '<td><span class="label label-success">Verified</span></td>';
                     }
                   ?>
-                  <td>
+                  <!-- <td>
                     <?php
                     if($this->session->userdata('role') == 1)
                     {
@@ -158,7 +162,7 @@
                     <?php
                     }
                     ?>
-                  </td>
+                  </td> -->
                 </tr>
             <?php
               }
@@ -174,25 +178,58 @@
     </section>
     <!-- /.content -->
   </div>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+  <script type="text/javascript">
 
-  <script>
-  // function changeStatus(){
-  //   var x = document.getElementById("changestatus").value;
-  //   swal({
-  //     title: "Are you sure you want to change the status?",
-  //     icon: "warning",
-  //     buttons: true,
-  //     dangerMode: true,
-  //   })
-  //   .then((isChange) => {
-  //     if (isChange) {
-  //       swal("The status has been changed!", {
-  //         icon: "success",
-  //       });
-  //     } 
-  //   });
-  // }
+      var save_method; //for save method string
+      var table;
 
+      $(document).ready(function() {
+          //datatables
+          table = $('#example1').DataTable({ 
+              "paging"      : true,
+              "lengthChange": true,
+              "searching"   : true,
+              "ordering"    : true,
+              "info"        : true,
+              "autoWidth"   : true,
+              "processing"  : true, //Feature control the processing indicator.
+              "serverSide"  : true, //Feature control DataTables' server-side processing mode.
+              "order": [], //Initial no order.
+              // Load data for the table's content from an Ajax source
+              "ajax": {
+                  "url": '<?php echo site_url('assignment/json'); ?>',
+                  "type": "POST"
+              },
+              //Set column definition initialisation properties.
+              "columns": [
+                            {"data": "no", defaultContent: '' ,
+                            "searchable": false},
+                            {"data": "ms_num"},
+                            {"data": "ac_type"},
+                            {"data": "descr",
+                             "searchable": false},
+                            {"data": "task_code"},
+                            {"data": "intval",
+                             "searchable": false},
+                            {"data": "rvcd"},
+                            {"data": "camp_sg",
+                             "searchable": false},
+                            {"data": "status",
+                             "searchable": false}
+              ]
+          });
+          table.on( 'draw.dt', function () {
+          var PageInfo = $('#example1').DataTable().page.info();
+               table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+                  cell.innerHTML = i + 1 + PageInfo.start;
+              } );
+          } );
+      });
+  </script> -->
+  <!-- <script>
   function changePIC($i)
   {
     var user_id = document.getElementById("changepic"+$i).value;
@@ -259,4 +296,4 @@
       });
     }
   }
-  </script>
+  </script> -->

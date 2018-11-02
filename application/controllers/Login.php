@@ -38,6 +38,8 @@ class Login extends CI_Controller {
                'signature'	=> $data['users'][0]['signature'],
                'role'		=> $data['users'][0]['role'],
                'unit'		=> $data['users'][0]['unit'],
+               'ac_type'	=> $data['users'][0]['ac_type'],
+               'resp'		=> $data['users'][0]['resp'],
                'logged_in'	=> TRUE
            	);
 			$this->session->set_userdata($newsession);

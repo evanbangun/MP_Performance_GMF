@@ -31,23 +31,27 @@
 							<a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a>
 							<!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Resp</a> -->
 							<h3 style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="box-title"><?php
-			                    if($task_process_detail->status == "" || $task_process_detail->status == 0 )
+			                    if(!isset($task_process_detail->status) || $task_process_detail->status == 0 )
 			                    {
 			                      echo '<span class="label label-default pull-right">Unassigned</span>';
 			                    }
-			                    else if($task_process_detail->status == 1)
+			                    else if($task_process_detail->status == 1 || $task_process_detail->status == 4 )
 			                    {
-			                      echo '<span class="label label-warning pull-right">Evaluating</span>';
+			                      echo '<span class="label label-primary pull-right">Assigned</span>';
 			                    }
 			                    else if($task_process_detail->status == 2)
 			                    {
-			                      echo '<span class="label label-success pull-right">Evaluated</span>';
+			                      echo '<span class="label label-warning pull-right">Evaluating</span>';
 			                    }
 			                    else if($task_process_detail->status == 3)
 			                    {
+			                      echo '<span class="label label-info pull-right">Evaluated</span>';
+			                    }
+			                    else if($task_process_detail->status == 5)
+			                    {
 			                      echo '<span class="label label-warning pull-right">Verifying</span>';
 			                    }
-			                    else if($task_process_detail->status == 4)
+			                    else if($task_process_detail->status == 6)
 			                    {
 			                      echo '<span class="label label-success pull-right">Verified</span>';
 			                    }
@@ -146,10 +150,10 @@
 											<span class="label label-default"><?php echo $count_finding ?></span>
 										</div>
 										<div class="col-md-3"><b>No. Rejected Finding: </b>
-											<span class="label label-default">1</span>
+											<span class="label label-default"><?php echo $rejected_finding->num_rejected ?></span>
 										</div>
 										<div class="col-md-2"><b>Finding Ratio: </b>
-											<span class="label label-default">1</span>
+											<span class="label label-default"><?php echo round((($count_finding - $rejected_finding->num_rejected)/$count_acc->count_acc), 3) ?></span>
 										</div>
 									</div>
 									<hr>
@@ -222,64 +226,85 @@
 									<form method="POST" action="<?php echo base_url("index.php/user/insert_eval"); ?>" id="eval_form">
 									<input type="hidden" name="ms_num" value="<?php echo $list_task->ms_num; ?>">
 									<input type="hidden" name="ac_type" value="<?php echo $list_task->ac_type; ?>">
-									<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">
+									<input type="hidden" name="resp" value="<?php echo $list_task->resp; ?>">
+									<?php
+										if(isset($task_process_detail))
+										{
+											echo '<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">';		
+										}
+									?>
 									<div class="row">
 										<div class="col-md-2"><b>Recommendation:</b></div>
 										<div class="col-md-2">Remain <input onchange="rec_change()" type="radio" name="rec" value="1" 
 										<?php
+										if(isset($task_evaluation))
+										{
 											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 1)
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
-											{
-												echo " disabled";
-											}
+										}
+										if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3)
+										{
+											echo " disabled";
+										}
 										?>
 										></div>
 										<div class="col-md-2">Extend <input onchange="rec_change()" type="radio" name="rec" value="2" 
 										<?php
+										if(isset($task_evaluation) && isset($task_process_detail))
+										{
 											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 2)
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
-											{
-												echo " disabled";
-											}
+										}
+										if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3)
+										{
+											echo " disabled";
+										}
 										?>></div>
 										<div class="col-md-2">Decoalation <input onchange="rec_change()" type="radio" name="rec" value="3" 
 										<?php
+										if(isset($task_evaluation) && isset($task_process_detail))
+										{
 											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 3)
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
-											{
-												echo " disabled";
-											}
+										}
+										if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3)
+										{
+											echo " disabled";
+										}
 										?>></div>
 										<div class="col-md-2">Add Task <input onchange="rec_change()" type="radio" name="rec" value="4" 
 										<?php
+										if(isset($task_evaluation) && isset($task_process_detail))
+										{
 											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 4)
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
-											{
-												echo " disabled";
-											}
+										}
+										if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3)
+										{
+											echo " disabled";
+										}
 										?>></div>
 										<div class="col-md-2">Remove Task <input onchange="rec_change()" type="radio" name="rec" value="5" 
 										<?php
+										if(isset($task_evaluation) && isset($task_process_detail))
+										{
 											if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] == 5)
 											{
 												echo " checked";
 											}
-											if($task_process_detail->status != 1 || $this->session->userdata('role') != 3)
-											{
-												echo " disabled";
-											}
+										}
+										if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3)
+										{
+											echo " disabled";
+										}
 										?>></div>
 									</div>
 									</form>
@@ -287,7 +312,7 @@
 										<br>
 										<div class="col-md-12"><b>Reason: </b>
 											<?php
-												if($this->session->userdata('role') == 3 && $task_process_detail->status == 1)
+												if($this->session->userdata('role') == 3 && $task_process_detail->status == 2)
 												{
 													?>
 													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-reason">Edit</a>
@@ -319,7 +344,7 @@
 										<br>
 										<div class="col-md-12"><b>Remarks: </b>
 											<?php
-												if($this->session->userdata('role') == 4 && $task_process_detail->status == 3 )
+												if($this->session->userdata('role') == 4 && $task_process_detail->status == 5 )
 												{
 													?>
 													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-remarks">Edit</a>
@@ -370,11 +395,25 @@
 									<td><?php echo $row->finding ?><br><?php echo $row->operation ?></td>
 									<td><?php echo $row->remark_finding ?></td>
 									<td>
-										<button id='rejectfinding' onclick="rejectFinding()" type="button" data-toggle="tooltip" title="Reject" class="btn btn-danger"><i class="fa fa-close"></i></button>
-										<!-- <div class="btn-group">
-											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-finding"><i class="fa fa-edit"></i></button>
-											<button type="button" class="btn btn-danger"><i class="fa fa-close"></i></button>
-										</div> -->
+										<input type="hidden" id="finding<?php echo $num; ?>" value="<?php echo $row->id_ms_performance_all; ?>">
+										<?php
+											if($row->rejected)
+											{
+										?>
+											Rejected
+										<?php
+											}
+											else
+											{
+										?>
+											<button id='rejectfinding' onclick="rejectFinding(<?php echo $num; ?>)" type="button" data-toggle="tooltip" title="Reject" class="btn btn-danger"><i class="fa fa-close"></i></button>
+											<!-- <div class="btn-group">
+												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-finding"><i class="fa fa-edit"></i></button>
+												<button type="button" class="btn btn-danger"><i class="fa fa-close"></i></button>
+											</div> -->
+										<?php
+											}
+										?>
 									</td>
 								</tr>
 								<?php endforeach ?>
@@ -589,6 +628,7 @@
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							<input type="hidden" name="ms_num" value="<?php echo $list_task->ms_num; ?>">
 							<input type="hidden" name="ac_type" value="<?php echo $list_task->ac_type; ?>">
+							<input type="hidden" name="resp" value="<?php echo $list_task->resp; ?>">
 							<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">
 							<input type="submit" name="submit_rem" value="Deny" class="btn btn-danger">
 							<input type="submit" name="submit_rem" value="Verify" class="btn btn-primary">
@@ -691,20 +731,29 @@
 			    });
 		}
 
-		function rejectFinding(){
-		    var x = document.getElementById("rejectfinding").value;
+		function rejectFinding($i){
+		    var id = document.getElementById("finding"+$i).value;
 		    swal({
 		      title: "Are you sure you want to reject the finding?",
 		      icon: "warning",
 		      buttons: true,
 		      dangerMode: true,
 		    })
+
 		    .then((isChange) => {
-		      if (isChange) {
-		        swal("The finding has been rejected!", {
-		          icon: "success",
-		        });
-		      } 
+		      if (isChange)
+		      {
+		          $.ajax({
+		            url: '<?php echo base_url("index.php/user/reject_finding"); ?>',
+		            type: 'POST',
+		            data: { id_ms_performance_all: id},
+		            success: function(data){
+		              swal("The finding has been rejected!", {
+		                icon: "success",
+		              }).then(function(){location.reload();}); 
+		            }
+		          });
+	          } 
 		    });
 		  }
 

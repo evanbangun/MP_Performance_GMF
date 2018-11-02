@@ -116,31 +116,37 @@ class M_task extends CI_Model{
 		return $q_summary->row();
     }
 
-    public function getFinding($ms_num){
-    	$q_performance = $this->db->query("SELECT DISTINCT msi_performance_all.ac_reg as ac_reg, msi_performance_all.maint_type, msi_performance_all.date_acc, msi_performance_all.fhrs, msi_performance_all.fcyl, msi_performance_all.finding, msi_performance_all.operation, msi_performance_all.remark_finding FROM msi_performance_all where msi_performance_all.ac_type = 'B777' and ms_num = '$ms_num'");
+    public function getFinding($ms_num, $ac_type){
+    	// $q_performance = $this->db->query("SELECT DISTINCT msi_performance_all.ac_reg as ac_reg, msi_performance_all.maint_type, msi_performance_all.date_acc, msi_performance_all.fhrs, msi_performance_all.fcyl, msi_performance_all.finding, msi_performance_all.operation, msi_performance_all.remark_finding FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'");
+        $q_performance = $this->db->query("SELECT DISTINCT * FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num = '$ms_num'");
 
     	return $q_performance->result();
     }
 
-    public function countAcc($ms_num){
-    	$q_hitung_acc = $this->db->query("SELECT DISTINCT order_no, count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = 'B777' and  ms_num = '$ms_num'");
+    public function countAcc($ms_num, $ac_type){
+    	$q_hitung_acc = $this->db->query("SELECT DISTINCT order_no, count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num = '$ms_num'");
 
     	return $q_hitung_acc->row();
     }
 
-    public function countFinding($ms_num){
-    	$q_hitung_acc = $this->db->query("SELECT DISTINCT count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = 'B777' and  ms_num = '$ms_num'")->row();
+    public function countFinding($ms_num, $ac_type){
+        $q_hitung_acc = $this->db->query("SELECT DISTINCT count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num = '$ms_num'")->row();
 
-    	$q_hitung_nil = $this->db->query("select distinct order_no, count(finding) as count_nil from msi_performance_all where finding = 'NIL' and msi_performance_all.ac_type = 'B777' and ms_num = '$ms_num'")->row();
+        $q_hitung_nil = $this->db->query("select distinct order_no, count(finding) as count_nil from msi_performance_all where finding = 'NIL' and msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'")->row();
 
-    	// $q_hitung_acc->count_acc - $q_hitung_nil->count_nil
-    	return ($q_hitung_acc->count_acc - $q_hitung_nil->count_nil);
+        // $q_hitung_acc->count_acc - $q_hitung_nil->count_nil
+        return ($q_hitung_acc->count_acc - $q_hitung_nil->count_nil);
+    }
+
+    public function rejectFinding($ms_num, $ac_type){
+        $q_reject_finding = $this->db->query("SELECT count(*) AS num_rejected FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num = '$ms_num' and rejected = 1");
+        return $q_reject_finding->row();
     }
 
     public function task_evaluation($ms_num, $ac_type)
     {
     	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name
-    								FROM ev_evaluation ee
+    								FROM ev_evaluation ee 
     								LEFT JOIN users u ON ee.id_user = u.id_user
     								WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'
     								ORDER BY ee.create_date DESC
@@ -173,6 +179,13 @@ class M_task extends CI_Model{
 
     public function insert_task($table, $data)
     {
-		$this->db->insert($table,$data);
+        $this->db->insert($table,$data);
+    }
+
+    public function reject_finding($id_finding)
+    {
+        $query = $this->db->query(" UPDATE msi_performance_all SET rejected = 1 WHERE id_ms_performance_all = $id_finding;
+                                    ");
+        return true;
     }
 }

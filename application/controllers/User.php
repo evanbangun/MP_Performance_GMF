@@ -24,14 +24,53 @@ class User extends CI_Controller {
 			"container" => "layout/v_user"
 		);
 
-		$data['list_assignment'] = $this->m_user->tampilassignment($this->session->userdata('id_user'));
+		$data['list_assignment'] = $this->m_user->tampilassignment($this->session->userdata('id_user'), $this->session->userdata('ac_type'), $this->session->userdata('resp'));
 
 		$this->load->view("layout/v_template", $data);
 	}
 
+	public function assign_task($ms_num, $ac_type, $resp)
+	{
+		if($this->session->userdata('role') == 3)
+		{
+			$data = array(
+						'ms_num' => $ms_num,
+						'ac_type' => $ac_type,
+						'id_user' => $this->session->userdata('id_user')
+						);
+			$this->m_task->insert_task('ev_task_assign', $data);
+			$data = array(
+							'ms_num' => $ms_num,
+							'ac_type' => $ac_type,
+							'resp' => $resp,
+							'id_user' => $this->session->userdata('id_user'),
+							'status' => '2'
+							);
+			$this->m_task->insert_task('ev_task_process', $data);
+		}
+		else if($this->session->userdata('role') == 4)
+		{
+			$data = array(
+						'ms_num' => $ms_num,
+						'ac_type' => $ac_type,
+						'id_user' => $this->session->userdata('id_user')
+						);
+			$this->m_task->insert_task('ev_task_assign', $data);
+			$data = array(
+							'ms_num' => $ms_num,
+							'ac_type' => $ac_type,
+							'resp' => $resp,
+							'id_user' => $this->session->userdata('id_user'),
+							'status' => '5'
+							);
+			$this->m_task->insert_task('ev_task_process', $data);
+		}
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
 	public function insert_eval()
 	{
-		$back_and_forth = $this->m_task->back_and_forth($this->input->post("ms_num"), $this->input->post("ac_type"), 1);
+		$back_and_forth = $this->m_task->back_and_forth($this->input->post("ms_num"), $this->input->post("ac_type"), 2);
 		if($this->input->post("rec") == "" || $this->input->post("reason") == "" )
 		{
 			redirect_back();
@@ -51,6 +90,7 @@ class User extends CI_Controller {
 				'ms_num' => $this->input->post("ms_num"),
 				'ac_type' => $this->input->post("ac_type"),
 				'id_user' => $this->session->userdata('id_user'),
+				'resp' => $this->input->post("resp"),
 				'status' => $this->input->post("status") + 1
 				);
 		}
@@ -60,18 +100,14 @@ class User extends CI_Controller {
 					'ms_num' => $this->input->post("ms_num"),
 					'ac_type' => $this->input->post("ac_type"),
 					'id_user' => $back_and_forth[0]['id_user'],
-					'status' => $this->input->post("status") + 2,
+					'resp' => $this->input->post("resp"),
+					'status' => $this->input->post("status") + 3,
 					'back_and_forth' => 1
 					);
 		}
 		$this->m_task->insert_task('ev_task_process', $data);
 
-		$data = array(
-			"container" => "layout/v_user"
-		);
-		$data['list_assignment'] = $this->m_user->tampilassignment($this->session->userdata('id_user'));
-		
-		$this->load->view("layout/v_template", $data);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	public function insert_rem()
@@ -95,7 +131,8 @@ class User extends CI_Controller {
 						'ms_num' => $this->input->post("ms_num"),
 						'ac_type' => $this->input->post("ac_type"),
 						'id_user' => $back_and_forth[0]['id_user'],
-						'status' => $this->input->post("status") - 2,
+						'resp' => $this->input->post("resp"),
+						'status' => $this->input->post("status") - 3,
 						'back_and_forth' => 1
 						);
 			$this->m_task->insert_task('ev_task_process', $data);
@@ -114,17 +151,18 @@ class User extends CI_Controller {
 						'ms_num' => $this->input->post("ms_num"),
 						'ac_type' => $this->input->post("ac_type"),
 						'id_user' => $this->session->userdata('id_user'),
+						'resp' => $this->input->post("resp"),
 						'status' => $this->input->post("status") + 1
 						);
 			$this->m_task->insert_task('ev_task_process', $data);
 		}
 
-		$data = array(
-			"container" => "layout/v_user"
-		);
-		$data['list_assignment'] = $this->m_user->tampilassignment($this->session->userdata('id_user'));
-		
-		$this->load->view("layout/v_template", $data);
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function reject_finding()
+	{
+		$this->m_task->reject_finding($this->input->post("id_ms_performance_all"));
 	}
 }
 
