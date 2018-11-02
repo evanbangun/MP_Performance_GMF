@@ -153,7 +153,18 @@
 											<span class="label label-default"><?php echo $rejected_finding->num_rejected ?></span>
 										</div>
 										<div class="col-md-2"><b>Finding Ratio: </b>
-											<span class="label label-default"><?php echo round((($count_finding - $rejected_finding->num_rejected)/$count_acc->count_acc), 3) ?></span>
+										<span class="label label-default">
+										<?php
+										if($count_acc->count_acc > 0)
+										{
+											echo round((($count_finding - $rejected_finding->num_rejected)/$count_acc->count_acc), 3);
+										}
+										else
+										{
+											echo 0;
+										}
+										?>
+										</span>
 										</div>
 									</div>
 									<hr>
@@ -405,13 +416,17 @@
 											}
 											else
 											{
+												if($this->session->userdata('role') == 3)
+												{
 										?>
+
 											<button id='rejectfinding' onclick="rejectFinding(<?php echo $num; ?>)" type="button" data-toggle="tooltip" title="Reject" class="btn btn-danger"><i class="fa fa-close"></i></button>
 											<!-- <div class="btn-group">
 												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-finding"><i class="fa fa-edit"></i></button>
 												<button type="button" class="btn btn-danger"><i class="fa fa-close"></i></button>
 											</div> -->
 										<?php
+												}
 											}
 										?>
 									</td>
