@@ -58,9 +58,18 @@
                   }
                   else if($this->session->userdata('role') == 2)
                   {
+                    if(!is_null($la['progressed']))
+                    {
                   ?>
-                    <a href="<?php echo base_url('index.php/assignment/assignment_verif/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
+                      <button disabled>Assigned</button>
                   <?php
+                    }
+                    else if($la['count_data'] == $la['evaluated'])
+                    {
+                  ?>
+                      <a href="<?php echo base_url('index.php/assignment/assignment_verif/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
+                  <?php
+                    }
                   }
                   ?>
                   </td>
@@ -130,7 +139,7 @@
           } );
       });
   </script> -->
-  <script>
+  <!-- <script>
   function changePIC($i)
   {
     var user_id = document.getElementById("changepic"+$i).value;
@@ -197,4 +206,4 @@
       });
     }
   }
-  </script>
+  </script> -->

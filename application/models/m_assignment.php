@@ -86,7 +86,7 @@ class m_assignment extends CI_Model
 		}
 		else if($this->session->userdata('role') == 2)
 		{
-			$query_text = "SELECT mdq.ac_type as ac_type, mdq.resp as resp, sqcd.count_data as count_data, sqf.finished as finished
+			$query_text = "SELECT mdq.ac_type as ac_type, mdq.resp as resp, sqcd.count_data as count_data, sqf.evaluated as evaluated, sqp.progressed as progressed
   						   FROM msi_data mdq
   						   LEFT JOIN (SELECT at, rsp, count(*) as count_data FROM(SELECT md.ac_type AS at, md.resp AS rsp,
 						   SUBSTRING_INDEX(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date DESC),',',1) AS statusg
@@ -94,13 +94,19 @@ class m_assignment extends CI_Model
 					 	   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
 						   GROUP BY md.ms_num, md.ac_type
 						   ORDER BY md.ms_num ASC) as tablecd group by at,rsp) as sqcd ON sqcd.at = mdq.ac_type AND sqcd.rsp = mdq.resp
-						   LEFT JOIN (SELECT at, rsp, count(*) as finished FROM(SELECT md.ac_type AS at, md.resp AS rsp,
+						   LEFT JOIN (SELECT at, rsp, count(*) as evaluated FROM(SELECT md.ac_type AS at, md.resp AS rsp,
 						   SUBSTRING_INDEX(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date DESC),',',1) AS status
   						   FROM msi_data md
 					 	   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
 						   GROUP BY md.ms_num, md.ac_type
 						   ORDER BY md.ms_num ASC) as tablecd WHERE status = '3' group by at,rsp) as sqf ON sqf.at = mdq.ac_type AND sqf.rsp = mdq.resp
-						   WHERE finished = count_data
+						   LEFT JOIN (SELECT at, rsp, count(*) as progressed FROM(SELECT md.ac_type AS at, md.resp AS rsp,
+						   SUBSTRING_INDEX(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date DESC),',',1) AS status
+  						   FROM msi_data md
+					 	   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
+						   GROUP BY md.ms_num, md.ac_type
+						   ORDER BY md.ms_num ASC) as tablecd WHERE status > '3' group by at,rsp) as sqp ON sqp.at = mdq.ac_type AND sqp.rsp = mdq.resp
+						   WHERE evaluated = count_data OR progressed IS NOT NULL
   						   GROUP BY mdq.resp, mdq.ac_type
 						   ORDER BY mdq.ac_type ASC, mdq.resp ASC";
 		}
