@@ -1,0 +1,7 @@
+0	Unassigned
+1	Assigned
+2	Evaluating
+3	Evaluated
+4	Assigned
+5	Verifying
+6	Verified

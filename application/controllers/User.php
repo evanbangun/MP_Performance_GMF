@@ -24,7 +24,7 @@ class User extends CI_Controller {
 			"container" => "layout/v_user"
 		);
 
-		$data['list_assignment'] = $this->m_user->tampilassignment($this->session->userdata('id_user'), $this->session->userdata('ac_type'), $this->session->userdata('resp'));
+		$data['list_assignment'] = $this->m_user->tampilassignment($this->session->userdata('ac_type'), $this->session->userdata('resp'));
 
 		$this->load->view("layout/v_template", $data);
 	}

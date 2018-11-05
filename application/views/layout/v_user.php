@@ -39,7 +39,7 @@
               $i = 0;
               foreach ($list_assignment as $la)
               {
-                $eva_ver = explode("&", $la['eva_ver']);
+                $eva_ver = explode("-", $la['eva_ver']);
             ?>
                 <tr>
                   <td><?php echo ++$i ?></td>
@@ -86,13 +86,17 @@
                     }
                     else if($la['status'] == 2)
                     {
-                      echo '<td><span class="label label-warning">Evaluating</span></td>
-                            <td></td>';
+                    ?>
+                      <td><span class="label label-warning">Evaluating</span></td>
+                      <td></td>
+                    <?php
                     }
                     else if($la['status'] == 3)
                     {
-                      echo '<td><span class="label label-info">Evaluated</span></td>
-                            <td></td>';
+                    ?>
+                      <td><span class="label label-info">Evaluated</span></td>
+                      <td></td>
+                    <?php
                     }
                     else if($la['status'] == 4)
                     {

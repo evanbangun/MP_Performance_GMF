@@ -241,7 +241,9 @@
 									<?php
 										if(isset($task_process_detail))
 										{
-											echo '<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">';		
+									?>
+											<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">		
+									<?php
 										}
 									?>
 									<div class="row">

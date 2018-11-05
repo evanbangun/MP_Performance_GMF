@@ -45,9 +45,11 @@
                       <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
                   <?php
                     }
-                    elseif ($la['count_data'] == $la['finished'])
+                    else if ($la['count_data'] == $la['finished'])
                     {
-                      echo '<button>Re-Assign</button>'; 
+                  ?>
+                      <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Re-Assign</button></a>
+                  <?php
                     }
                     else
                     {

@@ -74,7 +74,7 @@ class m_assignment extends CI_Model
   						   FROM msi_data md
 					 	   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
 						   GROUP BY md.ms_num, md.ac_type
-						   ORDER BY md.ms_num ASC) as tablecd WHERE status = '5' group by at,rsp) as sqf ON sqf.at = mdq.ac_type AND sqf.rsp = mdq.resp
+						   ORDER BY md.ms_num ASC) as tablecd WHERE status = '6' group by at,rsp) as sqf ON sqf.at = mdq.ac_type AND sqf.rsp = mdq.resp
 						   LEFT JOIN (SELECT at, rsp, count(*) as unassigned FROM(SELECT md.ac_type AS at, md.resp AS rsp,
 						   SUBSTRING_INDEX(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date DESC),',',1) AS status
   						   FROM msi_data md
