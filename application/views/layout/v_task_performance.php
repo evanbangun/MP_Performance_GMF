@@ -27,7 +27,7 @@
 							<li class="active"><a href="#tab_1" data-toggle="tab">MP Performance</a></li>
 							<li><a href="#tab_2" data-toggle="tab">Findings</a></li>
 							<li><a href="#tab_3" data-toggle="tab">History</a></li>
-							<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" href="" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
+							<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_pdf_performance/'.$list_task->ms_num.'/'.$list_task->ac_type); ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
 							<a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a>
 							<!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Resp</a> -->
 							<h3 style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="box-title"><?php

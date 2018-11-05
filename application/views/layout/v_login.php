@@ -41,7 +41,7 @@
       }
   ?>
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="../../index2.html"><b>MP</b>Performance</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -49,7 +49,7 @@
 
     <?php echo form_open('login/check_login/'); ?>
       <div class="form-group has-feedback">
-        <input name="username" type="text" class="form-control">
+        <input name="username" type="text" class="form-control" placeholder="Username">
         <!-- <span class="glyphicon glyphicon-envelope form-control-feedback"></span> -->
       </div>
       <div class="form-group has-feedback">
