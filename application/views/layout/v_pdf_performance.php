@@ -55,8 +55,6 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // set font
 $pdf->SetFont('dejavusans', '', 10);
 
-// add a page
-$pdf->AddPage();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Print a table
@@ -98,6 +96,7 @@ $subtable_x = '<table width="20px" height="1px" border="1"><tr><td> X</td></tr><
 //         <td align="center">- -</td>
 //     </tr>
 // </table>
+
 $html = '
 <table cellspacing="2" cellpadding="3">
     <tr>
@@ -163,7 +162,18 @@ $html = '
     </tr>
     <tr>
         <td>Finding Ratio:</td>
-        <td>0</td>
+        <td>';
+
+if($count_acc->count_acc > 0)
+{
+    $html .= round((($count_finding - $rejected_finding->num_rejected)/$count_acc->count_acc), 3);
+}
+else
+{
+    $html .= 0;
+}
+
+$html .='</td>
         <td></td>
     </tr>
 </table>
@@ -172,100 +182,176 @@ $html = '
 <h4>UNSCHEDULED ACCOMPLISHMENT DATA:</h4>
 <table>
     <tr>
-        <th colspan="5"><b>1. Any SRI related?</b></th>
-        <th>Yes '.$subtable_checked.'</th>
-        <th>No '.$subtable.'</th>
-    </tr>
+        <th colspan="5"><b>1. Any SRI related?</b></th>';
+
+if (count($table_sri) > 0)
+{
+    $html .= '<th>Yes '.$subtable_checked.'</th>
+              <th>No '.$subtable.'</th>';
+}
+else
+{
+    $html .= '<th>Yes '.$subtable.'</th>
+              <th>No '.$subtable_checked.'</th>';
+}
+
+$html .='</tr>
     <tr>
-        <td colspan="5"><b>2. Any related delay to AOG, Accident, RTA, RTG?</b></td>
-        <td>Yes '.$subtable_checked.'</td>
-        <td>No '.$subtable.'</td>
-    </tr>
+        <td colspan="5"><b>2. Any related delay to AOG, Accident, RTA, RTG?</b></td>';
+
+if (count($table_delay) > 0)
+{
+    $html .= '<th>Yes '.$subtable_checked.'</th>
+              <th>No '.$subtable.'</th>';
+}
+else
+{
+    $html .= '<th>Yes '.$subtable.'</th>
+              <th>No '.$subtable_checked.'</th>';
+}
+
+$html .='</tr>
     <tr>
-        <td colspan="5"><b>3. Any unscheduled component removal?</b></td>
-        <td>Yes '.$subtable_checked.'</td>
-        <td>No '.$subtable.'</td>
-    </tr>
-</table>
-<hr>
-<table cellspacing="3" cellpadding="4">
-    <tr>
-        <th align="left" width="150"><b>RECOMMENDATION:</b></th>
-        <th width="80">Remain '.$subtable.'</th>
-        <th>Extend '.$subtable.'</th>
-        <th>Descalation '.$subtable.'</th>
-        <th>Add Task '.$subtable.'</th>
-        <th>Remove Task '.$subtable.'</th>
-    </tr>
-</table>
-<table cellspacing="3" cellpadding="4">
-    <tr>
-        <td align="left"><b>REASON:</b></td>
-        <td colspan="6" align="left">Test</td>
-    </tr>
-</table>
-<table cellspacing="3" cellpadding="4">
-    <tr>
-        <th colspan="4"></th>
-        <th align="center"><b>EVALUATED BY:</b></th>
-    </tr>
-    <tr>
-        <th colspan="4"></th>
-        <th align="center"><img src="assets/img/sign.png" alt="test alt attribute" width="100" height="100" border="0" /></th>
-    </tr>
-    <tr>    
-        <th colspan="4"></th>
-        <th align="center"><b>'.$this->session->userdata('name').'</b></th>
-    </tr>
-</table>
-';
+        <td colspan="5"><b>3. Any unscheduled component removal?</b></td>';
 
+if (count($table_removal) > 0)
+{
+    $html .= '<th>Yes '.$subtable_checked.'</th>
+              <th>No '.$subtable.'</th>';
+}
+else
+{
+    $html .= '<th>Yes '.$subtable.'</th>
+              <th>No '.$subtable_checked.'</th>';
+}
 
+$ev_ke = -1;
+foreach ($task_evaluation as $te) {
+    $ev_ke++;
+    // add a page
+    $pdf->AddPage();
+    $temp = $html;
+    $temp .='</tr>
+    </table>
+    <hr>
+    <table cellspacing="3" cellpadding="4">
+        <tr>
+            <th align="left" width="150"><b>RECOMMENDATION:</b></th>';
+    if($te['recommendation'] == 1)
+    {
+        $temp .= '<th width="80">Remain '.$subtable_checked.'</th>';
+    }
+    else
+    {
+        $temp .= '<th width="80">Remain '.$subtable.'</th>';
+    }
+    if($te['recommendation'] == 2)
+    {
+        $temp .= '<th>Extend '.$subtable_checked.'</th>';
+    }
+    else
+    {
+        $temp .= '<th>Extend '.$subtable.'</th>';
+    }
+    if($te['recommendation'] == 3)
+    {
+        $temp .= '<th>Descalation '.$subtable_checked.'</th>';
+    }
+    else
+    {
+        $temp .= '<th>Descalation '.$subtable.'</th>';
+    }
+    if($te['recommendation'] == 4)
+    {
+        $temp .= '<th>Add Task '.$subtable_checked.'</th>';
+    }
+    else
+    {
+        $temp .= '<th>Add Task '.$subtable.'</th>';
+    }
+    if($te['recommendation'] == 5)
+    {
+        $temp .= '<th>Remove Task '.$subtable_checked.'</th>';
+    }
+    else
+    {
+        $temp .= '<th>Remove Task '.$subtable.'</th>';
+    }
+$temp .='</tr>
+    </table>
+    <table cellspacing="3" cellpadding="4">
+        <tr>
+            <td align="left"><b>REASON:</b></td>
+            <td colspan="6" align="left">'.$te['reason'].'</td>
+        </tr>
+    </table>
+    <table cellspacing="3" cellpadding="4">
+        <tr>
+            <th colspan="4"></th>
+            <th align="center"><b>EVALUATED BY:</b></th>
+        </tr>
+        <tr>
+            <th colspan="4"></th>
+            <th align="center"><img src="assets/img/sign.png" alt="test alt attribute" width="100" height="100" border="0" /></th>
+        </tr>
+        <tr>    
+            <th colspan="4"></th>
+            <th align="center"><b>'.$te['name'].'</b></th>
+        </tr>
+    </table>
+    ';
 
-// output the HTML content
-$pdf->writeHTML($html, true, false, true, false, '');
+    // output the HTML content
+    $pdf->writeHTML($temp, true, false, true, false, '');
 
-// Print some HTML Cells
+    // Print some HTML Cells
 
-// $html = '<span color="red">red</span> <span color="green">green</span> <span color="blue">blue</span><br /><span color="red">red</span> <span color="green">green</span> <span color="blue">blue</span>';
+    // $html = '<span color="red">red</span> <span color="green">green</span> <span color="blue">blue</span><br /><span color="red">red</span> <span color="green">green</span> <span color="blue">blue</span>';
 
-// $pdf->SetFillColor(255,255,0);
+    // $pdf->SetFillColor(255,255,0);
 
-// $pdf->writeHTMLCell(0, 0, '', '', $html, 'LRTB', 1, 0, true, 'L', true);
-// $pdf->writeHTMLCell(0, 0, '', '', $html, 'LRTB', 1, 1, true, 'C', true);
-// $pdf->writeHTMLCell(0, 0, '', '', $html, 'LRTB', 1, 0, true, 'R', true);
+    // $pdf->writeHTMLCell(0, 0, '', '', $html, 'LRTB', 1, 0, true, 'L', true);
+    // $pdf->writeHTMLCell(0, 0, '', '', $html, 'LRTB', 1, 1, true, 'C', true);
+    // $pdf->writeHTMLCell(0, 0, '', '', $html, 'LRTB', 1, 0, true, 'R', true);
 
-// reset pointer to the last page
-$pdf->lastPage();
+    // reset pointer to the last page
+    $pdf->lastPage();
 
-// Print all HTML colors
+    // Print all HTML colors
 
-// add a page
-$pdf->AddPage();
+    // add a page
+    $pdf->AddPage();
 
-$html =$html = '
-                <table border="1">
-                    <tr>
-                        <th align="center" width="30"><b>NO.</b></th>
-                        <th align="center"><b>REG</b></th>
-                        <th align="center" colspan="2"><b>TYPE</b></th>
-                        <th align="center" width="100"><b>DATE ACC</b></th>
-                        <th align="center"colspan="4"><b>FINDING & RECTIFICATION</b></th>
-                        <th align="center" width="80"><b>REMARKS</b></th>
-                    </tr>
-                    <tr>
-                        <td align="center">1</td>
-                        <td align="center">PK-GAA</td>
-                        <td align="center" colspan="2">2Y INSPECTION AND AD</td>
-                        <td align="center">02.11.2015</td>
-                        <td align="center" colspan="4">NIL</td>
-                        <td align="center">Isi Remarks</td>
+    $temp = '<table border="1">
+                <tr>
+                    <th align="center" width="30"><b>NO.</b></th>
+                    <th align="center"><b>REG</b></th>
+                    <th align="center" colspan="2"><b>TYPE</b></th>
+                    <th align="center" width="100"><b>DATE ACC</b></th>
+                    <th align="center"colspan="4"><b>FINDING & RECTIFICATION</b></th>
+                    <th align="center" width="80"><b>REMARKS</b></th>
+                </tr>';
+    $i = 0;
+    foreach ($finding as $f)
+    {
+        if($ev_ke < $f['evaluasi_ke'])
+        {
+            break;
+        }
+        $temp .='<tr>
+                    <td align="center">'.++$i.'</td>
+                    <td align="center">'.$f->ac_reg.'</td>
+                    <td align="center" colspan="2">'.$f->maint_type.'</td>
+                    <td align="center">'.$f->date_acc.'</td>
+                    <td align="center" colspan="4">'.$f->operation.'</td>
+                    <td align="center">'.$f->remark_finding.'</td>
                 </tr>
-                </table>
-               ';
+                </table>';
+    }
 
-// output the HTML content
-$pdf->writeHTML($html, true, false, true, false, '');
+    // output the HTML content
+    $pdf->writeHTML($temp, true, false, true, false, '');
+}
 
 //Close and output PDF document
 $pdf->Output('example_006.pdf', 'I');
