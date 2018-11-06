@@ -182,6 +182,34 @@ class M_task extends CI_Model{
         $this->db->insert($table,$data);
     }
 
+    public function update_task($table, $data, $on, $id)
+    {
+        $this->db->where($on, $id);
+        $this->db->update($table,$data);
+    }
+
+    public function get_id_reason($ms_num, $ac_type)
+    {
+        $query = $this->db->query(" SELECT id_reason
+                                    FROM ev_evaluation
+                                    WHERE ms_num = '$ms_num' AND ac_type = '$ac_type'
+                                    ORDER BY create_date DESC
+                                    LIMIT 1
+                                    ");
+        return $query->row()->id_reason;
+    }
+
+    public function get_id_remarks($ms_num, $ac_type)
+    {
+        $query = $this->db->query(" SELECT id_remarks
+                                    FROM ev_remarks
+                                    WHERE ms_num = '$ms_num' AND ac_type = '$ac_type'
+                                    ORDER BY create_date DESC
+                                    LIMIT 1
+                                    ");
+        return $query->row()->id_remarks;
+    }
+
     public function reject_finding($id_finding)
     {
         $query = $this->db->query(" UPDATE msi_performance_all SET rejected = 1 WHERE id_ms_performance_all = $id_finding;

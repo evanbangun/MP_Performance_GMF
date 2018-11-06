@@ -82,10 +82,9 @@ class User extends CI_Controller {
 						'recommendation' => $this->input->post("rec"),
 						'reason' => $this->input->post("reason")
 						);
-		$this->m_task->insert_task('ev_evaluation', $data);
-
 		if($back_and_forth[0]['back_and_forth'] == 0)
 		{
+			$this->m_task->insert_task('ev_evaluation', $data);
 			$data = array(
 				'ms_num' => $this->input->post("ms_num"),
 				'ac_type' => $this->input->post("ac_type"),
@@ -96,14 +95,16 @@ class User extends CI_Controller {
 		}
 		else if($back_and_forth[0]['back_and_forth'] == 1)
 		{
+			$id_reason = $this->m_task->get_id_reason($this->input->post("ms_num"), $this->input->post("ac_type"));	
+			$this->m_task->update_task('ev_evaluation', $data, 'id_reason', $id_reason);
 			$data = array(
-					'ms_num' => $this->input->post("ms_num"),
-					'ac_type' => $this->input->post("ac_type"),
-					'id_user' => $back_and_forth[0]['id_user'],
-					'resp' => $this->input->post("resp"),
-					'status' => $this->input->post("status") + 3,
-					'back_and_forth' => 1
-					);
+				'ms_num' => $this->input->post("ms_num"),
+				'ac_type' => $this->input->post("ac_type"),
+				'id_user' => $back_and_forth[0]['id_user'],
+				'resp' => $this->input->post("resp"),
+				'status' => $this->input->post("status") + 3,
+				'back_and_forth' => 1
+				);
 		}
 		$this->m_task->insert_task('ev_task_process', $data);
 
@@ -116,7 +117,7 @@ class User extends CI_Controller {
 		{
 			redirect_back();
 		}
-		$back_and_forth = $this->m_task->back_and_forth($this->input->post("ms_num"), $this->input->post("ac_type"), 3);
+		$back_and_forth = $this->m_task->back_and_forth($this->input->post("ms_num"), $this->input->post("ac_type"), 5);
 		if($this->input->post('submit_rem') == "Deny")
 		{
 			$data = array(
@@ -126,7 +127,15 @@ class User extends CI_Controller {
 						'remarks' => $this->input->post("remarks"),
 						'status' => 'Denied'
 						);
-			$this->m_task->insert_task('ev_remarks', $data);
+			if($back_and_forth[0]['back_and_forth'] == 0)
+			{
+				$this->m_task->insert_task('ev_remarks', $data);
+			}
+			else if($back_and_forth[0]['back_and_forth'] == 1)
+			{
+				$id_remarks = $this->m_task->get_id_remarks($this->input->post("ms_num"), $this->input->post("ac_type"));	
+				$this->m_task->update_task('ev_remarks', $data, 'id_remarks', $id_remarks);
+			}
 			$data = array(
 						'ms_num' => $this->input->post("ms_num"),
 						'ac_type' => $this->input->post("ac_type"),
@@ -146,7 +155,15 @@ class User extends CI_Controller {
 						'remarks' => $this->input->post("remarks"),
 						'status' => 'Verified'
 						);
-			$this->m_task->insert_task('ev_remarks', $data);
+			if($back_and_forth[0]['back_and_forth'] == 0)
+			{
+				$this->m_task->insert_task('ev_remarks', $data);
+			}
+			else if($back_and_forth[0]['back_and_forth'] == 1)
+			{
+				$id_remarks = $this->m_task->get_id_remarks($this->input->post("ms_num"), $this->input->post("ac_type"));	
+				$this->m_task->update_task('ev_remarks', $data, 'id_remarks', $id_remarks);
+			}
 			$data = array(
 						'ms_num' => $this->input->post("ms_num"),
 						'ac_type' => $this->input->post("ac_type"),
