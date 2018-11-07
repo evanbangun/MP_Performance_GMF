@@ -165,16 +165,37 @@ class M_task extends CI_Model{
     	return $query->result_array();
     }
 
-    public function back_and_forth($ms_num, $ac_type, $status)
+    public function back_and_forth($ms_num, $ac_type)
     {
-    	$query = $this->db->query(" SELECT ms_num, ac_type, id_user, min(status) as status, create_date,
-    								SUBSTRING_INDEX(GROUP_CONCAT(CAST(back_and_forth AS CHAR) ORDER BY create_date DESC),',',1) AS back_and_forth
+    	$query = $this->db->query(" SELECT status
     								FROM ev_task_process
-    								WHERE ms_num = '$ms_num' AND ac_type = '$ac_type' AND status = '$status'
-    								GROUP BY ms_num, ac_type, id_user
+    								WHERE ms_num = '$ms_num' AND ac_type = '$ac_type'
     								ORDER BY create_date DESC
+                                    LIMIT 2
     								");
-    	return $query->result_array();
+        $check = $query->result_array();
+    	if($check[0]['status'] == 2)
+        {
+            if($check[1]['status'] == 1)
+            {
+                return false;
+            }
+            else if($check[1]['status'] == 5)
+            {
+                return true;
+            }
+        }
+        else if($check[0]['status'] == 5)
+        {
+            if($check[1]['status'] == 4)
+            {
+                return false;
+            }
+            else if($check[1]['status'] == 2)
+            {
+                return true;
+            }   
+        }
     }
 
     public function insert_task($table, $data)
@@ -208,6 +229,17 @@ class M_task extends CI_Model{
                                     LIMIT 1
                                     ");
         return $query->row()->id_remarks;
+    }
+
+    public function get_id_user($ms_num, $ac_type, $role)
+    {
+        $query = $this->db->query(" SELECT eta.id_user
+                                    FROM ev_task_assign eta
+                                    LEFT JOIN users u on eta.id_user = u.id_user
+                                    WHERE eta.ms_num = '$ms_num' AND eta.ac_type = '$ac_type' AND u.role = '$role'
+                                    LIMIT 1
+                                    ");
+        return $query->row()->id_user;
     }
 
     public function reject_finding($id_finding)
