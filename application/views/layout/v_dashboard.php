@@ -126,7 +126,7 @@ Content Wrapper. Contains page content -->
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right" id="reservation">
+                      <input type="text" name="reservation" class="form-control pull-right" id="reservation">
                     </div>
                     <!-- /.input group -->
                   </div>

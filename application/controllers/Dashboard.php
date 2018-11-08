@@ -29,7 +29,36 @@ class Dashboard extends CI_Controller {
 			"container" => "layout/v_search_result"
 		);
 		$ac_type = $this->input->post('ac_type');
-		$data['result'] = $this->m_dashboard->search($ac_type);
+		$reservation = $this->input->post('reservation');
+
+		$date_range = explode(" - ",$reservation);
+		$date = date_create_from_format('m/d/Y', $date_range[0]);
+		$date_min = $date->format('Y-m-d');
+		$date = date_create_from_format('m/d/Y', $date_range[1]);
+		$date_max = $date->format('Y-m-d');
+		
+		$data['result'] = $this->m_dashboard->search($ac_type, $date_min, $date_max);
+		$data['ac_type_post'] = $ac_type;
+		$data['date_min_post'] = $date_min;
+		$data['date_max_post'] = $date_max;
+		$this->load->view("layout/v_template", $data);
+	}
+
+	public function filter_search()
+	{
+		$data = array(
+			"container" => "layout/v_search_result"
+		);
+		$ac_type = $this->input->post('ac_type_post');
+		$date_max = $this->input->post('date_max_post');
+		$date_min = $this->input->post('date_min_post');
+		$ms_num = $this->input->post('ms_num_post');
+		$resp = $this->input->post('resp_post');
+		
+		$data['result'] = $this->m_dashboard->filter_search($ac_type, $date_min, $date_max, $ms_num, $resp);
+		$data['ac_type_post'] = $ac_type;
+		$data['date_min_post'] = $date_min;
+		$data['date_max_post'] = $date_max;
 		$this->load->view("layout/v_template", $data);
 	}
 
