@@ -26,7 +26,7 @@
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#tab_1" data-toggle="tab">MP Performance</a></li>
 							<li><a href="#tab_2" data-toggle="tab">Findings</a></li>
-							<li><a href="#tab_3" data-toggle="tab">History</a></li>
+							<li><a href="#tab_3" data-toggle="tab">History Log</a></li>
 							<?php
 							if(isset($task_process_detail->status) && $task_process_detail->status == 6)
 							{
@@ -189,7 +189,22 @@
 										</div>
 										<div class='col-md-1'>
 											<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
-										</div>";
+										</div>
+										<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
+											<thead>
+												<tr>
+													<th>Sri No.</th>
+													<th>Title</th>
+													<th>Description</th>
+												</tr>
+											</thead>
+											<tbody>
+												<td>[sri_no]</td>
+												<td>[sri_title]</td>
+												<td>[sri_desc]</td>
+											</tbody>
+										</table>
+										";
 										}else{
 											echo "<div class='col-md-1'>
 											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
@@ -209,7 +224,20 @@
 										</div>
 										<div class='col-md-1'>
 											<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
-										</div>";
+										</div>
+										<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
+											<thead>
+												<tr>
+													<th>ACReg</th>
+													<th>Key Problem</th>
+												</tr>
+											</thead>
+											<tbody>
+												<td>[ac_reg]</td>
+												<td>[key_problem]</td>
+											</tbody>
+										</table>
+										";
 										}else{
 											echo "<div class='col-md-1'>
 											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
@@ -228,7 +256,30 @@
 										</div>
 										<div class='col-md-1'>
 											<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
-										</div>";
+										</div>
+										<div class='box-body no-padding'>
+											<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
+												<thead>
+													<tr>
+														<th>PARTNO</th>
+														<th>PARTNAME</th>
+														<th>ALERT LEVEL</th>
+														<th>L12MRATE</th>
+														<th>L6MRATE</th>
+														<th>ALERT STATUS</th>
+													</tr>
+												</thead>
+												<tbody>
+													<td>[PartNo]</td>
+													<td>[PartName]</td>
+													<td>[AlertLevel]</td>
+													<td>[L12MRate]</td>
+													<td>[L6MRate]</td>
+													<td>[L12MAlertStatus & L6MAlertStatus]</td>
+												</tbody>
+											</table>
+										</div>
+										";
 										}else{
 											echo "<div class='col-md-1'>
 											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
@@ -447,99 +498,32 @@
 							<!-- /.tab-pane -->
 							<!-- /.tab-pane -->
 							<div class="tab-pane" id="tab_3">
-									<!-- <table id="example1" class="table table-bordered table-striped">
+								<table id="example1" class="table table-bordered table-striped">
 									<thead>
 									<tr>
-										<th>No.</th>
-										<th>Employee ID</th>
-										<th>Name</th>
-										<th>Unit</th>
-										<th style="width: 500px">MP Task Number</th>
-										<th style="width:100px">Action</th> 
+										<th width="10">No.</th>
+										<th>Recommendation</th>
+										<th>Reason</th>
+										<th>Remarks</th>
+										<th>Date</th>
+										<th>GMF PIC</th> 
+										<th>GA PIC</th> 
+										<th>Project No.</th> 
 									</tr>
 									</thead>
 									<tbody>
-									<tr>
-										<td>1</td>
-										<td>782564</td>
-										<td>Aviananda</td>
-										<td>TER-2</td>
-										<td></td>
-										<td>
-											<div class="btn-group">
-												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-finding"><i class="fa fa-edit"></i></button>
-												<button type="button" class="btn btn-danger"><i class="fa fa-close"></i></button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>782565</td>
-										<td>Admin Roni</td>
-										<td>TER-2</td>
-										<td></td>
-										<td>
-											<button type="button" class="btn btn-danger" disabled>Rejected</button>
-										</td>
-									</tr>
+										<tr>
+											<td>1</td>
+											<td>Remain</td>
+											<td>Isi Reason</td>
+											<td>Isi Remarks</td>
+											<td>2018-11-10</td>
+											<td>Nama User GMF</td>
+											<td>Nama User GA</td>
+											<td>1</td>
+										</tr>
 									</tbody>
-								</table> -->
-							    <!-- Main content -->
-							    <section class="content">
-
-							      <!-- row -->
-							      <div class="row">
-							        <div class="col-md-12">
-							          <!-- The time line -->
-							          <ul class="timeline">
-							            <!-- timeline time label -->
-							            <li class="time-label">
-							                  <span class="bg-red">
-							                    10 Feb. 2014
-							                  </span>
-							            </li>
-							            <!-- /.timeline-label -->
-							            <!-- timeline item -->
-							            <!-- END timeline item -->
-							            <!-- timeline item -->
-							            <li>
-							              <i class="fa fa-user bg-aqua"></i>
-
-							              <div class="timeline-item">
-							                <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
-
-							                <h3 class="timeline-header no-border"><a href="#">User GMF</a> verified MP Task</h3>
-							              </div>
-							            </li>
-							            <!-- END timeline item -->
-							            <!-- timeline item -->
-							            <li>
-							              <i class="fa fa-comments bg-yellow"></i>
-
-							              <div class="timeline-item">
-							                <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-							                <h3 class="timeline-header"><a href="#">User GA</a> gave remarks on your task</h3>
-
-							                <div class="timeline-body">
-							                  Isi remarks
-							                </div>
-							                <div class="timeline-footer">
-							                  <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-							                </div>
-							              </div>
-							            </li>
-							            <!-- END timeline item -->
-							            <li>
-							              <i class="fa fa-clock-o bg-gray"></i>
-							            </li>
-							          </ul>
-							        </div>
-							        <!-- /.col -->
-							      </div>
-							      <!-- /.row -->
-
-							    </section>
+								</table>
 							</div>
 						</div>
 						<!-- /.tab-content -->
@@ -568,31 +552,31 @@
 							<textarea class="form-control" rows="5" name="reason" form="eval_form"></textarea>
 						</div> 
 						<table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>Name</th>
-                  <th>Reason</th>
-                  <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-            	<?php
-            		$i = 0;
-            		foreach ($task_evaluation as $te)
-            		{
-            	?>
-		                <tr>
-		                  <td><?php echo ++$i; ?></td>
-		                  <td><?php echo $te['name']; ?></td>
-		                  <td><?php echo $te['reason']; ?></td>
-		                  <td><?php echo $te['create_date']; ?></td>
-		                </tr>
-                <?php
-                	}
-                ?>
-                </tbody>
-              </table>
+							<thead>
+							<tr>
+							<th>No.</th>
+							<th>Name</th>
+							<th>Reason</th>
+							<th>Date</th>
+							</tr>
+							</thead>
+                			<tbody>
+							<?php
+								$i = 0;
+								foreach ($task_evaluation as $te)
+								{
+							?>
+									<tr>
+									<td><?php echo ++$i; ?></td>
+									<td><?php echo $te['name']; ?></td>
+									<td><?php echo $te['reason']; ?></td>
+									<td><?php echo $te['create_date']; ?></td>
+									</tr>
+							<?php
+								}
+							?>
+							</tbody>
+              			</table>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
