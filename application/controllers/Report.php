@@ -7,6 +7,11 @@ class Report extends CI_Controller {
             parent::__construct();
             $this->load->library('Pdf');
             $this->load->model('m_task');
+
+            if(!$this->session->userdata('username'))
+            {
+                redirect('login');
+            }
         }
 
     public function report_pdf_performance($ms_num, $ac_type)

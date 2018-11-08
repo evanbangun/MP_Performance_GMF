@@ -6,6 +6,11 @@ class Task extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('m_task');
+
+		if(!$this->session->userdata('username'))
+		{
+			redirect('login');
+		}
 	}
 
 	public function task_performance($ms_num, $ac_type)

@@ -6,6 +6,11 @@ class Summary extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('m_summary');
+
+		if(!$this->session->userdata('username'))
+		{
+			redirect('login');
+		}
 	}
 
 	public function index()
