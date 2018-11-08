@@ -48,8 +48,6 @@ class m_dashboard extends CI_Model
 		}				   
 		$query_msg .= " GROUP BY md.ms_num, md.ac_type
 					   ORDER BY md.ms_num ASC";
-	    //var_dump($ac_type.','. $date_min.','. $date_max.','. $ms_num.','. $resp);die();
-	    //var_dump($query_msg);die();
 		$query = $this->db->query($query_msg);
 		return $query->result_array();
 	}

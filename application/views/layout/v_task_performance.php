@@ -383,7 +383,7 @@
 										<br>
 										<div class="col-md-12"><b>Reason: </b>
 											<?php
-												if($this->session->userdata('role') == 3 && $task_process_detail->status == 2)
+												if($this->session->userdata('role') == 3 && isset($task_process_detail) && $task_process_detail->status == 2)
 												{
 													?>
 													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-reason">Edit</a>
@@ -415,7 +415,7 @@
 										<br>
 										<div class="col-md-12"><b>Remarks: </b>
 											<?php
-												if($this->session->userdata('role') == 4 && $task_process_detail->status == 5 )
+												if($this->session->userdata('role') == 4 && isset($task_process_detail) && $task_process_detail->status == 5 )
 												{
 													?>
 													<a href="" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-edit-remarks">Edit</a>
