@@ -88,25 +88,25 @@ class M_task extends CI_Model{
     	return $q_sri->row();
     }
 
-    public function getTableSRI($ms_num){
+    public function getTableSRI($ms_num, $ac_type){
     	$q_sri = $this->db->query(
-    				"select * from table_sri where camp_no = '$ms_num'"); 
+    				"select * from table_sri where camp_no = '$ms_num' and Ac_type = '$ac_type'"); 
 
-    	return $q_sri->row();
+    	return $q_sri->result_array();
     }
 
-    public function getTableDelay($ms_num){
+    public function getTableDelay($ms_num, $ac_type){
 		$q_delay = $this->db->query(
-					"select * from table_delay where camp_no = '$ms_num'");
+					"select * from table_delay where camp_no = '$ms_num' and Ac_type = '$ac_type'");
 
-		return $q_delay->row();
+		return $q_delay->result_array();
     }
 
-    public function getTableRemoval($ms_num){
+    public function getTableRemoval($ms_num, $ac_type){
 		$q_ucr = $this->db->query(
-					"select * from table_compremoval where camp = '$ms_num'");
+					"select * from table_compremoval where camp = '$ms_num' and Ac_type = '$ac_type'");
 
-		return $q_ucr->row();
+		return $q_ucr->result_array();
     }
 
     public function getTableSummary($ms_num){
@@ -163,6 +163,33 @@ class M_task extends CI_Model{
     								ORDER BY ev.create_date DESC
     								");
     	return $query->result_array();
+    }
+
+    public function history_log_remarks($ms_num, $ac_type)
+    {
+        $query = $this->db->query(" SELECT er.remarks, er.create_date, u.name as name_ga
+                                    FROM ev_remarks er
+                                    LEFT JOIN users u ON er.id_user = u.id_user
+                                    WHERE er.ms_num = '$ms_num' AND er.ac_type = '$ac_type' AND status = 'Verified'
+                                    ORDER BY er.create_date DESC
+                                    ");
+        return $query->result_array();
+    }
+
+    public function history_log_reason($ms_num, $ac_type)
+    {
+        $query = $this->db->query(" SELECT CASE WHEN ee.recommendation = 1 THEN 'Remain'
+                                                WHEN ee.recommendation = 2 THEN 'Extend'
+                                                WHEN ee.recommendation = 3 THEN 'Decoalation'
+                                                WHEN ee.recommendation = 4 THEN 'Add Task'
+                                                WHEN ee.recommendation = 5 THEN 'Remove Task'
+                                            END as recommendation, ee.reason, u.name as name_gmf
+                                    FROM ev_evaluation ee
+                                    LEFT JOIN users u ON ee.id_user = u.id_user
+                                    WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type' AND create_date < (SELECT create_date FROM ev_remarks er ORDER BY create_date DESC LIMIT 1)
+                                    ORDER BY ee.create_date DESC
+                                    ");
+        return $query->result_array();
     }
 
     public function back_and_forth($ms_num, $ac_type)

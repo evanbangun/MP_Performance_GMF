@@ -19,9 +19,9 @@ class Task extends CI_Controller {
 			"container" => "layout/v_task_performance"
 		);
 		$data['list_task'] = $this->m_task->getTaskDataByMSNum($ms_num, $ac_type);
-		$data['table_sri'] = $this->m_task->getTableSRI($ms_num);
-		$data['table_delay'] = $this->m_task->getTableDelay($ms_num);
-		$data['table_removal'] = $this->m_task->getTableRemoval($ms_num);
+		$data['table_sri'] = $this->m_task->getTableSRI($ms_num, $ac_type);
+		$data['table_delay'] = $this->m_task->getTableDelay($ms_num, $ac_type);
+		$data['table_removal'] = $this->m_task->getTableRemoval($ms_num, $ac_type);
 		//$data['table_summary'] = $this->m_task->getTableSummary($ms_num);
 		$data['finding'] = $this->m_task->getFinding($ms_num, $ac_type);
 		$data['count_acc'] = $this->m_task->countAcc($ms_num, $ac_type);
@@ -30,6 +30,8 @@ class Task extends CI_Controller {
 		$data['task_process_detail'] = $this->m_task->task_process_detail($ms_num, $ac_type);
 		$data['task_evaluation'] = $this->m_task->task_evaluation($ms_num, $ac_type);
 		$data['task_remarks'] = $this->m_task->task_remarks($ms_num, $ac_type);
+		$data['history_log_remarks'] = $this->m_task->history_log_remarks($ms_num, $ac_type);
+		$data['history_log_reason'] = $this->m_task->history_log_reason($ms_num, $ac_type);
 
 		$this->load->view("layout/v_template", $data);
 	}

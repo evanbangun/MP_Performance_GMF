@@ -183,29 +183,41 @@
 									</div>
 									<div class="row">
 										<div style="margin-left:0.5em" class="col-md-4"><b>1. Any SRI related? </b></div>
-										<?php if (count($table_sri) > 0){
-											echo "<div class='col-md-1'>
-											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly checked disabled>
-										</div>
-										<div class='col-md-1'>
-											<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
-										</div>
-										<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
-											<thead>
+										<?php if (count($table_sri) > 0)
+										{
+										?>
+											<div class='col-md-1'>
+												<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly checked disabled>
+											</div>
+											<div class='col-md-1'>
+												<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
+											</div>
+											<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
+												<thead>
+													<tr>
+														<th>Sri No.</th>
+														<th>Title</th>
+														<th>Description</th>
+													</tr>
+												</thead>
+												<tbody>
+												<?php
+												foreach ($table_sri as $ts) 
+												{
+												?>
 												<tr>
-													<th>Sri No.</th>
-													<th>Title</th>
-													<th>Description</th>
+													<td><?php echo $ts['sri_no']; ?></td>
+													<td><?php echo $ts['sri_title']; ?></td>
+													<td><?php echo $ts['sri_desc']; ?></td>
 												</tr>
-											</thead>
-											<tbody>
-												<td>[sri_no]</td>
-												<td>[sri_title]</td>
-												<td>[sri_desc]</td>
-											</tbody>
-										</table>
-										";
-										}else{
+												<?php
+												}
+												?>
+												</tbody>
+											</table>
+										<?php
+										}
+										else{
 											echo "<div class='col-md-1'>
 											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
 										</div>
@@ -214,31 +226,42 @@
 										</div>";
 										}
 										?>
-										
 									</div>
 									<div class="row">
 										<div style="margin-left:0.5em" class="col-md-4"><b>2. Any related delay to AOG, Accident, RTA, RTG?</b></div>
-										<?php if (count($table_delay) > 0){
-											echo "<div class='col-md-1'>
-											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly checked disabled>
-										</div>
-										<div class='col-md-1'>
-											<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
-										</div>
-										<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
-											<thead>
+										<?php if (count($table_delay) > 0)
+										{
+										?>
+											<div class='col-md-1'>
+												<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly checked disabled>
+											</div>
+											<div class='col-md-1'>
+												<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
+											</div>
+											<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
+												<thead>
+													<tr>
+														<th>ACReg</th>
+														<th>Key Problem</th>
+													</tr>
+												</thead>
+												<tbody>
+												<?php
+												foreach ($table_delay as $td) 
+												{
+												?>
 												<tr>
-													<th>ACReg</th>
-													<th>Key Problem</th>
+													<td><?php echo $td['ac_reg']; ?></td>
+													<td><?php echo $td['key_problem']; ?></td>
 												</tr>
-											</thead>
-											<tbody>
-												<td>[ac_reg]</td>
-												<td>[key_problem]</td>
-											</tbody>
-										</table>
-										";
-										}else{
+												<?php
+												}
+												?>
+												</tbody>
+											</table>
+										<?php
+										}
+										else{
 											echo "<div class='col-md-1'>
 											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
 										</div>
@@ -250,37 +273,49 @@
 									</div>
 									<div class="row">
 										<div style="margin-left:0.5em" class="col-md-4"><b>3. Any unscheduled component removal? </b></div>
-										<?php if (count($table_removal) > 0){
-											echo "<div class='col-md-1'>
-											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly checked disabled>
-										</div>
-										<div class='col-md-1'>
-											<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
-										</div>
-										<div class='box-body no-padding'>
-											<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
-												<thead>
-													<tr>
-														<th>PARTNO</th>
-														<th>PARTNAME</th>
-														<th>ALERT LEVEL</th>
-														<th>L12MRATE</th>
-														<th>L6MRATE</th>
-														<th>ALERT STATUS</th>
-													</tr>
-												</thead>
-												<tbody>
-													<td>[PartNo]</td>
-													<td>[PartName]</td>
-													<td>[AlertLevel]</td>
-													<td>[L12MRate]</td>
-													<td>[L6MRate]</td>
-													<td>[L12MAlertStatus & L6MAlertStatus]</td>
-												</tbody>
-											</table>
-										</div>
-										";
-										}else{
+										<?php if (count($table_removal) > 0)
+										{
+										?>
+											<div class='col-md-1'>
+												<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly checked disabled>
+											</div>
+											<div class='col-md-1'>
+												<b>No </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
+											</div>
+											<div class='box-body no-padding'>
+												<table style='width:1255px; margin-left:2.5em;' class='table table-bordered'>
+													<thead>
+														<tr>
+															<th>PARTNO</th>
+															<th>PARTNAME</th>
+															<th>ALERT LEVEL</th>
+															<th>L12MRATE</th>
+															<th>L6MRATE</th>
+															<th>ALERT STATUS</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php
+														foreach ($table_removal as $tr) 
+														{
+														?>
+														<tr>
+															<td><?php echo $tr['PartNo']; ?></td>
+															<td><?php echo $tr['PartName']; ?></td>
+															<td><?php echo $tr['AlertLevel']; ?></td>
+															<td><?php echo $tr['L12MRate']; ?></td>
+															<td><?php echo $tr['L6MRate']; ?></td>
+															<td><?php echo $tr['L12MAlertStatus'].' '.$tr['L6MAlertStatus'] ; ?></td>
+														</tr>
+														<?php
+														}
+														?>
+													</tbody>
+												</table>
+											</div>
+										<?php
+										}
+										else{
 											echo "<div class='col-md-1'>
 											<b>Yes </b>&nbsp;<input type='checkbox' class='minimal' readonly disabled>
 										</div>
@@ -508,20 +543,25 @@
 										<th>Date</th>
 										<th>GMF PIC</th> 
 										<th>GA PIC</th> 
-										<th>Project No.</th> 
 									</tr>
 									</thead>
 									<tbody>
+									<?php
+									for ($i=0; $i < count($history_log_remarks); $i++)
+									{
+									?>
 										<tr>
-											<td>1</td>
-											<td>Remain</td>
-											<td>Isi Reason</td>
-											<td>Isi Remarks</td>
-											<td>2018-11-10</td>
-											<td>Nama User GMF</td>
-											<td>Nama User GA</td>
-											<td>1</td>
+											<td><?php echo $i + 1; ?></td>
+											<td><?php echo $history_log_reason[$i]['recommendation']; ?></td>
+											<td><?php echo $history_log_reason[$i]['reason']; ?></td>
+											<td><?php echo $history_log_remarks[$i]['remarks']; ?></td>
+											<td><?php echo $history_log_remarks[$i]['create_date']; ?></td>
+											<td><?php echo $history_log_reason[$i]['name_gmf']; ?></td>
+											<td><?php echo $history_log_remarks[$i]['name_ga']; ?></td>
 										</tr>
+									<?php
+									}
+									?>
 									</tbody>
 								</table>
 							</div>
