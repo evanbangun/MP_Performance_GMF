@@ -1,3 +1,10 @@
+<!-- <style>
+	#div_rec_thresint {
+
+	display:none;
+
+	}
+</style> -->
 <div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
@@ -356,7 +363,7 @@
 										}
 										?>
 										></div>
-										<div class="col-md-2">Extend <input onchange="rec_change()" type="radio" name="rec" value="2" 
+										<div class="col-md-2">Extend <input onclick="rec_thresint()" type="radio" name="rec" value="2" 
 										<?php
 										if(isset($task_evaluation) && isset($task_process_detail))
 										{
@@ -370,7 +377,7 @@
 											echo " disabled";
 										}
 										?>></div>
-										<div class="col-md-2">Decoalation <input onchange="rec_change()" type="radio" name="rec" value="3" 
+										<div class="col-md-2">Descalation <input onclick="rec_thresint()" type="radio" name="rec" value="3" 
 										<?php
 										if(isset($task_evaluation) && isset($task_process_detail))
 										{
@@ -413,9 +420,23 @@
 										}
 										?>></div>
 									</div>
+									<br>
 									</form>
+									<div style="display:none" class="row" id="div_rec_thresint">
+										<div class="col-md-1"><b>Recommended Threshold:</b></div>
+										<div class="col-md-1">
+											<input class="form-control" type="text">
+										</div>
+										<div class="col-md-1"><b>Recommended Interval:</b></div>
+										<div class="col-md-1">
+											<input class="form-control" type="text">
+										</div>
+										<div class="col-md-2">
+											<button type="submit" id="submit_rec_thresint" class="btn btn-primary">Submit</button>
+										</div>
+									</div>
+									<hr>
 									<div class="row">
-										<br>
 										<div class="col-md-12"><b>Reason: </b>
 											<?php
 												if($this->session->userdata('role') == 3 && isset($task_process_detail) && $task_process_detail->status == 2)
@@ -446,8 +467,8 @@
 											<a href="" type="button" class="btn btn-success pull-right"><i class="fa fa-pencil"></i> Digital Sign</a>
 										</div>
 									</div> -->
+									<hr>
 									<div class="row">
-										<br>
 										<div class="col-md-12"><b>Remarks: </b>
 											<?php
 												if($this->session->userdata('role') == 4 && isset($task_process_detail) && $task_process_detail->status == 5 )
@@ -778,6 +799,11 @@
 			      } 
 			    });
 		}
+
+		function rec_thresint(){
+			document.getElementById("div_rec_thresint").style.display = "block";
+		}
+
 
 		function rejectFinding($i){
 		    var id = document.getElementById("finding"+$i).value;

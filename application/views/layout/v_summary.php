@@ -75,7 +75,7 @@
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Summary of MP Task</h3>
-          <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em" href="" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a>
+          <!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em" href="" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a> -->
           <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em" href="" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
         </div>
         <!-- /.box-header -->
@@ -138,8 +138,8 @@
                 </tr>
                 <tr>
                   <td></td>
-                  <td><b>Remarks</b></td>
-                  <td>Remarks dari garuda</td>
+                  <td><b>Recommendation</b></td>
+                  <td>Remain Interval/Extend Interval/Descalation Interval</td>
                   <td></td>
                   <td></td>
                   <td></td>
