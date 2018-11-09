@@ -145,7 +145,7 @@ class M_task extends CI_Model{
 
     public function task_evaluation($ms_num, $ac_type)
     {
-    	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name
+    	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name, ee.rec_threshold, ee.rec_interval
     								FROM ev_evaluation ee 
     								LEFT JOIN users u ON ee.id_user = u.id_user
     								WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'

@@ -42,22 +42,6 @@ class Assignment extends CI_Controller {
 		$this->load->view("layout/v_template", $data);
 	}
 
-    public function json(){
-        $this->datatables->select("md.ms_num, md.ac_type, md.task_code, md.rvcd,
-						   		   substr(GROUP_CONCAT(CAST(etp.id_user AS CHAR) ORDER BY etp.id_user ASC, etp.create_date ASC), -1) AS id_user,
-						   		   substr(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date ASC), -1) AS status,
-        						   concat(md.task_desc,'<br><br>', md.task_subdesc) AS descr,
-        						   group_concat(DISTINCT concat('>>', ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') AS camp_sg,
-						   		   group_concat(DISTINCT concat('>>', mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') AS intval");
-        $this->datatables->from('msi_data md');
-        $this->datatables->join('msi_interval mi', 'md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type', 'left');
-        $this->datatables->join('msi_sg ms', 'md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type', 'left');
-        $this->datatables->join('ev_task_process etp', 'etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type', 'left');
-        $this->datatables->group_by('md.ms_num, md.ac_type');
-        return print_r($this->datatables->generate());
-    }
-
-
 	public function assignment_eval($ac_type, $resp)
 	{
 		$input = $this->m_assignment->tampilassignment($ac_type, $resp);

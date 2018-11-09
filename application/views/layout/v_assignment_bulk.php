@@ -88,57 +88,10 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-  <script type="text/javascript">
-
-      var save_method; //for save method string
-      var table;
-
-      $(document).ready(function() {
-          //datatables
-          table = $('#example1').DataTable({ 
-              "paging"      : true,
-              "lengthChange": true,
-              "searching"   : true,
-              "ordering"    : true,
-              "info"        : true,
-              "autoWidth"   : true,
-              "processing"  : true, //Feature control the processing indicator.
-              "serverSide"  : true, //Feature control DataTables' server-side processing mode.
-              "order": [], //Initial no order.
-              // Load data for the table's content from an Ajax source
-              "ajax": {
-                  "url": '<?php echo site_url('assignment/json'); ?>',
-                  "type": "POST"
-              },
-              //Set column definition initialisation properties.
-              "columns": [
-                            {"data": "no", defaultContent: '' ,
-                            "searchable": false},
-                            {"data": "ms_num"},
-                            {"data": "ac_type"},
-                            {"data": "descr",
-                             "searchable": false},
-                            {"data": "task_code"},
-                            {"data": "intval",
-                             "searchable": false},
-                            {"data": "rvcd"},
-                            {"data": "camp_sg",
-                             "searchable": false},
-                            {"data": "status",
-                             "searchable": false}
-              ]
-          });
-          table.on( 'draw.dt', function () {
-          var PageInfo = $('#example1').DataTable().page.info();
-               table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
-                  cell.innerHTML = i + 1 + PageInfo.start;
-              } );
-          } );
-      });
-  </script> -->
+  
   <!-- <script>
   function changePIC($i)
   {

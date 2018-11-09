@@ -363,7 +363,7 @@
 										}
 										?>
 										></div>
-										<div class="col-md-2">Extend <input onclick="rec_thresint()" type="radio" name="rec" value="2" 
+										<div class="col-md-2">Extend <input onclick="rec_change()" type="radio" name="rec" value="2" 
 										<?php
 										if(isset($task_evaluation) && isset($task_process_detail))
 										{
@@ -377,7 +377,7 @@
 											echo " disabled";
 										}
 										?>></div>
-										<div class="col-md-2">Descalation <input onclick="rec_thresint()" type="radio" name="rec" value="3" 
+										<div class="col-md-2">Descalation <input onclick="rec_change()" type="radio" name="rec" value="3" 
 										<?php
 										if(isset($task_evaluation) && isset($task_process_detail))
 										{
@@ -421,20 +421,52 @@
 										?>></div>
 									</div>
 									<br>
-									</form>
-									<div style="display:none" class="row" id="div_rec_thresint">
+									<div style="<?php 
+									if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] != NULL && ($task_evaluation[0]['recommendation'] == 2 || $task_evaluation[0]['recommendation'] == 3))
+									{
+										echo "display:blocked";
+									}
+									else
+									{
+										echo "display:none";
+									}
+										?>" class="row" id="div_rec_thresint">
 										<div class="col-md-1"><b>Recommended Threshold:</b></div>
 										<div class="col-md-1">
-											<input class="form-control" type="text">
+										<?php
+											if($task_evaluation != NULL && $task_evaluation[0]['rec_threshold'] != NULL)
+											{
+										?>
+												<input name="rec_threshold" class="form-control" type="text" value="<?php echo $task_evaluation[0]['rec_threshold']; ?>" <?php if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3){ echo " disabled"; } ?>>
+										<?php
+											}
+											else
+											{
+										?>
+												<input name="rec_threshold" class="form-control" type="text">
+										<?php
+											}
+										?>
 										</div>
 										<div class="col-md-1"><b>Recommended Interval:</b></div>
 										<div class="col-md-1">
-											<input class="form-control" type="text">
-										</div>
-										<div class="col-md-2">
-											<button type="submit" id="submit_rec_thresint" class="btn btn-primary">Submit</button>
+											<?php
+												if($task_evaluation != NULL && $task_evaluation[0]['rec_interval'] != NULL)
+												{
+											?>
+													<input name="rec_interval" class="form-control" type="text" value="<?php echo $task_evaluation[0]['rec_interval'];?>" <?php if(!isset($task_process_detail) || $task_process_detail->status != 2 || $this->session->userdata('role') != 3){ echo " disabled"; } ?>>
+											<?php
+												}
+												else
+												{
+											?>
+													<input name="rec_interval" class="form-control" type="text">
+											<?php
+												}
+											?>
 										</div>
 									</div>
+									</form>
 									<hr>
 									<div class="row">
 										<div class="col-md-12"><b>Reason: </b>
@@ -796,14 +828,19 @@
 	      			<?php
 			      		}
 			      	?>	
-			      } 
-			    });
+			      }
+		      	  var radioButtons = $("#eval_form input:radio[name='rec']");
+			 	  var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+				  if(selectedIndex == 1 || selectedIndex == 2)
+				  {
+			 		  document.getElementById("div_rec_thresint").style.display = "block";
+				  }
+				  else
+				  {
+					  document.getElementById("div_rec_thresint").style.display = "none"	
+				  }
+		      });
 		}
-
-		function rec_thresint(){
-			document.getElementById("div_rec_thresint").style.display = "block";
-		}
-
 
 		function rejectFinding($i){
 		    var id = document.getElementById("finding"+$i).value;

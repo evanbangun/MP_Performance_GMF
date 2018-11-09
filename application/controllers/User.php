@@ -75,13 +75,37 @@ class User extends CI_Controller {
 		{
 			redirect_back();
 		}
-		$data = array(
-						'ms_num' => $this->input->post("ms_num"),
-						'ac_type' => $this->input->post("ac_type"),
-						'id_user' => $this->session->userdata('id_user'),
-						'recommendation' => $this->input->post("rec"),
-						'reason' => $this->input->post("reason")
-						);
+		if($this->input->post("rec") == "2" || $this->input->post("rec") == "3")
+		{
+			if($this->input->post("rec_threshold") == "" || $this->input->post("rec_interval") == "")
+			{
+				redirect_back();
+			}
+			else
+			{
+				$data = array(
+								'ms_num' => $this->input->post("ms_num"),
+								'ac_type' => $this->input->post("ac_type"),
+								'id_user' => $this->session->userdata('id_user'),
+								'recommendation' => $this->input->post("rec"),
+								'rec_threshold' => $this->input->post("rec_threshold"),
+								'rec_interval' => $this->input->post("rec_interval"),
+								'reason' => $this->input->post("reason")
+								);
+			}
+		}
+		else
+		{
+			$data = array(
+							'ms_num' => $this->input->post("ms_num"),
+							'ac_type' => $this->input->post("ac_type"),
+							'id_user' => $this->session->userdata('id_user'),
+							'recommendation' => $this->input->post("rec"),
+							'rec_threshold' => "",
+							'rec_interval' => "",
+							'reason' => $this->input->post("reason")
+							);
+		}
 		if(!$back_and_forth)
 		{
 			$this->m_task->insert_task('ev_evaluation', $data);
