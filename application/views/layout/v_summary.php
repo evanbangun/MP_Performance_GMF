@@ -74,23 +74,23 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-          <table id="summary_table" class="table table-bordered table-striped nowrap">
+          <table id="summary_table" class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>No.</th>
-              <th>MP Number</th>
-              <th>Task Code</th>
-              <th>A/C. EFF./ ENG. EFF</th>
-              <th>Description</th>
-              <th>Current Threshold</th>
-              <th>Recommended Threshold</th>
-              <th>Current Interval</th>
-              <th>Recommended Interval</th>
-              <th>Sign Code</th>
-              <th>Reference</th>
-              <th>Recommendation</th>
-              <th>GMF Review</th>
-              <th>Garuda Review</th>
+              <th style="width:5px">No.</th>
+              <th style="">MP Number</th>
+              <th style="">Task Code</th>
+              <th style="">A/C. EFF./ ENG. EFF</th>
+              <th style="width: 500px">Description</th>
+              <th style="">Current Threshold</th>
+              <th style="">Recommended Threshold</th>
+              <th style="">Current Interval</th>
+              <th style="">Recommended Interval</th>
+              <th style="width:100px">Sign Code</th>
+              <th style="">Reference</th>
+              <th style="">Recommendation</th>
+              <th style="">GMF Review</th>
+              <th style="">GA Review</th>
             </tr>
             </thead>
             <tbody>
