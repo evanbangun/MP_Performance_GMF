@@ -19,52 +19,46 @@
               <h3 class="box-title">Filter by:</h3>
             </div>
             <!-- /.box-header -->
+            <?php echo form_open('summary'); ?>
             <div class="box-body">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>A/C Type</label>
-                    <select class="form-control select2" style="width: 100%;">
-                      <option>B777</option>
-                      <option>B737</option>
+                    <select name="ac_type" class="form-control select2" style="width: 100%;">
+                      <?php
+                        foreach ($list_actype as $lact)
+                        {
+                      ?>
+                          <option value="<?php echo $lact['ac_type']; ?>"><?php echo $lact['ac_type']; ?></option>
+                      <?php
+                        }
+                      ?>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <!-- Date range -->
                   <div class="form-group">
-                    <label></label>
-                    <div style="margin-top:0.4em" class="input-group">
+                    <label>Date range:</label>
+                    <div class="input-group">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right yearpicker" placeholder="From">
-                    </div>
-                    <!-- /.input group -->
-                  </div>
-                  <!-- /.form group -->
-                </div>
-                <div class="col-md-3">
-                  <!-- Date range -->
-                  <div class="form-group">
-                    <label></label>
-                    <div style="margin-top:0.4em" class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control pull-right yearpicker" placeholder="To">
+                      <input type="text" name="reservation" class="form-control pull-right" id="reservation">
                     </div>
                     <!-- /.input group -->
                   </div>
                   <!-- /.form group -->
                 </div>
                 <div class="col-md-2" style="margin-top:1.7em">
-                  <a href="pages/mp-performance/search-mp-performance.html" type="button" class="btn btn-block btn-primary">Search</a>
+                  <button type="submit" class="btn btn-block btn-primary">Search</button>
                 </div>
                 <!-- /.col -->
               </div>
               <!-- /.row -->
             </div>
+            <?php echo form_close(); ?>
             <!-- ./box-body -->
           </div>
           <!-- /.box -->
@@ -80,14 +74,21 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="summary_table" class="table table-bordered table-striped nowrap">
             <thead>
             <tr>
               <th>No.</th>
               <th>MP Number</th>
+              <th>Task Code</th>
+              <th>A/C. EFF./ ENG. EFF</th>
               <th>Description</th>
+              <th>Current Threshold</th>
+              <th>Recommended Threshold</th>
+              <th>Current Interval</th>
+              <th>Recommended Interval</th>
               <th>Sign Code</th>
               <th>Reference</th>
+              <th>Recommendation</th>
               <th>GMF Review</th>
               <th>Garuda Review</th>
             </tr>
@@ -101,57 +102,20 @@
               {
             ?>
                 <tr>
-                  <td><?php echo ++$i ?></td>
+                  <td><?php echo ++$i; ?></td>
                   <td><?php echo $la['ms_num']; ?></td>
-                  <td><?php echo $la['descr']; ?></td>
-                  <td>mpd 32-800-00</td>
                   <td><?php echo $la['task_code']; ?></td>
-                  <td>Maulana M</td>
-                  <td>Handono</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td><b>Task Code</b></td>
-                  <td>GVI</td>
-                  <td><b>A/C. EFF./ ENG. EFF</b></td>
-                  <td>All</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td><b>Current Threshold</b></td>
-                  <td>Note</td>
-                  <td><b>Current Interval</b></td>
-                  <td>Note</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td><b>Recommended Threshold</b></td>
-                  <td>Note</td>
-                  <td><b>Recommended Interval</b></td>
-                  <td>Note</td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td><b>Recommendation</b></td>
-                  <td>Remain Interval/Extend Interval/Descalation Interval</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>     
-                <tr>
-                  <td height="30" colspan="14">
-                  <div class="progress progress-xxs">
-                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                    </div>
-                  </div>
-                  </td>
+                  <td><?php echo $la['ac_eff']; ?></td>
+                  <td><?php echo $la['descr']; ?></td>
+                  <td><?php echo $la['intval_threshold']; ?></td>
+                  <td><?php echo $la['rec_threshold']; ?></td>
+                  <td><?php echo $la['intval']; ?></td>
+                  <td><?php echo $la['rec_interval']; ?></td>
+                  <td><?php echo $la['camp_sg']; ?></td>
+                  <td><?php echo $la['ref_man']; ?></td>
+                  <td><?php echo $la['recommendation']; ?></td>
+                  <td><?php echo $la['id_gmf']; ?></td>
+                  <td><?php echo $la['id_garuda']; ?></td>
                 </tr>
             <?php
               }

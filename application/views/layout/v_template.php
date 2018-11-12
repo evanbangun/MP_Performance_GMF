@@ -243,5 +243,19 @@
     })  
   })
 </script>
+<script>
+  $(function () {
+    // $('#example1').DataTable()
+    $('#summary_table').DataTable({
+      'scrollX'     : true,
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })  
+  })
+</script>
 </body>
 </html>

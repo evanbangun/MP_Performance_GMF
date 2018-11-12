@@ -20,7 +20,8 @@ class m_dashboard extends CI_Model
 				 	   LEFT JOIN msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
 					   LEFT JOIN msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
 					   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
-					   WHERE md.ac_type = '$ac_type' AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'
+					   LEFT JOIN msi_performance_all mpa ON md.ms_num = mpa.ms_num AND md.ac_type = mpa.ac_type
+					   WHERE md.ac_type = '$ac_type' AND mpa.date_acc >= '$date_min' AND mpa.date_acc <= '$date_max'
 					   GROUP BY md.ms_num, md.ac_type
 					   ORDER BY md.ms_num ASC");
 		return $query->result_array();
@@ -37,7 +38,8 @@ class m_dashboard extends CI_Model
 				 	   LEFT JOIN msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
 					   LEFT JOIN msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
 					   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
-					   WHERE md.ac_type = '$ac_type' AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'";
+					   LEFT JOIN msi_performance_all mpa ON md.ms_num = mpa.ms_num AND md.ac_type = mpa.ac_type
+					   WHERE md.ac_type = '$ac_type' AND mpa.date_acc >= '$date_min' AND mpa.date_acc <= '$date_max'";
 		if($ms_num != "")
 		{
 			$query_msg .= " AND md.ms_num = '$ms_num'";
