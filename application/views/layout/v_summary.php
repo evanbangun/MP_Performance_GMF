@@ -70,7 +70,14 @@
         <div class="box-header with-border">
           <h3 class="box-title">Summary of MP Task</h3>
           <!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em" href="" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a> -->
-          <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em" href="" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
+          <?php
+          if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
+          {
+          ?>
+            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_summary/'.$ac_type.'/'.$date_min.'/'.$date_max); ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
+          <?php
+          }
+          ?>
         </div>
         <!-- /.box-header -->
         <div class="box-body">

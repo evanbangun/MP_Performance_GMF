@@ -4,7 +4,7 @@ class m_summary extends CI_Model
 {
 	public function tampilassignment($ac_type, $date_min, $date_max)
 	{
-		$query = $this->db->query("	SELECT  CASE WHEN ee.recommendation = 1 THEN 'Remain'
+		$query = $this->db->query("	SELECT CASE WHEN ee.recommendation = 1 THEN 'Remain'
                                                 WHEN ee.recommendation = 2 THEN 'Extend'
                                                 WHEN ee.recommendation = 3 THEN 'Decoalation'
                                                 WHEN ee.recommendation = 4 THEN 'Add Task'
