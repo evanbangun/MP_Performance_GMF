@@ -21,13 +21,12 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // $pdf->SetTitle('TCPDF Example 006');
 // $pdf->SetSubject('TCPDF Tutorial');
 // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
 // set default header data
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'MP ITEM PERFORMANCE DATA EVALUATION', '$list_task->ac_type');
 
-
 // set header and footer fonts
 $pdf->setHeaderFont(Array('helvetica', '', '12'));
+
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 // set default monospaced font
@@ -60,6 +59,7 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // Print a table
 
 // create some HTML content
+$pdf->SetPrintHeader(false);
 $pdf->AddPage('L', 'A4');
 $pdf->SetFont('dejavusans', '', 5);
 
@@ -111,7 +111,8 @@ $subtable_x = '<table width="20px" height="1px" border="1"><tr><td> X</td></tr><
 
 foreach ($list_task as $lt) 
 {
-    
+    $pdf->SetPrintHeader(true);
+
     $pdf->SetFont('dejavusans', '', 10);
 
     $html = '
@@ -323,7 +324,6 @@ foreach ($list_task as $lt)
 
 
             $pdf->AddPage('P', 'A4');
-
             // output the HTML content
             $pdf->writeHTML($temp, true, false, true, false, '');
 
