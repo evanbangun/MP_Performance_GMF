@@ -132,7 +132,15 @@ foreach ($list_task as $lt)
         </tr>
         <tr>
             <td><b>Interval:</b></td>
-            <td align="left" colspan="6">'.$lt->intval.'</td>
+            <td colspan="2">'.$lt->intval.'</td>
+            <td><b>Threshold:</b></td>
+            <td colspan="3">Isi Threshold</td>
+        </tr>
+        <tr>
+            <td><b>Rec. Interval:</b></td>
+            <td colspan="2">Isinya</td>
+            <td><b>Rec. Threshold:</b></td>
+            <td colspan="3">Isinya</td>
         </tr>
         <tr>
             <td><b>Sign Code:</b></td>

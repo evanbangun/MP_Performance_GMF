@@ -152,6 +152,7 @@
           {
         ?>
           <li><a href="<?php echo base_url('index.php/assignment'); ?>"><i class="fa fa-user"></i> <span>Assign Task</span></a></li>
+          <li><a href="<?php echo base_url('index.php/dashboard/add_user'); ?>"><i class="fa fa-users"></i> <span>Add User</span></a></li>
         <?php  
           }
         ?>

@@ -89,4 +89,13 @@ class Dashboard extends CI_Controller {
 		    echo "imgData doesn't exists";
 		}
 	}
+
+	public function add_user()
+	{
+		$data = array(
+			"container" => "layout/v_add_user"
+		);
+
+		$this->load->view("layout/v_template", $data);
+	}
 }
