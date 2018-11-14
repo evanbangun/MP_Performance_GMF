@@ -113,7 +113,15 @@ $html = '
     </tr>
     <tr>
         <td><b>Interval:</b></td>
-        <td align="left" colspan="6">'.$list_task->intval.'</td>
+        <td colspan="2">'.$list_task->intval.'</td>
+        <td><b>Threshold:</b></td>
+        <td colspan="3">Isi Threshold</td>
+    </tr>
+    <tr>
+        <td><b>Rec. Interval:</b></td>
+        <td colspan="2">Isinya</td>
+        <td><b>Rec. Threshold:</b></td>
+        <td colspan="3">Isinya</td>
     </tr>
     <tr>
         <td><b>Sign Code:</b></td>
@@ -126,7 +134,7 @@ $html = '
     <tr>
         <td><b>Eff Date:</b></td>
         <td colspan="2">'.$list_task->effdate.'</td>
-        <td align="right"><b>Category:</b></td>
+        <td><b>Category:</b></td>
         <td colspan="3">'.$list_task->cat.'</td>
     </tr>
     <tr>
