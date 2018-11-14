@@ -67,7 +67,26 @@ class Dashboard extends CI_Controller {
 		$data = array(
 			"container" => "layout/v_edit_signature"
 		);
-		// $this->load->view('layout/layout-fix.php');
 		$this->load->view("layout/v_template", $data);
+	}
+
+	public function save_signature()
+	{
+		if (isset($_POST['imageData'])) {
+		    $imgData = base64_decode($_POST['imageData']);
+		    $image_name= $_POST['image_name'];
+
+		    // Path where the image is going to be saved
+		    $filePath = 'assets/img/signature/'.$image_name.'_signature.jpg';
+		    // Delete previously uploaded image
+		    if (file_exists($filePath)) { unlink($filePath); }
+
+		    // Write $imgData into the image file
+		    $file = fopen($filePath, 'w');
+		    fwrite($file, $imgData);
+		    fclose($file);
+		} else {
+		    echo "imgData doesn't exists";
+		}
 	}
 }

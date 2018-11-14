@@ -292,7 +292,7 @@ $temp .='</tr>
         </tr>
         <tr>
             <th colspan="4"></th>
-            <th align="center"><img src="assets/img/sign.png" alt="test alt attribute" width="100" height="100" border="0" /></th>
+            <th align="center"><img src="assets/img/signature/"'.$this->session->userdata('signature').' alt="TIDAK ADA TANDA TANGAN" width="100" height="100" border="0" /></th>
         </tr>
         <tr>    
             <th colspan="4"></th>

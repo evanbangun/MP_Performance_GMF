@@ -20,10 +20,10 @@
               <div class="box-body box-profile">
                 <img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/img/user2-160x160.jpg" alt="User profile picture">
 
-                <h3 class="profile-username text-center">Nama Pegawai</h3>
+                <h3 class="profile-username text-center"><?php echo $this->session->userdata('name'); ?></h3>
 
-                <p class="text-muted text-center">TXX - Description</p>
-                <img class="profile-user-img img-responsive" src="<?=base_url()?>assets/img/sign.png" alt="User profile picture">
+                <p class="text-muted text-center"><?php echo $this->session->userdata('unit'); ?></p>
+                <img class="profile-user-img img-responsive" src="<?=base_url()?>assets/img/signature/<?php echo $this->session->userdata('signature'); ?>" alt="TIDAK ADA TANDA TANGAN">
               </div>
               <!-- /.box-body -->
             </div>
@@ -65,63 +65,6 @@
         <!-- /.row -->
     </section>
     <!-- /.content -->
-
-    <!-- Modal Edit Reason -->
-    <div class="modal fade" id="modal-edit-reason">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span></button> -->
-            <h4 class="modal-title">Edit Reason</h4>
-          </div>
-          <div class="modal-body">
-             <div class="form-group">
-              <label for="comment">Reason:</label>
-              <textarea class="form-control" rows="5" id="comment"></textarea>
-            </div> 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-    <!-- Modal Edit Finding -->
-    <div class="modal fade" id="modal-edit-finding">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span></button> -->
-            <h4 class="modal-title">Add/Modify Remarks</h4>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-3"><b>REG: </b>PK-GIC</div>
-              <div class="col-md-5"><b>Type: </b>C01-CHECK+A16 CHECK</div>
-              <div class="col-md-4"><b>Acc: </b>08-08-2018</div>
-            </div>
-             <div class="form-group">
-              <label for="comment">Reason:</label>
-              <textarea class="form-control" rows="5" id="comment"></textarea>
-            </div> 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
@@ -152,10 +95,27 @@
   if (signaturePad.isEmpty()) {
     return alert("Please provide a signature first.");
   }
-  
-  var data = signaturePad.toDataURL('image/png');
-  console.log(data);
-  window.open(data);
+  else
+  {
+    var dataUrl = signaturePad.toDataURL();
+    var imagen = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+    $.ajax({
+                    url: '<?php echo base_url("index.php/dashboard/save_signature"); ?>',
+                    type: 'POST',
+                    data: {
+                        imageData: imagen,
+                        image_name: '<?php echo $this->session->userdata("username"); ?>'
+                    },
+                })
+                .done(function(msg) {
+                    swal("Signature Saved", {
+                      icon: "success",
+                    }).then(function(){location.reload();}); 
+                })
+                .fail(function(msg) {
+                    console.log("error: " + msg);
+                });
+  }
 });
 
 document.getElementById('clear').addEventListener('click', function () {

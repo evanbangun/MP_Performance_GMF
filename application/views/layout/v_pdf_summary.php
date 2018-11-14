@@ -22,7 +22,6 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // $pdf->SetSubject('TCPDF Tutorial');
 // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 // set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'MP ITEM PERFORMANCE DATA EVALUATION', '$list_task->ac_type');
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array('helvetica', '', '12'));
@@ -113,7 +112,8 @@ foreach ($list_task as $lt)
     $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
     $pdf->SetMargins(5,30,5,true);
     $pdf->SetPrintHeader(true);
-
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'MP ITEM PERFORMANCE DATA EVALUATION', $lt->ac_type);
+    
     $pdf->SetFont('dejavusans', '', 10);
 
     $html = '
