@@ -33,8 +33,7 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // set margins
-$pdf->SetMargins(5,30,5,true);
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetMargins(5,10,5,true);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
 // set auto page breaks
@@ -111,6 +110,8 @@ $subtable_x = '<table width="20px" height="1px" border="1"><tr><td> X</td></tr><
 
 foreach ($list_task as $lt) 
 {
+    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->SetMargins(5,30,5,true);
     $pdf->SetPrintHeader(true);
 
     $pdf->SetFont('dejavusans', '', 10);
