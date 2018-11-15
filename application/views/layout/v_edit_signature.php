@@ -23,7 +23,7 @@
                 <h3 class="profile-username text-center"><?php echo $this->session->userdata('name'); ?></h3>
 
                 <p class="text-muted text-center"><?php echo $this->session->userdata('unit'); ?></p>
-                <img class="profile-user-img img-responsive" src="<?=base_url()?>assets/img/signature/<?php echo $this->session->userdata('signature'); ?>" alt="TIDAK ADA TANDA TANGAN">
+                <img class="profile-user-img img-responsive" src="<?=base_url()?>assets/img/signature/<?php echo $user->signature; ?>" alt="TIDAK ADA TANDA TANGAN">
               </div>
               <!-- /.box-body -->
             </div>

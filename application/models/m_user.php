@@ -54,4 +54,22 @@ class m_user extends CI_Model
 	{
 		$this->db->insert($table,$data);
 	}
+
+	public function update_signature($username)
+	{
+		$data = array(
+        'signature' => $username.'_signature.jpg'
+		);
+		$this->db->where('username', $username);
+		$this->db->update('users', $data);
+	}
+
+	public function get_user($username)
+	{
+		$query = "	SELECT *
+					FROM users
+					WHERE username = '$username'";
+		$run_query = $this->db->query($query);
+  		return $run_query->row();
+	}
 }

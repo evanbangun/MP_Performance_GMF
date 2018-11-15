@@ -137,12 +137,6 @@ foreach ($list_task as $lt)
             <td colspan="3">Isi Threshold</td>
         </tr>
         <tr>
-            <td><b>Rec. Interval:</b></td>
-            <td colspan="2">Isinya</td>
-            <td><b>Rec. Threshold:</b></td>
-            <td colspan="3">Isinya</td>
-        </tr>
-        <tr>
             <td><b>Sign Code:</b></td>
             <td align="left" colspan="6">'.$lt->camp_sg.'</td>
         </tr>
@@ -307,8 +301,23 @@ foreach ($list_task as $lt)
             {
                 $temp .= '<th>Remove Task '.$subtable.'</th>';
             }
-        $temp .='</tr>
-            </table>
+            if($te['recommendation'] == 2 || $te['recommendation'] == 3)
+            {
+                $temp .='</tr>
+                            <tr>
+                                <td><b>Rec. Interval:</b></td>
+                                <td colspan="2">'.$te['rec_interval'].'</td>
+                                <td><b>Rec. Threshold:</b></td>
+                                <td colspan="3">'.$te['rec_threshold'].'</td>
+                            </tr>
+                        </table>';
+            }
+            else
+            {
+                $temp .='</tr>
+                        </table>';   
+            }
+        $temp .='
             <table cellspacing="3" cellpadding="4">
                 <tr>
                     <td align="left"><b>REASON:</b></td>

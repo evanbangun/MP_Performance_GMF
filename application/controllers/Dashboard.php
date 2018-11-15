@@ -6,6 +6,7 @@ class Dashboard extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('m_dashboard');
+		$this->load->model('m_user');
 		if(!$this->session->userdata('username'))
 		{
 			redirect('login');
@@ -67,6 +68,7 @@ class Dashboard extends CI_Controller {
 		$data = array(
 			"container" => "layout/v_edit_signature"
 		);
+		$data['user'] = $this->m_user->get_user($this->session->userdata('username'));
 		$this->load->view("layout/v_template", $data);
 	}
 
@@ -85,17 +87,9 @@ class Dashboard extends CI_Controller {
 		    $file = fopen($filePath, 'w');
 		    fwrite($file, $imgData);
 		    fclose($file);
+			$this->m_user->update_signature($this->session->userdata('username'));
 		} else {
 		    echo "imgData doesn't exists";
 		}
-	}
-
-	public function add_user()
-	{
-		$data = array(
-			"container" => "layout/v_add_user"
-		);
-
-		$this->load->view("layout/v_template", $data);
 	}
 }
