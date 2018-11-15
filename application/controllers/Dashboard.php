@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_dashboard');
 		$this->load->model('m_user');
+		$this->load->model('m_crud_user');
 		if(!$this->session->userdata('username'))
 		{
 			redirect('login');
@@ -92,4 +93,23 @@ class Dashboard extends CI_Controller {
 		    echo "imgData doesn't exists";
 		}
 	}
+
+	public function change_password()
+	{
+		// var_dump($this->input->post('old_password'));die();
+		if(md5($this->input->post('old_password')) == $this->session->userdata('password'))
+		{
+			$data = array('password' => md5($this->input->post('new_password')));
+			$this->m_crud_user->update_user('users', $data, $this->session->userdata("id_user"));
+			$return['success'] = True;
+			$return['message'] = 'Password berhasil diubah';
+			echo json_encode($return);
+		}
+		else
+		{
+			$return['success'] = False;
+			$return['message'] = 'Gagal mengubah password !';
+			echo json_encode($return);
+		}
+	}	
 }

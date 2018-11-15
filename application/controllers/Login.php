@@ -33,6 +33,7 @@ class Login extends CI_Controller {
 		{	
 			$newsession = array(
 			   'id_user'	=> $data['users'][0]['id_user'],
+			   'password'   => $data['users'][0]['password'],
                'username'	=> $data['users'][0]['username'],
                'name'		=> $data['users'][0]['name'],
                'signature'	=> $data['users'][0]['signature'],

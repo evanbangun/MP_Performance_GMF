@@ -72,15 +72,19 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form role="form" action="#">
               <div class="box-body">
                 <div class="form-group">
+                  <label>Old Password</label>
+                  <input type="password" class="form-control" id="old_password">
+                </div>
+                <div class="form-group">
                   <label>New Password</label>
-                  <input type="password" class="form-control">
+                  <input type="password" class="form-control" id="new_password">
                 </div>
                 <div class="form-group">
                   <label>Re-enter Password</label>
-                  <input type="password" class="form-control">
+                  <input type="password" class="form-control" id="reenter_password">
                 </div>
               </div>
               <!-- /.box-body -->
@@ -159,6 +163,10 @@ document.getElementById('undo').addEventListener('click', function () {
 });
 
 function changePassword(){
+  var old_password = $("#old_password").val();
+  var new_password = $("#new_password").val();
+  var reenter_password = $("#reenter_password").val();
+  var current_password = "<?php echo $this->session->userdata('password'); ?>";
   swal({
     title: "Are you sure you want to change the password?",
     icon: "warning",
@@ -167,9 +175,39 @@ function changePassword(){
   })
   .then((willDelete) => {
     if (willDelete) {
-      swal("Password has been changed!", {
-        icon: "success",
-      });
+       if(new_password != reenter_password)
+       {
+          swal("Password gagal diubah", {
+                icon: "warning",
+              });
+       }
+       else
+       {
+         $.ajax({
+                    url: '<?php echo base_url("index.php/dashboard/change_password"); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        old_password: old_password,
+                        new_password: new_password,
+                        reenter_password: reenter_password
+                    },
+                    success: function(data) {
+                      if(data['success']) { 
+                        swal({
+                          title: data['message'],
+                          icon: "success",
+                        }).then(function(){location.reload();});
+                      }
+                      else { 
+                        swal({
+                          title: data['message'],
+                          icon: "error",
+                        });
+                      }
+                    }
+                }); 
+       }
     }
   });
 }
