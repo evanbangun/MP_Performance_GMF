@@ -50,4 +50,9 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_pdf_summary', $data);
     }
 
+    public function report_excel()
+    {
+        $this->load->view('layout/v_excel_summary');
+    }
+
 }

@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <select class="form-control" name="role" required="required">
+                                    <select class="form-control" onchange="roleAdd()" id="role-add" name="role" required="required">
                                         <option value="">--Select Role--</option>
                                         <?php
                                             if($this->session->userdata('role') == 1)
@@ -125,7 +125,7 @@
                                     <label>Unit</label>
                                     <input type="text" class="form-control" name="unit" required="required">
                                 </div>
-                                <div class="form-group">
+                                <div id="actype" class="form-group">
                                     <label>A/C Type</label>
                                     <select name="ac_type" class="form-control select2" style="width: 100%;">
                                       <?php
@@ -138,7 +138,7 @@
                                       ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div id="resp" class="form-group">
                                     <label>Resp</label>
                                     <select name="resp" class="form-control select2" style="width: 100%;">
                                       <?php
@@ -331,4 +331,19 @@ function deleteUser(){
         } 
     });
 }
+
+function roleAdd() {
+    // console.log('Test');
+//   $("#role-add").change(function() {
+    var val = $("#role-add").val();
+    if(val === "1") {
+        $("#actype").hide();
+        $("#resp").hide();
+    }
+    else {
+        $("#actype").show();
+        $("#resp").show();
+    }
+  };
+
 </script>
