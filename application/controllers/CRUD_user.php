@@ -32,17 +32,21 @@ class CRUD_user extends CI_Controller {
 	}
 
 	public function add_user()
-	{		
+	{	
+
 		$data = array(
 						'username' => $this->input->post('username'),
 						'password' => md5($this->input->post('password')),
 						'name' => $this->input->post('name'),
 						'no_pegawai' => $this->input->post('no_pegawai'),
 						'role' => $this->input->post('role'),
-						'unit' => $this->input->post('unit'),
-						'ac_type' => $this->input->post('ac_type'),
-						'resp' => $this->input->post('resp')
+						'unit' => $this->input->post('unit')
 						);
+		if($this->input->post('role') == 3 || $this->input->post('role') == 4)
+		{
+			$data += ['ac_type' => $this->input->post('ac_type'),
+						'resp' => $this->input->post('resp')];
+		}						
 
 		$this->m_crud_user->add_user('users', $data);
 		
@@ -57,10 +61,18 @@ class CRUD_user extends CI_Controller {
 						'name' => $this->input->post('name'),
 						'no_pegawai' => $this->input->post('no_pegawai'),
 						'role' => $this->input->post('role'),
-						'unit' => $this->input->post('unit'),
-						'ac_type' => $this->input->post('ac_type'),
-						'resp' => $this->input->post('resp')
+						'unit' => $this->input->post('unit')
 						);
+		if($this->input->post('role') == 3 || $this->input->post('role') == 4)
+		{
+			$data += ['ac_type' => $this->input->post('ac_type'),
+						'resp' => $this->input->post('resp')];
+		}
+		else if($this->input->post('role') == 1 || $this->input->post('role') == 2)
+		{
+			$data += ['ac_type' => "",
+						'resp' => ""];
+		}
 
 		$this->m_crud_user->update_user('users', $data, $this->input->post('id_user'));
 		
@@ -70,6 +82,11 @@ class CRUD_user extends CI_Controller {
 	public function get_user_by_id()
 	{
     	echo json_encode($this->m_crud_user->get_user_by_id($this->input->post("id_user")));
+	}
+
+	public function delete_user_by_id()
+	{
+    	$this->m_crud_user->delete_user('users', $this->input->post("id_user"));
 	}
 }
 

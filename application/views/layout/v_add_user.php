@@ -55,7 +55,7 @@
                             ?>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary" onclick="modaleditUser(<?php echo $u['id_user']; ?>)"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger" id="delete-user" onclick="deleteUser()"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-danger" id="delete-user" onclick="deleteUser(<?php echo $u['id_user']; ?>)"><i class="fa fa-trash"></i></button>
                                 </div>
                             <?php
                             }
@@ -195,7 +195,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <select class="form-control" id="role_edit" name="role" required="required">
+                                    <select class="form-control" onchange="roleEdit()" id="role_edit" name="role" required="required">
                                         <option value="">--Select Role--</option>
                                         <?php
                                             if($this->session->userdata('role') == 1)
@@ -219,7 +219,7 @@
                                     <label>Unit</label>
                                     <input type="text" class="form-control" id="unit_edit" name="unit" required="required">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="div_actype_edit">
                                     <label>A/C Type</label>
                                     <select id="ac_type_edit" name="ac_type" class="form-control select2" style="width: 100%;">
                                       <?php
@@ -232,7 +232,7 @@
                                       ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="div_resp_edit">
                                     <label>Resp</label>
                                     <select id="resp_edit" name="resp" class="form-control select2" style="width: 100%;">
                                       <?php
@@ -263,34 +263,6 @@
 </div>
 <script>
 
-function addUser(){
-    swal(
-        'Success!',
-        'User [Name] successfully added!',
-        'success'
-    )
-    .then((isChange) => {
-        if (isChange)
-        {
-         location.reload();
-        } 
-    });
-}
- 
-function editUser(){
-    swal(
-        'Success!',
-        'User [Name] successfully edited!',
-        'success'
-    )
-    .then((isChange) => {
-        if (isChange)
-        {
-         location.reload();
-        } 
-    });
-}
-
 function modaleditUser($id){
     var id = $id;
     $.ajax({
@@ -312,22 +284,27 @@ function modaleditUser($id){
           });
 }
 
-function deleteUser(){
+function deleteUser($id){
+    var id = $id;
     swal({
         title: "Are you sure you want to delete this user?",
         icon: "warning",
         buttons: true,
         dangerMode: true,
     })
-
     .then((isChange) => {
         if (isChange)
         {
-            
-        swal("User has been deleted!", {
-        icon: "success",
-        }).then(function(){location.reload();}); 
-            
+            $.ajax({
+            url: '<?php echo base_url("index.php/crud_user/delete_user_by_id"); ?>',
+            type: 'POST',
+            data: { id_user: id},
+            success:function(data){
+                    swal("User has been deleted!", {
+                    icon: "success",
+                    }).then(function(){location.reload();});   
+                }  
+          });    
         } 
     });
 }
@@ -336,13 +313,27 @@ function roleAdd() {
     // console.log('Test');
 //   $("#role-add").change(function() {
     var val = $("#role-add").val();
-    if(val === "1") {
+    if(val === "1" || val === "2") {
         $("#actype").hide();
         $("#resp").hide();
     }
     else {
         $("#actype").show();
         $("#resp").show();
+    }
+  };
+
+function roleEdit() {
+    // console.log('Test');
+//   $("#role-add").change(function() {
+    var val = $("#role_edit").val();
+    if(val === "1" || val === "2") {
+        $("#div_actype_edit").hide();
+        $("#div_resp_edit").hide();
+    }
+    else {
+        $("#div_actype_edit").show();
+        $("#div_resp_edit").show();
     }
   };
 

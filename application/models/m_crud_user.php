@@ -43,4 +43,10 @@ class m_crud_user extends CI_Model
 		$this->db->where('id_user', $id);
 		$this->db->update($table, $data);
 	}
+
+	public function delete_user($table, $id)
+	{
+		$this->db->where('id_user', $id);
+		$this->db->delete($table);
+	}
 }
