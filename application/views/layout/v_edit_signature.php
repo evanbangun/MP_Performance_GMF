@@ -2,11 +2,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Profile
+        Edit Profile
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Profile</li>
+        <li class="active">Edit Profile</li>
       </ol>
     </section>
 
@@ -31,7 +31,7 @@
           </div>
           <!-- /.col -->
           <div class="col-md-8">
-          <div class="box box-primary" style="height:294px">
+          <div class="box box-primary" style="height:240px">
             <div class="box-header with-border">
               <h3 class="box-title">Edit Signature</h3>
             </div>
@@ -40,7 +40,7 @@
               <div class="row">
                 <div class="col-md-9" style="margin-right:0; padding-right:0">
                   <!-- Sales Chart Canvas -->
-                  <canvas id="signature-pad" class="signature-pad" style="width: 520px; height: 220px"></canvas>
+                  <canvas id="signature-pad" class="signature-pad" style="width: 520px; height: 175px"></canvas>
                   <!-- /.chart-responsive -->
                 </div>
                 <!-- /.col -->
@@ -63,6 +63,34 @@
         <!-- /.col -->
         </div>
         <!-- /.row -->
+        <div class="row">
+        <div class="col-md-4">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Change Password</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
+              <div class="box-body">
+                <div class="form-group">
+                  <label>New Password</label>
+                  <input type="password" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Re-enter Password</label>
+                  <input type="password" class="form-control">
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" onclick="changePassword()" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
     </section>
     <!-- /.content -->
   </div>
@@ -130,4 +158,19 @@ document.getElementById('undo').addEventListener('click', function () {
   }
 });
 
+function changePassword(){
+  swal({
+    title: "Are you sure you want to change the password?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      swal("Password has been changed!", {
+        icon: "success",
+      });
+    }
+  });
+}
 </script>
