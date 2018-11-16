@@ -30,7 +30,17 @@
                         foreach ($list_actype as $lact)
                         {
                       ?>
-                          <option value="<?php echo $lact['ac_type']; ?>"><?php echo $lact['ac_type']; ?></option>
+                          <option value="<?php echo $lact['ac_type']; ?>"
+                      <?php
+                        if(isset($list_assignment) && is_array($list_assignment))
+                        {
+                          if($lact['ac_type'] == $ac_type)
+                          {
+                            echo "selected";
+                          }
+                        }
+                      ?>
+                      ><?php echo $lact['ac_type']; ?></option>
                       <?php
                         }
                       ?>
@@ -45,7 +55,16 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" name="reservation" class="form-control pull-right" id="reservation">
+                      <input type="text" name="reservation" class="form-control pull-right" id="reservation"
+                      <?php
+                        if(isset($list_assignment) && is_array($list_assignment))
+                        {
+                      ?>
+                            value="<?php echo $date_min_v; ?> - <?php echo $date_max_v; ?>"
+                      <?php  
+                        }
+                      ?>
+                      >
                     </div>
                     <!-- /.input group -->
                   </div>

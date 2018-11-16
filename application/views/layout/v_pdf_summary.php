@@ -358,7 +358,7 @@ foreach ($list_task as $lt)
                             <th align="center" width="80"><b>REMARKS</b></th>
                         </tr>';
             $i = 0;
-            foreach ($finding as $f)
+            foreach ($finding[$lt->ms_num][$lt->ac_type] as $f)
             {
                 if($ev_ke < $f['evaluasi_ke'])
                 {

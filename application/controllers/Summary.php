@@ -34,6 +34,8 @@ class Summary extends CI_Controller {
 			$data['ac_type'] = $ac_type;
 			$data['date_min'] = $date_min;
 			$data['date_max'] = $date_max;
+			$data['date_min_v'] = $date_range[0];
+			$data['date_max_v'] = $date_range[1];
 		}
 
 		$data['list_actype'] = $this->m_dashboard->actype();
