@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -12,151 +12,151 @@
 
     <!-- Main content -->
       <div class="box">
-        <!-- /.box-header -->
+      <!-- /.box-header -->
         <div class="box-body">
           <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>No.</th>
-              <th>Type</th>
-              <th>Resp</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
-            {  
-              $i = 0;
-              foreach ($list_assignment as $la)
-              {
-            ?>
-                <tr>
-                  <td><?php echo ++$i ?></td>
-                  <td><?php echo $la['ac_type']; ?></td>
-                  <td><?php echo $la['resp']; ?></td>
-                  <td><a href="<?php echo base_url('index.php/assignment/detail_assignment/'.$la['ac_type'].'/'.$la['resp']); ?>"><button>Detail</button></a>
-                  <?php
-                  if($this->session->userdata('role') == 1)
-                  {
-                    if($la['count_data'] == $la['unassigned'])
+                <th>No.</th>
+                <th>Type</th>
+                <th>Resp</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php
+              if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
+              {  
+                $i = 0;
+                foreach ($list_assignment as $la)
+                {
+              ?>
+                  <tr>
+                    <td><?php echo ++$i ?></td>
+                    <td><?php echo $la['ac_type']; ?></td>
+                    <td><?php echo $la['resp']; ?></td>
+                    <td><a href="<?php echo base_url('index.php/assignment/detail_assignment/'.$la['ac_type'].'/'.$la['resp']); ?>"><button>Detail</button></a>
+                    <?php
+                    if($this->session->userdata('role') == 1)
                     {
-                  ?>
-                      <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
-                  <?php
+                      if($la['count_data'] == $la['unassigned'])
+                      {
+                    ?>
+                        <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
+                    <?php
+                      }
+                      else if ($la['count_data'] == $la['finished'])
+                      {
+                    ?>
+                        <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Re-Assign</button></a>
+                    <?php
+                      }
+                      else
+                      {
+                        echo '<button disabled>ASSIGNED</button>';
+                      }
                     }
-                    else if ($la['count_data'] == $la['finished'])
+                    else if($this->session->userdata('role') == 2)
                     {
-                  ?>
-                      <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Re-Assign</button></a>
-                  <?php
+                      if(!is_null($la['progressed']))
+                      {
+                    ?>
+                        <button disabled>Assigned</button>
+                    <?php
+                      }
+                      else if($la['count_data'] == $la['evaluated'])
+                      {
+                    ?>
+                        <a href="<?php echo base_url('index.php/assignment/assignment_verif/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
+                    <?php
+                      }
                     }
-                    else
-                    {
-                      echo '<button disabled>ASSIGNED</button>';
-                    }
-                  }
-                  else if($this->session->userdata('role') == 2)
-                  {
-                    if(!is_null($la['progressed']))
-                    {
-                  ?>
-                      <button disabled>Assigned</button>
-                  <?php
-                    }
-                    else if($la['count_data'] == $la['evaluated'])
-                    {
-                  ?>
-                      <a href="<?php echo base_url('index.php/assignment/assignment_verif/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a>
-                  <?php
-                    }
-                  }
-                  ?>
-                  </td>
-                </tr>
-            <?php
+                    ?>
+                    </td>
+                  </tr>
+              <?php
+                }
               }
-            }
-            ?>
-            </tbody>
-          </table>
+              ?>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
         </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
+        <!-- /.box -->
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-  
-  <!-- <script>
-  function changePIC($i)
-  {
-    var user_id = document.getElementById("changepic"+$i).value;
-    var ms_num = document.getElementById("msnum"+$i).value;
-    var ac_type = document.getElementById("actype"+$i).value;
-    var status = document.getElementById("status"+$i).value;
-    var temp = document.getElementById("changepic"+$i).index + 1;
-    if(user_id != "")
+      </section>
+      <!-- /.content -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    
+    <!-- <script>
+    function changePIC($i)
     {
-      swal({
-        title: "Are you sure you want to change the PIC?",
-        icon: "warning",
-        buttons: true,
-      })
-        .then((isChange) => {
-        if (isChange){
-          $.ajax({
-            url: '<?php echo base_url("index.php/assignment/assignment"); ?>',
-            type: 'POST',
-            data: { user_id: user_id, ms_num: ms_num, ac_type: ac_type, status: status},
-            success: function(data){
-              swal("The PIC has been changed!", {
-                icon: "success",
-              }); 
-              location.reload();
-            }
-          });
-        }
-        else
-        {
-          document.getElementById("changepic"+$i).selectedIndex = temp;
-        }
-      });
+      var user_id = document.getElementById("changepic"+$i).value;
+      var ms_num = document.getElementById("msnum"+$i).value;
+      var ac_type = document.getElementById("actype"+$i).value;
+      var status = document.getElementById("status"+$i).value;
+      var temp = document.getElementById("changepic"+$i).index + 1;
+      if(user_id != "")
+      {
+        swal({
+          title: "Are you sure you want to change the PIC?",
+          icon: "warning",
+          buttons: true,
+        })
+          .then((isChange) => {
+          if (isChange){
+            $.ajax({
+              url: '<?php echo base_url("index.php/assignment/assignment"); ?>',
+              type: 'POST',
+              data: { user_id: user_id, ms_num: ms_num, ac_type: ac_type, status: status},
+              success: function(data){
+                swal("The PIC has been changed!", {
+                  icon: "success",
+                }); 
+                location.reload();
+              }
+            });
+          }
+          else
+          {
+            document.getElementById("changepic"+$i).selectedIndex = temp;
+          }
+        });
+      }
     }
-  }
 
-  function reassign($i)
-  {
-    var user_id = document.getElementById("changepic"+$i).value;
-    var ms_num = document.getElementById("msnum"+$i).value;
-    var ac_type = document.getElementById("actype"+$i).value;
-    var status = 0;
-    if(user_id != "")
+    function reassign($i)
     {
-      swal({
-        title: "Are you sure you want to re-assign the task?",
-        icon: "warning",
-        buttons: true,
-      })
-        .then((isChange) => {
-        if (isChange){
-          $.ajax({
-            url: '<?php echo base_url("index.php/assignment/assignment"); ?>',
-            type: 'POST',
-            data: { user_id: user_id, ms_num: ms_num, ac_type: ac_type, status: status},
-            success: function(data){
-              swal("The task has been reassigned!", {
-                icon: "success",
-              }); 
-              location.reload();
-            }
-          });
-        }
-      });
+      var user_id = document.getElementById("changepic"+$i).value;
+      var ms_num = document.getElementById("msnum"+$i).value;
+      var ac_type = document.getElementById("actype"+$i).value;
+      var status = 0;
+      if(user_id != "")
+      {
+        swal({
+          title: "Are you sure you want to re-assign the task?",
+          icon: "warning",
+          buttons: true,
+        })
+          .then((isChange) => {
+          if (isChange){
+            $.ajax({
+              url: '<?php echo base_url("index.php/assignment/assignment"); ?>',
+              type: 'POST',
+              data: { user_id: user_id, ms_num: ms_num, ac_type: ac_type, status: status},
+              success: function(data){
+                swal("The task has been reassigned!", {
+                  icon: "success",
+                }); 
+                location.reload();
+              }
+            });
+          }
+        });
+      }
     }
-  }
-  </script> -->
+    </script> -->
