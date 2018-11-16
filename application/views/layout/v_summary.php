@@ -75,7 +75,7 @@
           {
           ?>
             <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_summary/'.$ac_type.'/'.$date_min.'/'.$date_max); ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
-            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_excel')?>" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a>
+            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_excel/'.$ac_type.'/'.$date_min.'/'.$date_max)?>" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a>
           <?php
           }
           ?>
@@ -122,8 +122,8 @@
                   <td><?php echo $la['camp_sg']; ?></td>
                   <td><?php echo $la['ref_man']; ?></td>
                   <td><?php echo $la['recommendation']; ?></td>
-                  <td><?php echo $la['id_gmf']; ?></td>
-                  <td><?php echo $la['id_garuda']; ?></td>
+                  <td><?php echo $la['name_gmf']; ?></td>
+                  <td><?php echo $la['name_garuda']; ?></td>
                 </tr>
             <?php
               }

@@ -93,8 +93,8 @@ $html = '
                   <td>".$la['rec_interval']."</td>
                   <td>".$la['camp_sg']."</td>
                   <td>".$la['ref_man']."</td>
-                  <td>".$la['id_gmf']."</td>
-                  <td>".$la['id_garuda']."</td>
+                  <td>".$la['name_gmf']."</td>
+                  <td>".$la['name_garuda']."</td>
                 </tr>";
     }
 

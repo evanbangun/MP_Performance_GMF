@@ -28,21 +28,29 @@ header("Expires: 0");
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>0541080100</td>
-            <td>ZGV</td>
-            <td>9 NOTE</td>
-            <td>EXTERNAL - ZONAL (GVI): MID-EXIT DOOR PERFORM AN EXTERNAL ZONAL INSPECTION (GVI) OF THE MID-EXIT DOOR. AIRPLANE NOTE: APPLICABLE ONLY TO AIRPLANES WITH ACTIVE LEFT MID-EXIT DOOR. ACCESS NOTE: DOOR IN OPEN POSITION.</td>
-            <td></td>
-            <td></td>
-            <td>>>24 MO >>O/ 5500 FC</td>
-            <td>ZGV</td>
-            <td>>>MPD 52-846-01 >>MRB 52-846-01</td>
-            <td>TASK CARD 52-846-01-01 TASK CARD 52-846-01-02</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+    <?php
+        $i=0;
+        foreach ($list_assignment as $la)
+        {
+    ?>
+            <tr>
+            <td><?php echo ++$i; ?></td>
+            <td><?php echo $la['ms_num']; ?></td>
+            <td><?php echo $la['task_code']; ?></td>
+            <td><?php echo $la['ac_eff']; ?></td>
+            <td><?php echo $la['descr']; ?></td>
+            <td><?php echo $la['intval_threshold']; ?></td>
+            <td><?php echo $la['rec_threshold']; ?></td>
+            <td><?php echo $la['intval']; ?></td>
+            <td><?php echo $la['rec_interval']; ?></td>
+            <td><?php echo $la['camp_sg']; ?></td>
+            <td><?php echo $la['ref_man']; ?></td>
+            <td><?php echo $la['recommendation']; ?></td>
+            <td><?php echo $la['name_gmf']; ?></td>
+            <td><?php echo $la['name_garuda']; ?></td>
+            </tr>
+    <?php
+        }
+    ?>
     </tbody>
 </table>

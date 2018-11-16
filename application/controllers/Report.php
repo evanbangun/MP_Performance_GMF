@@ -50,9 +50,10 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_pdf_summary', $data);
     }
 
-    public function report_excel()
+    public function report_excel($ac_type, $date_min, $date_max)
     {
-        $this->load->view('layout/v_excel_summary');
+        $data['list_assignment'] = $this->m_summary->tampilassignment($ac_type, $date_min, $date_max);
+        $this->load->view('layout/v_excel_summary', $data);
     }
 
 }
