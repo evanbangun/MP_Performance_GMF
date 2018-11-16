@@ -1,27 +1,24 @@
-Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        <i class="fa fa-dashboard"></i> Dashboard 
-        <div class="btn-group">
-          <button type="button" class="btn btn-default">All</button>
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">All</a></li>
-            <li><a href="#">User</a></li>
-          </ul>
-        </div>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol>
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      <i class="fa fa-dashboard"></i> Dashboard 
+      <div class="btn-group">
+        <button type="button" class="btn btn-default">All</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">All</a></li>
+          <li><a href="#">User</a></li>
+        </ul>
+      </div>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Dashboard</li>
+    </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
@@ -133,7 +130,7 @@ Content Wrapper. Contains page content -->
                   <!-- /.form group -->
                 </div>
                 <div class="col-md-2" style="margin-top:1.7em">
-                  <input type="submit" class="btn btn-block btn-primary" value="Search"></input>
+                  <input type="submit" class="btn btn-block btn-primary" value="Search">
                 </div>
                 <!-- /.col -->
               </div>
@@ -147,8 +144,5 @@ Content Wrapper. Contains page content -->
         <!-- /.col -->
       </div>
       <!-- /.row -->
-
     </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper
+</div>
