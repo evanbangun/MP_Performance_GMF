@@ -118,7 +118,7 @@ class M_task extends CI_Model{
 
     public function getFinding($ms_num, $ac_type){
     	// $q_performance = $this->db->query("SELECT DISTINCT msi_performance_all.ac_reg as ac_reg, msi_performance_all.maint_type, msi_performance_all.date_acc, msi_performance_all.fhrs, msi_performance_all.fcyl, msi_performance_all.finding, msi_performance_all.operation, msi_performance_all.remark_finding FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'");
-        $q_performance = $this->db->query("SELECT DISTINCT * FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num = '$ms_num'");
+        $q_performance = $this->db->query("SELECT DISTINCT * FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num = '$ms_num' ORDER BY evaluasi_ke ASC");
 
     	return $q_performance->result();
     }
@@ -145,7 +145,7 @@ class M_task extends CI_Model{
 
     public function task_evaluation($ms_num, $ac_type)
     {
-    	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name, ee.rec_threshold, ee.rec_interval
+    	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name, ee.rec_threshold, ee.rec_interval, u.signature
     								FROM ev_evaluation ee 
     								LEFT JOIN users u ON ee.id_user = u.id_user
     								WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'

@@ -227,7 +227,7 @@ else
               <th>No '.$subtable_checked.'</th>';
 }
 
-$ev_ke = -1;
+$ev_ke = 0;
 foreach ($task_evaluation as $te) {
     $ev_ke++;
     // add a page
@@ -311,7 +311,7 @@ $temp .='
         </tr>
         <tr>
             <th colspan="4"></th>
-            <th align="center"><img src="assets/img/signature.png" alt="TIDAK ADA TANDA TANGAN" width="100" height="100" border="0" /></th>
+            <th align="center"><img src="'.base_url().'assets/img/signature/'.$te['signature'].'" alt="TIDAK ADA TANDA TANGAN" width="100" height="100" border="0" /></th>
         </tr>
         <tr>    
             <th colspan="4"></th>
