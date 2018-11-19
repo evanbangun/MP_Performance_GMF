@@ -27,7 +27,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>1000</h3>
+              <h3><?php echo $data_dashboard->unassigned; ?></h3>
 
               <p>MP Task</p>
             </div>
@@ -42,7 +42,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>800<sup style="font-size: 20px"></sup></h3>
+              <h3><?php echo $data_dashboard->evaluated; ?><sup style="font-size: 20px"></sup></h3>
 
               <p>Evaluated</p>
             </div>
@@ -57,7 +57,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>100</h3>
+              <h3><?php echo $data_dashboard->verified; ?></h3>
 
               <p>Verified</p>
             </div>
@@ -72,7 +72,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>100</h3>
+              <h3><?php echo $data_dashboard->assigned_gmf + $data_dashboard->assigned_garuda + $data_dashboard->evaluating + $data_dashboard->verifying; ?></h3>
 
               <p>Uncompleted</p>
             </div>

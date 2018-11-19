@@ -27,13 +27,25 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="exampleInputEmail1">MP Number</label>
-                    <input name="ms_num_post" type="text" class="form-control" id="exampleInputEmail1">
+                    <input name="ms_num_post" type="text" class="form-control" id="exampleInputEmail1"
+                    <?php 
+                      if(isset($ms_num))
+                      {
+                        echo "value = ".$ms_num;
+                      }
+                    ?>>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="exampleInputEmail1">MP Responsibility</label>
-                    <input name="resp_post" type="text" class="form-control" id="exampleInputEmail1">
+                    <input name="resp_post" type="text" class="form-control" id="exampleInputEmail1"
+                    <?php 
+                      if(isset($resp))
+                      {
+                        echo "value = ".$resp;
+                      }
+                    ?>>
                   </div>
                 </div>
                 <!-- <div class="col-md-2">

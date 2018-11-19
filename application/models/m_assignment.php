@@ -31,7 +31,7 @@ class m_assignment extends CI_Model
 				 	   LEFT JOIN msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
 					   LEFT JOIN msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
 					   LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
-					   WHERE md.ac_type = '$ac_type' AND md.`resp` = '$resp'
+					   WHERE md.ac_type = '$ac_type' AND md.resp = '$resp'
 					   GROUP BY md.ms_num, md.ac_type
 					   ORDER BY md.ms_num ASC";
 		// }

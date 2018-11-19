@@ -30,7 +30,7 @@ class m_summary extends CI_Model
 											   FROM ev_remarks er
 											   LEFT JOIN users u on er.id_user = u.id_user) as garudau ON md.ms_num = garudau.ms_num AND md.ac_type = garudau.ac_type
 									WHERE md.ac_type = '$ac_type' AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'
-									Group By md.ms_num
+									Group By md.ms_num, md.ac_type
 									Order By md.ms_num ASC");
   		return $query->result_array();
 	}

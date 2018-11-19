@@ -5,9 +5,9 @@ class Dashboard extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->load->model('m_dashboard');
 		$this->load->model('m_user');
 		$this->load->model('m_crud_user');
+		$this->load->model('m_dashboard');
 		if(!$this->session->userdata('username'))
 		{
 			redirect('login');
@@ -21,6 +21,7 @@ class Dashboard extends CI_Controller {
 			"container" => "layout/v_dashboard"
 		);
 		$data['list_actype'] = $this->m_dashboard->actype();
+		$data['data_dashboard'] = $this->m_dashboard->data_dashboard();
 		// $this->load->view('layout/layout-fix.php');
 		$this->load->view("layout/v_template", $data);
 	}
@@ -61,6 +62,8 @@ class Dashboard extends CI_Controller {
 		$data['ac_type_post'] = $ac_type;
 		$data['date_min_post'] = $date_min;
 		$data['date_max_post'] = $date_max;
+		$data['ms_num'] = $ms_num;
+		$data['resp'] = $resp;
 		$this->load->view("layout/v_template", $data);
 	}
 
