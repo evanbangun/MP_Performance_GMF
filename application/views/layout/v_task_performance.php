@@ -42,32 +42,38 @@
 							<?php
 							}
 							?>
-							<a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a>
+							<!-- <a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a> -->
 							<!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Resp</a> -->
 							<h3 style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="box-title"><?php
 			                    if(!isset($task_process_detail->status) || $task_process_detail->status == 0 )
 			                    {
-			                      echo '<span class="label label-default pull-right">Unassigned</span>';
-			                    }
+								  echo '<span class="label label-default pull-right">Unassigned</span>&nbsp;';
+								  echo '<span style="margin-right:1em" class="label label-primary pull-right"><i class="fa fa-plane"></i>&nbsp;'.$list_task->ac_type.'';		    
+								}
 			                    else if($task_process_detail->status == 1 || $task_process_detail->status == 4 )
 			                    {
-			                      echo '<span class="label label-primary pull-right">Assigned</span>';
+								  echo '<span class="label label-primary pull-right">Assigned</span>';
+								  echo '<span style="margin-right:1em" class="label label-primary pull-right"><i class="fa fa-plane"></i>&nbsp;'.$list_task->ac_type.'';
 			                    }
 			                    else if($task_process_detail->status == 2)
 			                    {
-			                      echo '<span class="label label-warning pull-right">Evaluating</span>';
+								  echo '<span class="label label-warning pull-right">Evaluating</span>';
+								  echo '<span style="margin-right:1em" class="label label-primary pull-right"><i class="fa fa-plane"></i>&nbsp;'.$list_task->ac_type.'';
 			                    }
 			                    else if($task_process_detail->status == 3)
 			                    {
-			                      echo '<span class="label label-info pull-right">Evaluated</span>';
+								  echo '<span class="label label-info pull-right">Evaluated</span>';
+								  echo '<span style="margin-right:1em" class="label label-primary pull-right"><i class="fa fa-plane"></i>&nbsp;'.$list_task->ac_type.'';
 			                    }
 			                    else if($task_process_detail->status == 5)
 			                    {
-			                      echo '<span class="label label-warning pull-right">Verifying</span>';
+								  echo '<span class="label label-warning pull-right">Verifying</span>';
+								  echo '<span style="margin-right:1em" class="label label-primary pull-right"><i class="fa fa-plane"></i>&nbsp;'.$list_task->ac_type.'';
 			                    }
 			                    else if($task_process_detail->status == 6)
 			                    {
-			                      echo '<span class="label label-success pull-right">Verified</span>';
+								  echo '<span class="label label-success pull-right">Verified</span>';
+								  echo '<span style="margin-right:1em" class="label label-primary pull-right"><i class="fa fa-plane"></i>&nbsp;'.$list_task->ac_type.'';
 			                    }
 			                  ?></h3>
 						</ul>
@@ -81,7 +87,7 @@
 											<th style="width:100px">Task Code: </th>
 											<th><?php echo $list_task->task_code ?></th>
 											<th style="width:70px">Resp: </th>
-											<th><?php echo $list_task->resp ?><a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;"><i class="fa fa-pencil"></i></a></th>
+											<th><?php echo $list_task->resp ?></th>
 										</tr>
 										<tr>
 											<td><b>MP Item Descr.: </b></td>
