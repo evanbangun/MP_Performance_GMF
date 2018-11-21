@@ -14,7 +14,7 @@ class Notifications extends CI_Controller {
 	    $url = 'https://fcm.googleapis.com/fcm/send';
 
 	    $fields = array (
-	            'to' => 'ffe2IlWq0lw:APA91bHWE1ThRtYty-pKXL3KKnhy3jxYodVChu7WdShYRKoN0aOXgk4Dv12_gWekGDK_iIBddXejnHUSwfcyd3JwZ7poUVXinl-CGDuwgFZaC5dCgG7fK399-XE4qOvmDG6YQffA_RCF',
+	            'to' => 'dquwDVabxQI:APA91bE1KLuSCxuVSDoXe7GwXojNI5amY4tMpuisUtKooov4B26rrMDjEk4LRG_pb4h83n7Bho8rOWQWEXGkAgfbvL9GqBHzg_auNbQnOM0jGCqDEstWYay2hX2Upr_JRtDWoTiDdG-u',
 	            "data" => array (
 			        "title" => "my title",
 			        "message"=> "my message",
