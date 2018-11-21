@@ -52,7 +52,8 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="<?php echo base_url("index.php"); ?>" class="logo">
+    <!-- <a href="<?php echo base_url("index.php"); ?>" class="logo"> -->
+    <a href="<?php echo base_url("index.php/notifications/sendFCM"); ?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>P</span>
       <!-- logo for regular state and mobile devices -->
@@ -182,6 +183,58 @@
 </div>
 <!-- ./wrapper -->
 
+<!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-functions.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyB8avx1GZWHo1QdXlBrs-PQ5cYtpYaneRg",
+            authDomain: "mpperformance-3931b.firebaseapp.com",  
+            databaseURL: "https://mpperformance-3931b.firebaseio.com",
+            projectId: "mpperformance-3931b",
+            storageBucket: "mpperformance-3931b.appspot.com",
+            messagingSenderId: "282707331130"
+          };
+          firebase.initializeApp(config);
+
+        const messaging = firebase.messaging();
+        messaging
+            .requestPermission()
+            .then(function () {
+                //alert("Notification permission granted.");
+
+                // get the token in the form of promise
+                return messaging.getToken()
+            })
+            .then(function(token_post) {
+                var id_user_post = <?php echo $this->session->userdata('id_user'); ?>;
+                //alert(id_user_post + " + " + token_post);
+                $.ajax({
+                  url: '<?php echo base_url("index.php/dashboard/notifications_token"); ?>',
+                  type: 'POST',
+                  data: { id_user: id_user_post,
+                          token: token_post},
+                  success:function(data){  
+                           //alert("MANTAP BETUL");
+                      }
+                });
+            })
+            .catch(function (err) {
+                alert("Unable to get permission to notify.", err);
+            });
+
+        messaging.onMessage(function(payload) {
+            alert("Message received. ", payload['data']['message']); 
+        });
+    </script>
 <!-- jQuery 3 -->
 <script src="<?=base_url()?>assets/js/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->

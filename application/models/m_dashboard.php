@@ -8,14 +8,26 @@ class m_dashboard extends CI_Model
 		return $query->result_array();
 	}
 
+	public function notifications_token($table, $data)
+	{
+        $this->db->insert($table,$data);
+	}
+
+	public function get_notifications_token($id_user, $token)
+	{
+        $query = $this->db->query(
+	    					"SELECT * FROM notifications WHERE token = '$token' AND id_user = '$id_user'");
+		return $query->result_array();
+	}
+
 	public function search($ac_type, $date_min, $date_max)
 	{
 		$query = $this->db->query(
 	    					"SELECT CASE WHEN gmfu.recommendation = 1 THEN 'Remain'
-                                                WHEN gmfu.recommendation = 2 THEN 'Extend'
-                                                WHEN gmfu.recommendation = 3 THEN 'Decoalation'
-                                                WHEN gmfu.recommendation = 4 THEN 'Add Task'
-                                                WHEN gmfu.recommendation = 5 THEN 'Remove Task'
+                                         WHEN gmfu.recommendation = 2 THEN 'Extend'
+                                         WHEN gmfu.recommendation = 3 THEN 'Decoalation'
+                                         WHEN gmfu.recommendation = 4 THEN 'Add Task'
+                                         WHEN gmfu.recommendation = 5 THEN 'Remove Task'
                                             END as recommendation,
                                             md.resp, md.rvcd, md.ms_num, md.ac_type, md.task_code, me.ac_eff, mr.ref_man, gmfu.id_gmf as id_gmf, gmfu.name_gmf as name_gmf, garudau.id_garuda as id_garuda, garudau.name_garuda as name_garuda, gmfu.signature,
 											concat(md.task_desc,'<br><br>', md.task_subdesc) as descr,

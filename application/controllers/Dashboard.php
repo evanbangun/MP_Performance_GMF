@@ -26,6 +26,18 @@ class Dashboard extends CI_Controller {
 		$this->load->view("layout/v_template", $data);
 	}
 
+	public function notifications_token()
+	{
+		$data = array('id_user' => $this->input->post('id_user'),
+					  'token' =>  $this->input->post('token'));
+		
+		$notifications = $this->m_dashboard->get_notifications_token($this->input->post('id_user'), $this->input->post('token'));
+		if(empty($notifications))
+		{
+			$this->m_dashboard->notifications_token('notifications', $data);
+		}
+	}
+
 	public function search()
 	{
 		$data = array(
