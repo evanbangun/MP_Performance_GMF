@@ -29,6 +29,11 @@
   <link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap3-wysihtml5.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="<?=base_url()?>assets/css/dataTables.bootstrap.min.css">
+  <!-- Waves -->
+  <link rel="stylesheet" href="<?=base_url()?>assets/css/waves.css">
+  <!-- Animate -->
+  <link rel="stylesheet" href="<?=base_url()?>assets/css/animate.css">
+  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -81,7 +86,22 @@
                 <ul class="menu">
                   <li>
                     <a href="#">
-                      <i class="fa fa-list text-aqua"></i> 5 new tasks to evaluate
+                      <i class="fa fa-list text-yellow"></i> New tasks to evaluate
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-list text-green"></i> New tasks to verify
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-warning text-red"></i> Evaluation from evaluator
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-warning text-red"></i> Remarks from verificator
                     </a>
                   </li>
                 </ul>
@@ -170,8 +190,15 @@
     </section>
     <!-- /.sidebar -->
   </aside>
-
+  <!-- <div class="content-wrapper">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Well done!</h4>
+      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    </div>
+  </div> -->
   <?php $this->load->view($container) ?>
+  
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -228,11 +255,18 @@
                 });
             })
             .catch(function (err) {
-                alert("Unable to get permission to notify.", err);
+                $.notify("Unable to get permission to notify.", "error", err);
             });
 
         messaging.onMessage(function(payload) {
-            alert("Message received. ", payload['data']['message']); 
+            // alert("Message received. ", payload['data']['message']); 
+            $.notify("Message received", "info", payload['data']['message']);
+            //di halaman evaluator
+            $.notify("You've got remarks from verificator", "warn");
+            //di halaman verificator
+            $.notify("The remarks has been evaluated by ...", "success");
+            //di halaman verificator/evaluator
+            $.notify("You have new tasks to evaluate", "info");
         });
     </script>
 <!-- jQuery 3 -->
@@ -274,6 +308,12 @@
 <!-- DataTables -->
 <script src="<?=base_url()?>assets/js/jquery.dataTables.min.js"></script>
 <script src="<?=base_url()?>assets/js/dataTables.bootstrap.min.js"></script>
+<!-- Bootstrap Notify -->
+<script src="<?=base_url()?>assets/js/bootstrap-notify.js"></script>
+<!-- Notification -->
+<script src="<?=base_url()?>assets/js/notify.js"></script>
+<!-- Waves -->
+<script src="<?=base_url()?>assets/js/waves.js"></script>
 <!-- SweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
