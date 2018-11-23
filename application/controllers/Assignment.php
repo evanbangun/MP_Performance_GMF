@@ -110,22 +110,42 @@ class Assignment extends CI_Controller {
 	    $API_ACCESS_KEY = "AAAAQdKriDo:APA91bGtSE9UogoA2Y3q5U_OrEbRHf1Rrxo8Ih-cgOa-oSAgxFgHK-T83722-6AJLMpAfvPBWPZtY9lnzVPQplz3zLmIW9iWHzLLCMZZPPT6XAIOA7lm3XSA7Ow_WZFdt5u3XIYkbMMt";
 
 	    $url = 'https://fcm.googleapis.com/fcm/send';
-
-	    $fields = array (
-	            'registration_ids' => $token_list,
-	      //       "data" => array (
-			    //     "title" => "my title",
-			    //     "message"=> "my message",
-			    //     "image"=> "http://www.androiddeft.com/wp-content/uploads/2017/11/Shared-Preferences-in-Android.png",
-			    //     "action"=> "url",
-			    //     "action_destination"=> "http://androiddeft.com"
-			    // ),                
-	            'priority' => 'high',
-	            'notification' => array(
-	                        'title' => 'NEW TASK',
-	                        'body' => 'New task has been assigned',                            
-	            ),
-	    );
+	    if(count($token_list) > 1)
+	    {
+		    $fields = array (
+		            'registration_ids' => $token_list,
+		      //       "data" => array (
+				    //     "title" => "my title",
+				    //     "message"=> "my message",
+				    //     "image"=> "http://www.androiddeft.com/wp-content/uploads/2017/11/Shared-Preferences-in-Android.png",
+				    //     "action"=> "url",
+				    //     "action_destination"=> "http://androiddeft.com"
+				    // ),                
+		            'priority' => 'high',
+		            'notification' => array(
+		                        'title' => 'NEW TASK',
+		                        'body' => 'New task has been assigned',                            
+		            ),
+		    );
+	    }
+	    else
+	    {
+	    	$fields = array (
+		            'to' => $token_list[0],
+		      //       "data" => array (
+				    //     "title" => "my title",
+				    //     "message"=> "my message",
+				    //     "image"=> "http://www.androiddeft.com/wp-content/uploads/2017/11/Shared-Preferences-in-Android.png",
+				    //     "action"=> "url",
+				    //     "action_destination"=> "http://androiddeft.com"
+				    // ),                
+		            'priority' => 'high',
+		            'notification' => array(
+		                        'title' => 'NEW TASK',
+		                        'body' => 'New task has been assigned',                            
+		            ),
+		    );
+	    }
 	    $fields = json_encode ( $fields );
 
 	    $headers = array (
