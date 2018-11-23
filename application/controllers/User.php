@@ -188,7 +188,7 @@ class User extends CI_Controller {
 						'unread' => '1',
 						);
 			$this->m_notifications->notify('notifications_history', $data_notif);
-			$this->sendFCMU($evaluator->token, $data);
+			$this->sendFCMU($evaluator->token, $data, 3);
 		}
 		else if($this->input->post('submit_rem') == "Verify")
 		{
