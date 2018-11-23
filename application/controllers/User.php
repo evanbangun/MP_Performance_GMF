@@ -126,20 +126,20 @@ class User extends CI_Controller {
 			$data = array(
 				'ms_num' => $this->input->post("ms_num"),
 				'ac_type' => $this->input->post("ac_type"),
-				'id_user' => $verificator['id_user'],
+				'id_user' => $verificator->id_user,
 				'resp' => $this->input->post("resp"),
 				'status' => $this->input->post("status") + 3
 				);
 
 
 			$data_notif = array(
-						'id_user' => $verificator['id_user'],
+						'id_user' => $verificator->id_user,
 						'src_notif' => 'index.php/task/task_performance/'.$this->input->post("ms_num").'/'.$this->input->post("ac_type"),
 						'notif_message' => 'Task has been evaluated',
 						'unread' => '1',
 						);
 			$this->m_notifications->notify('notifications_history', $data_notif);
-			$this->sendFCMU($verificator['token'], $data, 4);
+			$this->sendFCMU($verificator->token, $data, 4);
 		}
 		$this->m_task->insert_task('ev_task_process', $data);
 
@@ -175,20 +175,20 @@ class User extends CI_Controller {
 			$data = array(
 						'ms_num' => $this->input->post("ms_num"),
 						'ac_type' => $this->input->post("ac_type"),
-						'id_user' => $evaluator['id_user'],
+						'id_user' => $evaluator->id_user,
 						'resp' => $this->input->post("resp"),
 						'status' => $this->input->post("status") - 3
 						);
 			$this->m_task->insert_task('ev_task_process', $data, 3);
 
 			$data_notif = array(
-						'id_user' => $evaluator['id_user'],
+						'id_user' => $evaluator->id_user,
 						'src_notif' => 'index.php/task/task_performance/'.$this->input->post("ms_num").'/'.$this->input->post("ac_type"),
 						'notif_message' => 'Task has been denied',
 						'unread' => '1',
 						);
 			$this->m_notifications->notify('notifications_history', $data_notif);
-			$this->sendFCMU($evaluator['token'], $data);
+			$this->sendFCMU($evaluator->token, $data);
 		}
 		else if($this->input->post('submit_rem') == "Verify")
 		{

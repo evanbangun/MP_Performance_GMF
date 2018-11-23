@@ -261,6 +261,26 @@
         messaging.onMessage(function(payload) {
             // alert("Message received. ", payload['data']['message']); 
             $.notify(payload['notification']['message'], "info");
+            var id = <?php echo $this->session->userdata('id_user'); ?>;
+            $.ajax({
+                    url: '<?php echo base_url("index.php/notifications/get_notifications"); ?>',
+                    type: 'POST',
+                    data: { id_user: id},
+                    success:function(data){  
+                             var list = JSON.parse(data);
+                             $( "#notif_list" ).empty();
+                             if(list.length > 0)
+                             {
+                                $("#notif_count").text(list.length);
+                             }
+                             $("#list_header").text("You have "+ list.length +" notifications");
+                             for( var i = 0; i < list.length; i++ )
+                             { 
+                                 var temp = list[i];
+                                 $( "#notif_list" ).append('<li><a onClick="readNotif('+temp.id_notif_his+');" href="<?php echo base_url(); ?>/'+ temp.src_notif +'"><i class="fa fa-list text-blue"></i>'+ temp.notif_message +'</a></li>');
+                             } 
+                        }  
+                  });
             //di halaman evaluator
             //$.notify("You've got remarks from verificator", "warn");
             //di halaman verificator
@@ -334,7 +354,10 @@ $(document).ready(function() {
           data: { id_user: id},
           success:function(data){  
                    var list = JSON.parse(data);
-                   $("#notif_count").text(list.length);
+                   if(list.length > 0)
+                   {
+                      $("#notif_count").text(list.length);
+                   }
                    $("#list_header").text("You have "+ list.length +" notifications");
                    for( var i = 0; i < list.length; i++ )
                    { 
