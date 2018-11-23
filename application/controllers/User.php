@@ -7,6 +7,7 @@ class User extends CI_Controller {
 		parent::__construct();
 		$this->load->model('m_user');
 		$this->load->model('m_task');
+		$this->load->model('m_notifications');
 
 		if(!$this->session->userdata('username'))
 		{
@@ -120,15 +121,25 @@ class User extends CI_Controller {
 		else
 		{
 			$id_reason = $this->m_task->get_id_reason($this->input->post("ms_num"), $this->input->post("ac_type"));
-			$id_verificator = $this->m_task->get_id_user($this->input->post("ms_num"), $this->input->post("ac_type"), 4);
+			$verificator = $this->m_task->get_id_user($this->input->post("ms_num"), $this->input->post("ac_type"), 4);
 			$this->m_task->update_task('ev_evaluation', $data, 'id_reason', $id_reason);
 			$data = array(
 				'ms_num' => $this->input->post("ms_num"),
 				'ac_type' => $this->input->post("ac_type"),
-				'id_user' => $id_verificator,
+				'id_user' => $verificator['id_user'],
 				'resp' => $this->input->post("resp"),
 				'status' => $this->input->post("status") + 3
 				);
+
+
+			$data_notif = array(
+						'id_user' => $verificator['id_user'],
+						'src_notif' => 'index.php/task/task_performance/'.$this->input->post("ms_num").'/'.$this->input->post("ac_type"),
+						'notif_message' => 'Task has been evaluated',
+						'unread' => '1',
+						);
+			$this->m_notifications->notify('notifications_history', $data_notif);
+			$this->sendFCMU($verificator['token'], $data, 4);
 		}
 		$this->m_task->insert_task('ev_task_process', $data);
 
@@ -160,15 +171,24 @@ class User extends CI_Controller {
 				$id_remarks = $this->m_task->get_id_remarks($this->input->post("ms_num"), $this->input->post("ac_type"));	
 				$this->m_task->update_task('ev_remarks', $data, 'id_remarks', $id_remarks);
 			}
-			$id_evaluator = $this->m_task->get_id_user($this->input->post("ms_num"), $this->input->post("ac_type"), 3);
+			$evaluator = $this->m_task->get_id_user($this->input->post("ms_num"), $this->input->post("ac_type"), 3);
 			$data = array(
 						'ms_num' => $this->input->post("ms_num"),
 						'ac_type' => $this->input->post("ac_type"),
-						'id_user' => $id_evaluator,
+						'id_user' => $evaluator['id_user'],
 						'resp' => $this->input->post("resp"),
 						'status' => $this->input->post("status") - 3
 						);
-			$this->m_task->insert_task('ev_task_process', $data);
+			$this->m_task->insert_task('ev_task_process', $data, 3);
+
+			$data_notif = array(
+						'id_user' => $evaluator['id_user'],
+						'src_notif' => 'index.php/task/task_performance/'.$this->input->post("ms_num").'/'.$this->input->post("ac_type"),
+						'notif_message' => 'Task has been denied',
+						'unread' => '1',
+						);
+			$this->m_notifications->notify('notifications_history', $data_notif);
+			$this->sendFCMU($evaluator['token'], $data);
 		}
 		else if($this->input->post('submit_rem') == "Verify")
 		{
@@ -204,6 +224,54 @@ class User extends CI_Controller {
 	public function reject_finding()
 	{
 		$this->m_task->reject_finding($this->input->post("id_ms_performance_all"));
+	}
+
+	public function sendFCMU($token, $data, $role)
+	{
+		if($role == 3)
+		{
+			$title = 'EVALUTION DENIED';
+			$body = 'Your evaluation on '.$data['ms_num'].'/'.$data['ac_type'].' was denied';
+		}
+		else if ($role == 4)
+		{
+			$title = 'TASK EVALUATED';
+			$body = ''.$data['ms_num'].'/'.$data['ac_type'].' has been evaluated';
+		}
+		//var_dump($token_list);die();
+	    $API_ACCESS_KEY = "AAAAQdKriDo:APA91bGtSE9UogoA2Y3q5U_OrEbRHf1Rrxo8Ih-cgOa-oSAgxFgHK-T83722-6AJLMpAfvPBWPZtY9lnzVPQplz3zLmIW9iWHzLLCMZZPPT6XAIOA7lm3XSA7Ow_WZFdt5u3XIYkbMMt";
+
+	    $url = 'https://fcm.googleapis.com/fcm/send';
+
+	    $fields = array (
+	            'to' => $token,
+	      //       "data" => array (
+			    //     "title" => "my title",
+			    //     "message"=> "my message",
+			    //     "image"=> "http://www.androiddeft.com/wp-content/uploads/2017/11/Shared-Preferences-in-Android.png",
+			    //     "action"=> "url",
+			    //     "action_destination"=> "http://androiddeft.com"
+			    // ),                
+	            'priority' => 'high',
+	            'notification' => array(
+	                        'title' => $title,
+	                        'body' => $body,                            
+	            ),
+	    );
+	    $fields = json_encode ( $fields );
+
+	    $headers = array (
+	            'Authorization: key=' . $API_ACCESS_KEY,
+	            'Content-Type: application/json'
+	    );
+	    $ch = curl_init ();
+	    curl_setopt ( $ch, CURLOPT_URL, $url );
+	    curl_setopt ( $ch, CURLOPT_POST, true );
+	    curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+	    curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	    curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
+	    $result = curl_exec ( $ch );
+	    curl_close ( $ch );
 	}
 }
 

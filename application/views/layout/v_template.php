@@ -57,8 +57,8 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <!-- <a href="<?php echo base_url("index.php"); ?>" class="logo"> -->
-    <a href="<?php echo base_url("index.php/notifications/sendFCM"); ?>" class="logo">
+    <a href="<?php echo base_url("index.php"); ?>" class="logo">
+    <!-- <a href="<?php echo base_url("index.php/notifications/sendFCM"); ?>" class="logo"> -->
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>P</span>
       <!-- logo for regular state and mobile devices -->
@@ -77,14 +77,14 @@
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">1</span>
+              <span id="notif_count" class="label label-warning"></span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 1 notifications</li>
+              <li id="list_header" class="header"></li>
               <li>
                 <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
+                <ul id="notif_list" class="menu">
+                  <!-- <li>
                     <a href="#">
                       <i class="fa fa-list text-yellow"></i> New tasks to evaluate
                     </a>
@@ -103,7 +103,7 @@
                     <a href="#">
                       <i class="fa fa-warning text-red"></i> Remarks from verificator
                     </a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
               <li class="footer"><a href="#">View all</a></li>
@@ -245,7 +245,7 @@
                 var id_user_post = <?php echo $this->session->userdata('id_user'); ?>;
                 //alert(id_user_post + " + " + token_post);
                 $.ajax({
-                  url: '<?php echo base_url("index.php/dashboard/notifications_token"); ?>',
+                  url: '<?php echo base_url("index.php/notifications/notifications_token"); ?>',
                   type: 'POST',
                   data: { id_user: id_user_post,
                           token: token_post},
@@ -255,18 +255,18 @@
                 });
             })
             .catch(function (err) {
-                $.notify("Unable to get permission to notify.", "error", err);
+                $.notify("Unable to get permission to notify.", "error");
             });
 
         messaging.onMessage(function(payload) {
             // alert("Message received. ", payload['data']['message']); 
-            $.notify("Message received", "info", payload['data']['message']);
+            $.notify(payload['notification']['message'], "info");
             //di halaman evaluator
-            $.notify("You've got remarks from verificator", "warn");
+            //$.notify("You've got remarks from verificator", "warn");
             //di halaman verificator
-            $.notify("The remarks has been evaluated by ...", "success");
+            //$.notify("The remarks has been evaluated by ...", "success");
             //di halaman verificator/evaluator
-            $.notify("You have new tasks to evaluate", "info");
+            //$.notify("You have new tasks to evaluate", "info");
         });
     </script>
 <!-- jQuery 3 -->
@@ -323,6 +323,39 @@
 <!-- Date Range Picker -->
 <script>
   $('#reservation').daterangepicker()
+</script>
+<script>
+$(document).ready(function() {
+  //console.log('asdadasdd');
+  var id = <?php echo $this->session->userdata('id_user'); ?>;
+  $.ajax({
+          url: '<?php echo base_url("index.php/notifications/get_notifications"); ?>',
+          type: 'POST',
+          data: { id_user: id},
+          success:function(data){  
+                   var list = JSON.parse(data);
+                   $("#notif_count").text(list.length);
+                   $("#list_header").text("You have "+ list.length +" notifications");
+                   for( var i = 0; i < list.length; i++ )
+                   { 
+                       var temp = list[i];
+                       $( "#notif_list" ).append('<li><a onClick="readNotif('+temp.id_notif_his+');" href="<?php echo base_url(); ?>/'+ temp.src_notif +'"><i class="fa fa-list text-blue"></i>'+ temp.notif_message +'</a></li>');
+                   } 
+              }  
+        });
+});
+</script>
+<script>
+  function readNotif($id){
+    var id = $id;
+      $.ajax({
+          url: '<?php echo base_url("index.php/notifications/read_notif"); ?>',
+          type: 'POST',
+          data: { id_notif_his : id},
+          success:function(data){
+              }  
+        });
+  }
 </script>
 <script>
   $(function () {

@@ -260,13 +260,14 @@ class M_task extends CI_Model{
 
     public function get_id_user($ms_num, $ac_type, $role)
     {
-        $query = $this->db->query(" SELECT eta.id_user
+        $query = $this->db->query(" SELECT eta.id_user, n.token
                                     FROM ev_task_assign eta
                                     LEFT JOIN users u on eta.id_user = u.id_user
+                                    LEFT JOIN notifications n on eta.id_user = n.id_user
                                     WHERE eta.ms_num = '$ms_num' AND eta.ac_type = '$ac_type' AND u.role = '$role'
                                     LIMIT 1
                                     ");
-        return $query->row()->id_user;
+        return $query->row();
     }
 
     public function reject_finding($id_finding)

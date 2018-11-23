@@ -8,18 +8,6 @@ class m_dashboard extends CI_Model
 		return $query->result_array();
 	}
 
-	public function notifications_token($table, $data)
-	{
-        $this->db->insert($table,$data);
-	}
-
-	public function get_notifications_token($id_user, $token)
-	{
-        $query = $this->db->query(
-	    					"SELECT * FROM notifications WHERE token = '$token' AND id_user = '$id_user'");
-		return $query->result_array();
-	}
-
 	public function search($ac_type, $date_min, $date_max)
 	{
 		$query = $this->db->query(
