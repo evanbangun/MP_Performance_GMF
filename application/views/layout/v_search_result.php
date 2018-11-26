@@ -81,7 +81,7 @@
       <div class="box">
             <div class="box-header">
               <h3 class="box-title"><b><?php echo count($result); ?> Maintenance Program Task Found</b></h3>
-              <button type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</button>
+              <a href="<?php echo base_url('index.php/report/report_mpdf_search') ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
