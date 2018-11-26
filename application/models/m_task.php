@@ -36,47 +36,72 @@ class M_task extends CI_Model{
 
 
     public function getTaskDataByMSNum($ms_num, $ac_type){
-    	$q_detailmsi = $this->db->query("	SELECT md.ms_num, md.ac_type, md.task_code, md.rvcd, md.resp, md.task_title, md.effdate, md.cat, mz.zone, ma.access, me.ac_eff,
-											concat(md.task_desc,'<br><br>', md.task_subdesc) as descr,
-											group_concat(DISTINCT concat('>>', ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
-											group_concat(DISTINCT concat('>>', mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
-											group_concat(DISTINCT concat('>>', mr.ref_man)  SEPARATOR '<br>') as ref
-											FROM msi_data md
-											Left Join msi_access ma ON md.ms_num = ma.ms_num AND md.ac_type = ma.ac_type
-											Left Join msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
-											Left Join msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
-											Left Join msi_ref mr ON md.ms_num = mr.ms_num AND md.ac_type = mr.ac_type
-											Left Join msi_zone mz ON md.ms_num = mz.ms_num AND md.ac_type = mz.ac_type
-											Left Join msi_eff me ON md.ms_num = me.ms_num AND md.ac_type = me.ac_type
-											Where md.ac_type = '$ac_type' AND md.ms_num='$ms_num'
-											Group By md.ms_num
-											Order By md.ms_num asc");
+        $q_detailmsi = $this->db->query("   SELECT md.ms_num, md.ac_type, md.task_code, md.rvcd, md.resp, md.task_title, md.effdate, md.cat, mz.zone, ma.access, me.ac_eff,
+                                            concat(md.task_desc,'<br><br>', md.task_subdesc) as descr,
+                                            group_concat(DISTINCT concat('>>', ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
+                                            group_concat(DISTINCT concat('>>', mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
+                                            group_concat(DISTINCT concat('>>', mr.ref_man)  SEPARATOR '<br>') as ref
+                                            FROM msi_data md
+                                            Left Join msi_access ma ON md.ms_num = ma.ms_num AND md.ac_type = ma.ac_type
+                                            Left Join msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
+                                            Left Join msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
+                                            Left Join msi_ref mr ON md.ms_num = mr.ms_num AND md.ac_type = mr.ac_type
+                                            Left Join msi_zone mz ON md.ms_num = mz.ms_num AND md.ac_type = mz.ac_type
+                                            Left Join msi_eff me ON md.ms_num = me.ms_num AND md.ac_type = me.ac_type
+                                            Where md.ac_type = '$ac_type' AND md.ms_num='$ms_num'
+                                            Group By md.ms_num
+                                            Order By md.ms_num asc");
 
 
-    	// $q_detailmsi = $this->db->query(
-    	// 				"Select msi_data.ms_num as ms_num, msi_data.ac_type, msi_data.task_title, msi_data.task_desc, msi_data.task_subdesc,
-					// 	msi_data.task_code, msi_data.effdate, msi_data.revdate, msi_data.rvcd,
-					// 	msi_data.qtyac, msi_data.cat, msi_data.resp,
-					// 	group_concat(DISTINCT concat(msi_sg.sg_code,' ', msi_sg.sg_num) SEPARATOR '\n') as msi_sg,
-					// 	group_concat(DISTINCT concat( msi_interval.code_int,msi_interval.int_num,' ', msi_interval.int_dim ) SEPARATOR '  ') as msi_interval,
-					// 	group_concat(DISTINCT msi_pn.part_number  SEPARATOR '\n') as msi_pn,
-					// 	group_concat(DISTINCT msi_access.access SEPARATOR ' ') as msi_access,
-					// 	group_concat(DISTINCT msi_zone.zone  SEPARATOR ' ') as msi_zone,
-					// 	group_concat(DISTINCT msi_eff.ac_eff  SEPARATOR '\n') as msi_eff,
-					// 	group_concat(DISTINCT msi_ref.ref_man  SEPARATOR '\n') as msi_reference
-					// 	From msi_data Left Join msi_access ON msi_data.ms_num = msi_access.ms_num AND msi_data.ac_type = msi_access.ac_type
-					// 	Left Join msi_eff ON msi_data.ms_num = msi_eff.ms_num AND msi_data.ac_type = msi_eff.ac_type
-					// 	Left Join msi_interval ON msi_data.ms_num = msi_interval.ms_num AND msi_data.ac_type = msi_interval.ac_type
-					// 	Left Join msi_pn ON msi_data.ms_num = msi_pn.ms_num AND msi_data.ac_type = msi_pn.ac_type
-					// 	Left Join msi_sg ON msi_data.ms_num = msi_sg.ms_num AND msi_data.ac_type = msi_sg.ac_type
-					// 	Left Join msi_zone ON msi_data.ms_num = msi_zone.ms_num AND msi_data.ac_type = msi_zone.ac_type
-					// 	Left Join msi_ref ON msi_data.ms_num = msi_ref.ms_num AND msi_data.ac_type = msi_ref.ac_type
-					// 	Inner Join table_listcamp ON msi_data.ms_num = table_listcamp.camp_no
-					// 	Where msi_data.ac_type = '$ac_type' and msi_data.rvcd not in ('x','X') and msi_data.ms_num='$ms_num'
-					// 	Group By msi_data.ms_num
-					// 	Order By msi_data.ms_num asc");
-    	
-		return $q_detailmsi->row();
+        // $q_detailmsi = $this->db->query(
+        //              "Select msi_data.ms_num as ms_num, msi_data.ac_type, msi_data.task_title, msi_data.task_desc, msi_data.task_subdesc,
+                    //  msi_data.task_code, msi_data.effdate, msi_data.revdate, msi_data.rvcd,
+                    //  msi_data.qtyac, msi_data.cat, msi_data.resp,
+                    //  group_concat(DISTINCT concat(msi_sg.sg_code,' ', msi_sg.sg_num) SEPARATOR '\n') as msi_sg,
+                    //  group_concat(DISTINCT concat( msi_interval.code_int,msi_interval.int_num,' ', msi_interval.int_dim ) SEPARATOR '  ') as msi_interval,
+                    //  group_concat(DISTINCT msi_pn.part_number  SEPARATOR '\n') as msi_pn,
+                    //  group_concat(DISTINCT msi_access.access SEPARATOR ' ') as msi_access,
+                    //  group_concat(DISTINCT msi_zone.zone  SEPARATOR ' ') as msi_zone,
+                    //  group_concat(DISTINCT msi_eff.ac_eff  SEPARATOR '\n') as msi_eff,
+                    //  group_concat(DISTINCT msi_ref.ref_man  SEPARATOR '\n') as msi_reference
+                    //  From msi_data Left Join msi_access ON msi_data.ms_num = msi_access.ms_num AND msi_data.ac_type = msi_access.ac_type
+                    //  Left Join msi_eff ON msi_data.ms_num = msi_eff.ms_num AND msi_data.ac_type = msi_eff.ac_type
+                    //  Left Join msi_interval ON msi_data.ms_num = msi_interval.ms_num AND msi_data.ac_type = msi_interval.ac_type
+                    //  Left Join msi_pn ON msi_data.ms_num = msi_pn.ms_num AND msi_data.ac_type = msi_pn.ac_type
+                    //  Left Join msi_sg ON msi_data.ms_num = msi_sg.ms_num AND msi_data.ac_type = msi_sg.ac_type
+                    //  Left Join msi_zone ON msi_data.ms_num = msi_zone.ms_num AND msi_data.ac_type = msi_zone.ac_type
+                    //  Left Join msi_ref ON msi_data.ms_num = msi_ref.ms_num AND msi_data.ac_type = msi_ref.ac_type
+                    //  Inner Join table_listcamp ON msi_data.ms_num = table_listcamp.camp_no
+                    //  Where msi_data.ac_type = '$ac_type' and msi_data.rvcd not in ('x','X') and msi_data.ms_num='$ms_num'
+                    //  Group By msi_data.ms_num
+                    //  Order By msi_data.ms_num asc");
+        
+        return $q_detailmsi->row();
+    }
+
+    public function garuda_check_task_bulk($ac_type, $resp){
+        $q = $this->db->query("SELECT mdq.ac_type as ac_type, mdq.resp as resp, sqcd.count_data as count_data, sqf.evaluated as evaluated
+                           FROM msi_data mdq
+                           LEFT JOIN (SELECT at, rsp, count(*) as count_data FROM(SELECT md.ac_type AS at, md.resp AS rsp,
+                                      SUBSTRING_INDEX(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date DESC),',',1) AS status
+                                      FROM msi_data md
+                                      LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
+                                      GROUP BY md.ms_num, md.ac_type
+                                      ORDER BY md.ms_num ASC) as tablecd group by at,rsp)
+                                      as sqcd ON sqcd.at = mdq.ac_type AND sqcd.rsp = mdq.resp
+                           LEFT JOIN (SELECT at, rsp, count(*) as evaluated FROM(SELECT md.ac_type AS at, md.resp AS rsp,
+                                      SUBSTRING_INDEX(GROUP_CONCAT(CAST(etp.status AS CHAR) ORDER BY etp.create_date DESC),',',1) AS status
+                                      FROM msi_data md
+                                      LEFT JOIN ev_task_process etp ON etp.ms_num = md.ms_num AND etp.ac_type = md.ac_type
+                                      GROUP BY md.ms_num, md.ac_type
+                                      ORDER BY md.ms_num ASC)
+                                      as tablecd WHERE status = '3' group by at,rsp)
+                                      as sqf ON sqf.at = mdq.ac_type AND sqf.rsp = mdq.resp
+                           WHERE ac_type = '$ac_type' AND resp = '$resp'
+                           GROUP BY mdq.resp, mdq.ac_type
+                           ORDER BY mdq.ac_type ASC, mdq.resp ASC");
+
+        return $q->row();
     }
 
     public function task_process_detail($ms_num, $ac_type)

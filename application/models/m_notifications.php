@@ -30,6 +30,16 @@ class m_notifications extends CI_Model
 		return $query->result_array();
 	}
 
+	public function get_concerned_admin($role)
+	{
+        $query = $this->db->query(
+	    					"SELECT u.id_user, n.token
+	    					FROM users u
+	    					LEFT JOIN notifications n ON n.id_user = u.id_user
+	    					WHERE u.role = '$role'");
+		return $query->result_array();
+	}
+
 	public function notify_batch($table, $data)
 	{
 		$this->db->insert_batch($table, $data);

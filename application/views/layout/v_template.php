@@ -231,7 +231,6 @@
             messagingSenderId: "282707331130"
           };
           firebase.initializeApp(config);
-
         const messaging = firebase.messaging();
         messaging
             .requestPermission()

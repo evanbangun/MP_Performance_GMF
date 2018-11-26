@@ -36,6 +36,20 @@ class Task extends CI_Controller {
 		$this->load->view("layout/v_template", $data);
 	}
 
+	public function garuda_check_task_bulk($ac_type, $resp)
+	{
+		$check = $this->m_task->garuda_check_task_bulk($ac_type, $resp);
+
+		if($check->evaluated == $check->count_data)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
 	public function summary()
 	{
 		$data = array(

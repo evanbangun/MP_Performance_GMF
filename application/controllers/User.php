@@ -117,6 +117,21 @@ class User extends CI_Controller {
 				'resp' => $this->input->post("resp"),
 				'status' => $this->input->post("status") + 1
 				);
+			if($this->m_task->garuda_check_task_bulk($this->input->post("ac_type"), $this->input->post("resp")))
+			{
+				$notif = $this->m_notifications->get_concerned_admin(2);
+				foreach ($notif as $i)
+				{
+					$data_notif[] = array(
+								'id_user' => $i['id_user'],
+								'src_notif' => 'index.php/assignment',
+								'notif_message' => 'Tasks ready to be assigned',
+								'unread' => '1',
+								);
+				}
+				$this->m_notifications->notify_batch('notifications_history', $data_notif);
+				$this->sendFCMA($notif);
+			}
 		}
 		else
 		{
@@ -142,7 +157,7 @@ class User extends CI_Controller {
 			$this->sendFCMU($verificator->token, $data, 4);
 		}
 		$this->m_task->insert_task('ev_task_process', $data);
-
+		
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
@@ -244,20 +259,59 @@ class User extends CI_Controller {
 	    $url = 'https://fcm.googleapis.com/fcm/send';
 
 	    $fields = array (
-	            'to' => $token,
-	      //       "data" => array (
-			    //     "title" => "my title",
-			    //     "message"=> "my message",
-			    //     "image"=> "http://www.androiddeft.com/wp-content/uploads/2017/11/Shared-Preferences-in-Android.png",
-			    //     "action"=> "url",
-			    //     "action_destination"=> "http://androiddeft.com"
-			    // ),                
+	            'to' => $token, 
 	            'priority' => 'high',
 	            'notification' => array(
 	                        'title' => $title,
 	                        'body' => $body,                            
 	            ),
 	    );
+	    $fields = json_encode ( $fields );
+
+	    $headers = array (
+	            'Authorization: key=' . $API_ACCESS_KEY,
+	            'Content-Type: application/json'
+	    );
+	    $ch = curl_init ();
+	    curl_setopt ( $ch, CURLOPT_URL, $url );
+	    curl_setopt ( $ch, CURLOPT_POST, true );
+	    curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+	    curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	    curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
+	    $result = curl_exec ( $ch );
+	    curl_close ( $ch );
+	}
+
+	public function sendFCMA($notif)
+	{
+		foreach ($notif as $n) {
+			$token_list[] = $n['token'];
+		}
+	    $API_ACCESS_KEY = "AAAAQdKriDo:APA91bGtSE9UogoA2Y3q5U_OrEbRHf1Rrxo8Ih-cgOa-oSAgxFgHK-T83722-6AJLMpAfvPBWPZtY9lnzVPQplz3zLmIW9iWHzLLCMZZPPT6XAIOA7lm3XSA7Ow_WZFdt5u3XIYkbMMt";
+
+	    $url = 'https://fcm.googleapis.com/fcm/send';
+	    if(count($token_list) > 1)
+	    {
+		    $fields = array (
+		            'registration_ids' => $token_list,           
+		            'priority' => 'high',
+		            'notification' => array(
+		                        'title' => 'NEW TASK',
+		                        'body' => 'Tasks ready to be assigned',                            
+		            ),
+		    );
+	    }
+	    else
+	    {
+	    	$fields = array (
+		            'to' => $token_list[0],
+		            'priority' => 'high',
+		            'notification' => array(
+		                        'title' => 'NEW TASK',
+		                        'body' => 'Tasks ready to be assigned',                            
+		            ),
+		    );
+	    }
 	    $fields = json_encode ( $fields );
 
 	    $headers = array (
