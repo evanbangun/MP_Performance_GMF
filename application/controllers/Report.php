@@ -56,4 +56,31 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_excel_summary', $data);
     }
 
+    public function report_mpdf_search()
+    { 
+        $mpdf = new \Mpdf\Mpdf();
+        // $html = $this->load->view('layout/v_mpdf_search');
+        $html = $this->load->view('layout/v_mpdf_search',[],true);
+        $mpdf->SetHTMLHeader('<table>
+                                <tr>
+                                    <th>
+                                        <img src="assets/img/logo.png" alt="test alt attribute" width="100" border="0" />
+                                    </th>
+                                    <th width="85%%">
+                                        <h3>MP PERFORMANCE DATA EVALUATION</h3><br><h4>ACTYPE</h4>
+                                    </th>
+                                </tr>
+                            </table>
+                            <hr>', 'O', true);
+        $mpdf->SetHTMLFooter('<hr><div style="text-align: right;">{PAGENO} / {nb}</div>');
+        $mpdf->SetFont('helvetica');
+        $mpdf->SetMargins(30, 30, 30);
+        $mpdf->AddPage('P');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+        exit();
+
+       
+    }
+
 }
