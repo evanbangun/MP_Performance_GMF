@@ -103,10 +103,11 @@ class Assignment extends CI_Controller {
 
 	public function sendFCMA($notif)
 	{
+		//var_dump($notif);die();
 		foreach ($notif as $n) {
 			$token_list[] = $n['token'];
 		}
-		//var_dump($token_list);die();
+		// var_dump($token_list[0]);die();
 	    $API_ACCESS_KEY = "AAAAQdKriDo:APA91bGtSE9UogoA2Y3q5U_OrEbRHf1Rrxo8Ih-cgOa-oSAgxFgHK-T83722-6AJLMpAfvPBWPZtY9lnzVPQplz3zLmIW9iWHzLLCMZZPPT6XAIOA7lm3XSA7Ow_WZFdt5u3XIYkbMMt";
 
 	    $url = 'https://fcm.googleapis.com/fcm/send';
@@ -130,6 +131,7 @@ class Assignment extends CI_Controller {
 	    }
 	    else
 	    {
+	    	// var_dump($token_list[0]);die();
 	    	$fields = array (
 		            'to' => $token_list[0],
 		      //       "data" => array (

@@ -259,8 +259,8 @@
             });
 
         messaging.onMessage(function(payload) {
-            // alert("Message received. ", payload['data']['message']); 
-            $.notify(payload['notification']['message'], "info");
+            console.log("Message received. ", payload['notification']['body']); 
+            $.notify(payload['notification']['body'], "info");
             var id = <?php echo $this->session->userdata('id_user'); ?>;
             $.ajax({
                     url: '<?php echo base_url("index.php/notifications/get_notifications"); ?>',
