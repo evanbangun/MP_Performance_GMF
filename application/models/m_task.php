@@ -175,6 +175,7 @@ class M_task extends CI_Model{
     								LEFT JOIN users u ON ee.id_user = u.id_user
     								WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'
     								ORDER BY ee.create_date DESC
+                                    LIMIT 10
     								");
     	return $query->result_array();
     }
@@ -186,6 +187,7 @@ class M_task extends CI_Model{
     								LEFT JOIN users u ON ev.id_user = u.id_user
     								WHERE ev.ms_num = '$ms_num' AND ev.ac_type = '$ac_type'
     								ORDER BY ev.create_date DESC
+                                    LIMIT 10
     								");
     	return $query->result_array();
     }
