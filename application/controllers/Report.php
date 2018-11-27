@@ -56,18 +56,28 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_excel_summary', $data);
     }
 
-    public function report_mpdf_search()
+    public function report_mpdf_performance($ms_num, $ac_type)
     { 
         $mpdf = new \Mpdf\Mpdf();
-        // $html = $this->load->view('layout/v_mpdf_search');
-        $html = $this->load->view('layout/v_mpdf_search',[],true);
+        
+        $data['list_task'] = $this->m_task->getTaskDataByMSNum($ms_num, $ac_type);
+        $data['table_sri'] = $this->m_task->getTableSRI($ms_num, $ac_type);
+        $data['table_delay'] = $this->m_task->getTableDelay($ms_num, $ac_type);
+        $data['table_removal'] = $this->m_task->getTableRemoval($ms_num, $ac_type);
+        $data['count_acc'] = $this->m_task->countAcc($ms_num, $ac_type);
+        $data['count_finding'] = $this->m_task->countFinding($ms_num, $ac_type);
+        $data['rejected_finding'] = $this->m_task->rejectFinding($ms_num, $ac_type);
+        $data['task_evaluation'] = $this->m_task->task_evaluation($ms_num, $ac_type);
+        $data['finding'] = $this->m_task->getFinding($ms_num, $ac_type);
+        
+        $html = $this->load->view('layout/v_mpdf_performance',$data,true);
         $mpdf->SetHTMLHeader('<table>
                                 <tr>
                                     <th>
                                         <img src="assets/img/logo.png" alt="test alt attribute" width="100" border="0" />
                                     </th>
                                     <th width="85%%">
-                                        <h3>MP PERFORMANCE DATA EVALUATION</h3><br><h4>ACTYPE</h4>
+                                        <h3>MP PERFORMANCE DATA EVALUATION</h3><br><h4>'.$ac_type.'</h4>
                                     </th>
                                 </tr>
                             </table>
@@ -79,8 +89,6 @@ class Report extends CI_Controller {
         $mpdf->WriteHTML($html);
         $mpdf->Output();
         exit();
-
-       
     }
 
 }
