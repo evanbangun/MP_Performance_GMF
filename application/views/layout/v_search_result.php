@@ -31,7 +31,8 @@
                     <?php 
                       if(isset($ms_num))
                       {
-                        echo "value = ".$ms_num;
+                        echo "value=".$ms_num;
+
                       }
                     ?>>
                   </div>
@@ -43,7 +44,7 @@
                     <?php 
                       if(isset($resp))
                       {
-                        echo "value = ".$resp;
+                        echo "value=".$resp;
                       }
                     ?>>
                   </div>
@@ -81,7 +82,26 @@
       <div class="box">
             <div class="box-header">
               <h3 class="box-title"><b><?php echo count($result); ?> Maintenance Program Task Found</b></h3>
-              <a href="<?php echo base_url('index.php/report/report_mpdf_search') ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
+            <form method="POST" action="<?php echo base_url('index.php/report/report_pdf_search') ?>" target="_blank">
+              <input type="hidden" name="date_min_post" value="<?php echo $date_min_post; ?>">
+              <input type="hidden" name="date_max_post" value="<?php echo $date_max_post; ?>">
+              <input type="hidden" name="ac_type_post" value="<?php echo $ac_type_post; ?>">
+              <input name="ms_num_post" type="hidden"
+              <?php
+                if(isset($resp))
+                {
+                  echo " value=".$ms_num;
+                }
+              ?>>
+              <input name="resp_post" type="hidden"
+              <?php
+                if(isset($resp))
+                {
+                  echo " value=".$resp;
+                }
+              ?>>
+              <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-download"></i>Generate PDF</button>
+            </form>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

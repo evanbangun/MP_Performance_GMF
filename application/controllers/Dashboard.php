@@ -114,5 +114,5 @@ class Dashboard extends CI_Controller {
 			$return['message'] = 'Gagal mengubah password !';
 			echo json_encode($return);
 		}
-	}	
+	}
 }
