@@ -43,7 +43,7 @@
 							}
 							?>
 							<!-- <a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a> -->
-							<!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Resp</a> -->
+							<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Responsible</a>
 							<h3 style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="box-title"><?php
 			                    if(!isset($task_process_detail->status) || $task_process_detail->status == 0 )
 			                    {
@@ -492,7 +492,9 @@
 												<?php 
 													if($task_evaluation != NULL)
 													{
-														echo $task_evaluation[0]['reason'];
+														?>
+														<b> <?php echo $task_evaluation[0]['name']; ?></b><br> <?php echo $task_evaluation[0]['reason'];
+														?> <?php 
 													}
 												?>
 											</p>

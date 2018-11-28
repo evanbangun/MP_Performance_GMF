@@ -91,4 +91,32 @@ class Report extends CI_Controller {
         exit();
     }
 
+    public function report_mpdf_summary(){
+
+        $mpdf = new \Mpdf\Mpdf();
+
+        $mpdf->SetFont('Arial');
+        $html = $this->load->view('layout/v_mpdf_summary',[], true);
+        // $mpdf->SetHTMLHeader('<table>
+        //                         <tr>0" border="0" />
+        //                             </th>
+        //                             <th>
+        //                                 <img src="assets/img/logo.png" alt="test alt attribute" width="10
+        //                             <th width="85%%">
+        //                                 <h3>MP PERFORMANCE DATA EVALUATION</h3><br><h4>'.$ac_type.'</h4>
+        //                             </th>
+        //                         </tr>
+        //                     </table>
+        //                     <hr>', 'O', true);
+        // $mpdf->SetHTMLFooter('<hr><div style="text-align: right;">{PAGENO} / {nb}</div>');
+       
+        $mpdf->SetMargins(5, 5, 5);
+        $mpdf->AddPage('L');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+        exit();
+
+
+    }
+
 }
