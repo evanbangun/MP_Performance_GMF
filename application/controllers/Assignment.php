@@ -67,7 +67,10 @@ class Assignment extends CI_Controller {
 						'unread' => '1',
 						);
 		}
-		$this->m_notifications->notify_batch('notifications_history', $data_notif);
+		if(count($notif))
+		{
+			$this->m_notifications->notify_batch('notifications_history', $data_notif);
+		}
 		$this->sendFCMA($notif);
 		redirect($_SERVER['HTTP_REFERER']);
 	}
@@ -96,7 +99,10 @@ class Assignment extends CI_Controller {
 						'unread' => '1',
 						);
 		}
-		$this->m_notifications->notify_batch('notifications_history', $data_notif);
+		if(count($notif))
+		{
+			$this->m_notifications->notify_batch('notifications_history', $data_notif);
+		}
 		$this->sendFCMA($notif);
 		redirect($_SERVER['HTTP_REFERER']);
 	}
