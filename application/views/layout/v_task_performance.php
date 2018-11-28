@@ -44,7 +44,7 @@
 							?>
 							<!-- <a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a> -->
 							<?php
-							if($this->userdata->session('role') == 1)
+							if($this->session->userdata('role') == 1)
 							{
 							?>
 								<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " type="button" class="btn btn-default pull-right" onclick="modaleditresp('<?php echo $list_task->resp; ?>')"><i class="fa fa-edit"></i> Edit Resp</a>
