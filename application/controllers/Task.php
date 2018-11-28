@@ -18,6 +18,7 @@ class Task extends CI_Controller {
 		$data = array(
 			"container" => "layout/v_task_performance"
 		);
+		$data['list_resp'] = $this->m_task->getResp();
 		$data['list_task'] = $this->m_task->getTaskDataByMSNum($ms_num, $ac_type);
 		$data['table_sri'] = $this->m_task->getTableSRI($ms_num, $ac_type);
 		$data['table_delay'] = $this->m_task->getTableDelay($ms_num, $ac_type);
@@ -57,6 +58,15 @@ class Task extends CI_Controller {
 		);
 
 		$this->load->view("layout/v_template", $data);
+	}
+
+	public function update_resp()
+	{
+		$array_where = array('ms_num' => $this->input->post('ms_num_post'),
+					   'ac_type' => $this->input->post('ac_type_post'));
+		$array_change = array('resp' => $this->input->post('resp_change_post'));
+		$this->m_task->update_resp($array_where, $array_change);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 }
 

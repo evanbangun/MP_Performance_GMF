@@ -8,6 +8,7 @@ class Report extends CI_Controller {
             $this->load->library('Pdf');
             $this->load->model('m_task');
             $this->load->model('m_summary');
+            $this->load->model('m_dashboard');
 
             if(!$this->session->userdata('username'))
             {
@@ -50,6 +51,25 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_pdf_summary', $data);
     }
 
+    public function report_pdf_search()
+    {
+        $data['list_assignment'] = $this->m_dashboard->tampilassignment($this->input->post());
+        foreach ($data['list_assignment'] as $dla)
+        {
+            $data['list_task'][] = $this->m_task->getTaskDataByMSNum($dla['ms_num'], $dla['ac_type']);
+            $data['table_sri'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->getTableSRI($dla['ms_num'], $dla['ac_type']);
+            $data['table_delay'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->getTableDelay($dla['ms_num'], $dla['ac_type']);
+            $data['table_removal'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->getTableRemoval($dla['ms_num'], $dla['ac_type']);
+            $data['count_acc'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->countAcc($dla['ms_num'], $dla['ac_type']);
+            $data['count_finding'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->countFinding($dla['ms_num'], $dla['ac_type']);
+            $data['rejected_finding'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->rejectFinding($dla['ms_num'], $dla['ac_type']);
+            $data['task_evaluation'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->task_evaluation($dla['ms_num'], $dla['ac_type']);
+            $data['finding'][$dla['ms_num']][$dla['ac_type']] = $this->m_task->getFinding($dla['ms_num'], $dla['ac_type']);
+        }
+       
+        $this->load->view('layout/v_pdf_search', $data);
+    }
+
     public function report_excel($ac_type, $date_min, $date_max)
     {
         $data['list_assignment'] = $this->m_summary->tampilassignment($ac_type, $date_min, $date_max);
@@ -76,7 +96,7 @@ class Report extends CI_Controller {
                                     <th>
                                         <img src="assets/img/logo.png" alt="test alt attribute" width="100" border="0" />
                                     </th>
-                                    <th width="85%%">
+                                    <th width="85%">
                                         <h3>MP PERFORMANCE DATA EVALUATION</h3><br><h4>'.$ac_type.'</h4>
                                     </th>
                                 </tr>

@@ -34,6 +34,13 @@ class M_task extends CI_Model{
 		// return $q_detailmsi->result();
   //   }
 
+    public function getResp(){
+        $q_detailmsi = $this->db->query("   SELECT DISTINCT resp
+                                            FROM msi_data md
+                                        ");
+        
+        return $q_detailmsi->result_array();
+    }
 
     public function getTaskDataByMSNum($ms_num, $ac_type){
         $q_detailmsi = $this->db->query("   SELECT md.ms_num, md.ac_type, md.task_code, md.rvcd, md.resp, md.task_title, md.effdate, md.cat, mz.zone, ma.access, me.ac_eff,
@@ -263,6 +270,12 @@ class M_task extends CI_Model{
     {
         $this->db->where($on, $id);
         $this->db->update($table,$data);
+    }
+
+    public function update_resp($on, $change)
+    {
+        $this->db->where($on);
+        $this->db->update('msi_data', $change);
     }
 
     public function get_id_reason($ms_num, $ac_type)

@@ -43,7 +43,11 @@
 							}
 							?>
 							<!-- <a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a> -->
+<<<<<<< HEAD
 							<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Responsible</a>
+=======
+							<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " type="button" class="btn btn-default pull-right" onclick="modaleditresp('<?php echo $list_task->resp; ?>')"><i class="fa fa-edit"></i> Edit Resp</a>
+>>>>>>> 294e6280dd5fb8c942c12b07a1825f63cae11751
 							<h3 style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="box-title"><?php
 			                    if(!isset($task_process_detail->status) || $task_process_detail->status == 0 )
 			                    {
@@ -753,6 +757,7 @@
 		<!-- Modal Edit Resp -->
 		<div class="modal fade" id="modal-edit-resp">
 			<div class="modal-dialog">
+				<form method="POST" action="<?php echo base_url("index.php/task/update_resp"); ?>">
 				<div class="modal-content">
 					<div class="modal-header">
 						<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -762,14 +767,29 @@
 					<div class="modal-body">
 						 <div class="form-group">
 							<label for="comment">Responsible:</label>
-							<input class="form-control" id="comment"></input>
+							<input type="hidden" name="ms_num_post" value="<?php echo $list_task->ms_num; ?>">
+							<input type="hidden" name="ac_type_post" value="<?php echo $list_task->ac_type; ?>">
+							<select name="resp_change_post" class="form-control select2" style="width: 100%;" id="resp_change">
+		                      <?php
+		                        foreach ($list_resp as $lresp)
+		                        {
+		                        	if($lresp['resp'] != '')
+		                        	{
+		                      ?>
+		                          <option value="<?php echo $lresp['resp']; ?>"><?php echo $lresp['resp']; ?></option>
+		                      <?php
+		                        	}
+		                        }
+		                      ?>
+		                    </select>
 						</div> 
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save</button>
+						<button type="submit" class="btn btn-primary">Save</button>
 					</div>
 				</div>
+				</form>
 				<!-- /.modal-content -->
 			</div>
 			<!-- /.modal-dialog -->
@@ -810,6 +830,12 @@
 	</div>
 
 	<script type="text/javascript">
+		function modaleditresp($resp){  
+			var resp = $resp;
+			$('#resp_change').val(resp);
+		    $('#modal-edit-resp').modal('show');
+		}
+
 		function rec_change()
 		{
 			swal({
