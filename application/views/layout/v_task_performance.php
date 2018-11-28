@@ -43,6 +43,10 @@
 							}
 							?>
 							<!-- <a href="" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.7em;" type="button" class="btn btn-default pull-right">Change Responsible</a> -->
+<<<<<<< HEAD
+=======
+							<!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " href="" type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-edit-resp"><i class="fa fa-edit"></i> Edit Responsible</a> -->
+>>>>>>> 1d9e198d341eb49aeb7045389498747b6f33da4f
 							<a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em; margin-left: 0.5em; " type="button" class="btn btn-default pull-right" onclick="modaleditresp('<?php echo $list_task->resp; ?>')"><i class="fa fa-edit"></i> Edit Resp</a>
 							<h3 style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="box-title"><?php
 			                    if(!isset($task_process_detail->status) || $task_process_detail->status == 0 )
