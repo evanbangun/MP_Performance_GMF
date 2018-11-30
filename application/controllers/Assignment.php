@@ -43,8 +43,10 @@ class Assignment extends CI_Controller {
 		$this->load->view("layout/v_template", $data);
 	}
 
-	public function assignment_eval($ac_type, $resp)
+	public function assignment_eval()
 	{
+		$ac_type = $this->input->post('ac_type_post');
+		$resp = $this->input->post('resp_post');
 		$input = $this->m_assignment->tampilassignment($ac_type, $resp);
 		foreach ($input as $i)
 		{
@@ -75,8 +77,10 @@ class Assignment extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function assignment_verif($ac_type, $resp)
+	public function assignment_verif()
 	{
+		$ac_type = $this->input->post('ac_type_post');
+		$resp = $this->input->post('resp_post');
 		$input = $this->m_assignment->tampilassignment($ac_type, $resp);
 		foreach ($input as $i)
 		{

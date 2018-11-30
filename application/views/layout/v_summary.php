@@ -47,6 +47,28 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>MP Number</label>
+                    <input type="text" name="ms_num" class="form-control pull-right" value="<?php if(isset($ms_num)){ echo $ms_num;} ?>">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>MP Responsibility</label>
+                    <select name="resp" class="form-control select2" style="width: 100%;">
+                        <option value=""></option>
+                      <?php
+                        foreach ($list_resp as $lresp)
+                        {
+                      ?>
+                          <option value="<?php echo $lresp['resp']; ?>"<?php if(isset($resp) && $resp == $lresp['resp']){ echo "selected"; } ?>><?php echo $lresp['resp']; ?></option>
+                      <?php
+                        }
+                      ?>
+                    </select>
+                  </div>
+                </div>
                 <div class="col-md-6">
                   <!-- Date range -->
                   <div class="form-group">

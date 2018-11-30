@@ -114,6 +114,14 @@
 											<td></td>
 										</tr>
 										<tr>
+											<td><b>Threshold: </b></td>
+											<td><?php echo $list_task->intval_threshold ?></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
 											<td><b>Sign Code: </b></td>
 											<td><?php echo $list_task->camp_sg ?></td>
 											<td></td>
@@ -688,7 +696,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" form="eval_form" class="btn btn-success pull-right"><i class="fa fa-pencil"></i> Digital Sign</button>
+						<button type="button" onclick="submit_eval_form()" id="eval_form_submit_button" form="eval_form" class="btn btn-success pull-right"><i class="fa fa-pencil"></i> Digital Sign</button>
 						<!-- <button type="button" class="btn btn-primary">Save</button> -->
 					</div>
 				</div>
@@ -746,8 +754,8 @@
 							<input type="hidden" name="ac_type" value="<?php echo $list_task->ac_type; ?>">
 							<input type="hidden" name="resp" value="<?php echo $list_task->resp; ?>">
 							<input type="hidden" name="status" value="<?php echo $task_process_detail->status; ?>">
-							<input type="submit" name="submit_rem" value="Deny" class="btn btn-danger">
-							<input type="submit" name="submit_rem" value="Verify" class="btn btn-primary">
+							<input onclick="submit_rem_form('Deny')" type="button" name="submit_rem" value="Deny" class="btn btn-danger" id="deny_rem">
+							<input onclick="submit_rem_form('Verify')" type="button" name="submit_rem" value="Verify" class="btn btn-primary" id="verify_rem">
 						</form>
 					</div>
 				</div>
@@ -760,7 +768,7 @@
 		<!-- Modal Edit Resp -->
 		<div class="modal fade" id="modal-edit-resp">
 			<div class="modal-dialog">
-				<form method="POST" action="<?php echo base_url("index.php/task/update_resp"); ?>">
+				<!-- <form method="POST" action="<?php echo base_url("index.php/task/update_resp"); ?>"> -->
 				<div class="modal-content">
 					<div class="modal-header">
 						<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -789,10 +797,10 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Save</button>
+						<button onclick="updateresp('<?php echo $list_task->ms_num; ?>', '<?php echo $list_task->ac_type; ?>')" type="button" class="btn btn-primary">Save</button>
 					</div>
 				</div>
-				</form>
+				<!-- </form> -->
 				<!-- /.modal-content -->
 			</div>
 			<!-- /.modal-dialog -->
@@ -839,15 +847,36 @@
 		    $('#modal-edit-resp').modal('show');
 		}
 
+		function updateresp($ms_num, $ac_type)
+		{
+			var ms_num = $ms_num;
+			var ac_type = $ac_type;
+			var resp = $('#resp_change option:selected').val();
+			$.ajax({
+		            url: '<?php echo base_url("index.php/task/update_resp"); ?>',
+		            type: 'POST',
+		            data: { ms_num_post: ms_num,
+		            		ac_type_post: ac_type,
+		            		resp_change_post: resp},
+		            success: function(data){
+		              swal("Responsible has been changed", {
+		                icon: "success",
+		              }).then(function(){location.reload();}); 
+		            }
+		          });
+		}
+
 		function rec_change()
 		{
 			swal({
-			      title: "Change the recommendation ?",
-			      icon: "warning",
-			      buttons: true,
-			    })
-			    .then((isChange) => {
-			      if (!isChange)
+			      title: 'Change the recommendation ?',
+			      type: 'warning',
+			      showCancelButton: true,
+			      confirmButtonColor: '#3085d6',
+			      cancelButtonColor: '#d33',
+			      confirmButtonText: 'Ok'
+			    }).then((result) => {
+			      if (!result.value) 
 			      {  
 			      	<?php
 			      		if($task_evaluation != NULL && $task_evaluation[0]['recommendation'] != NULL)
@@ -876,21 +905,21 @@
 				  {
 					  document.getElementById("div_rec_thresint").style.display = "none"	
 				  }
-		      });
+			    })
 		}
 
 		function rejectFinding($i){
 		    var id = document.getElementById("finding"+$i).value;
 		    swal({
-		      title: "Are you sure you want to reject the finding?",
-		      icon: "warning",
-		      buttons: true,
-		      dangerMode: true,
-		    })
-
-		    .then((isChange) => {
-		      if (isChange)
-		      {
+			      title: 'Are you sure you want to reject the finding?',
+			      type: 'warning',
+			      showCancelButton: true,
+			      confirmButtonColor: '#d33',
+			      cancelButtonColor: '#3085d6',
+			      confirmButtonText: 'Reject'
+			    }).then((result) => {
+			      if (result.value) 
+			      {
 		          $.ajax({
 		            url: '<?php echo base_url("index.php/user/reject_finding"); ?>',
 		            type: 'POST',
@@ -901,8 +930,71 @@
 		              }).then(function(){location.reload();}); 
 		            }
 		          });
-	          } 
-		    });
+          		  }
+			    })
 		  }
 
+		  function submit_eval_form()
+		  {
+		  	swal({
+			      title: 'Submit evalutaion ?',
+			      text: "This action can not be reverted",
+			      type: 'warning',
+			      showCancelButton: true,
+			      confirmButtonColor: '#3085d6',
+			      cancelButtonColor: '#D8D8D8',
+			      confirmButtonText: 'Ok',
+			    }).then((result) => {
+			      if (result.value) {
+		  			swal({
+		  				title: 'Task evaluated',
+		                type: "success",
+			      		showConfirmButton: false,
+			      		showCancelButton: false,
+		              });
+		  			$('form#eval_form').submit();
+			      }
+			    })
+		  }
+
+		  function submit_rem_form($action)
+		  {
+		  	var action = $action;
+		  	swal({
+			      title: action + ' this task ?',
+			      text: "This action can not be reverted",
+			      type: 'warning',
+			      showCancelButton: true,
+			      confirmButtonColor: '#3085d6',
+			      cancelButtonColor: '#D8D8D8',
+			      confirmButtonText: 'Ok',
+			    }).then((result) => {
+			      if (result.value) {
+		  			if($action === 'Deny')
+		  			{
+		  				swal({
+			  				title: 'Task has been denied',
+			                type: "success",
+				      		showConfirmButton: false,
+				      		showCancelButton: false,
+		              	});
+		              	$("#deny_rem").prop("onclick", null).off("click");
+		              	$('#deny_rem').removeAttr("type").attr("type", "submit");
+		  				$('#deny_rem').trigger('click');
+		  			}
+		  			else if($action === 'Verify')
+		  			{
+		  				swal({
+			  				title: 'Task has been verified',
+			                type: "success",
+				      		showConfirmButton: false,
+				      		showCancelButton: false,
+		              	});
+		              	$("#verify_rem").prop("onclick", null).off("click");
+		              	$('#verify_rem').removeAttr("type").attr("type", "submit");
+		  				$('#verify_rem').trigger('click');
+		  			}
+			      }
+			    })
+		  }
 	</script>

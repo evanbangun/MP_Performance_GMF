@@ -115,8 +115,7 @@
                     <input type="email" class="form-control" id="exampleInputEmail1">
                   </div>
                 </div> -->
-                <div class="col-md-6">
-                  <!-- Date range -->
+                <!-- <div class="col-md-6">
                   <div class="form-group">
                     <label>Date range:</label>
                     <div class="input-group">
@@ -125,10 +124,8 @@
                       </div>
                       <input type="text" name="reservation" class="form-control pull-right" id="reservation">
                     </div>
-                    <!-- /.input group -->
                   </div>
-                  <!-- /.form group -->
-                </div>
+                </div> -->
                 <div class="col-md-2" style="margin-top:1.7em">
                   <input type="submit" class="btn btn-block btn-primary" value="Search">
                 </div>

@@ -33,8 +33,9 @@
   <link rel="stylesheet" href="<?=base_url()?>assets/css/waves.css">
   <!-- Animate -->
   <link rel="stylesheet" href="<?=base_url()?>assets/css/animate.css">
+  <!-- SweetAlert -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.29.2/dist/sweetalert2.min.css">
   
-
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -49,6 +50,9 @@
       position: absolute;
       background-color: white;
       border: 1px solid #ccd2d8;
+    }
+    .swal2-popup {
+      font-size: 1.6rem !important;
     }
   </style>
 </head>
@@ -334,7 +338,7 @@
 <!-- Waves -->
 <script src="<?=base_url()?>assets/js/waves.js"></script>
 <!-- SweetAlert -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.29.2/dist/sweetalert2.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="dist/js/pages/dashboard.js"></script> -->
 <!-- AdminLTE for demo purposes -->

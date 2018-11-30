@@ -2,9 +2,9 @@
 
 class m_summary extends CI_Model
 {
-	public function tampilassignment($ac_type, $date_min, $date_max)
+	public function tampilassignment($ac_type, $date_min, $date_max, $ms_num, $resp)
 	{
-		$query = $this->db->query("	SELECT CASE WHEN gmfu.recommendation = 1 THEN 'Remain'
+		$query_msg = "	SELECT CASE WHEN gmfu.recommendation = 1 THEN 'Remain'
                                                 WHEN gmfu.recommendation = 2 THEN 'Extend'
                                                 WHEN gmfu.recommendation = 3 THEN 'Decoalation'
                                                 WHEN gmfu.recommendation = 4 THEN 'Add Task'
@@ -29,9 +29,18 @@ class m_summary extends CI_Model
 									Left Join (SELECT er.ms_num as ms_num, er.ac_type as ac_type, er.id_user as id_garuda, u.name as name_garuda
 											   FROM ev_remarks er
 											   LEFT JOIN users u on er.id_user = u.id_user) as garudau ON md.ms_num = garudau.ms_num AND md.ac_type = garudau.ac_type
-									WHERE md.ac_type = '$ac_type' AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'
-									Group By md.ms_num, md.ac_type
-									Order By md.ms_num ASC");
+									WHERE md.ac_type = '$ac_type' AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'";
+		if($ms_num != "")
+		{
+			$query_msg .= " AND md.ms_num LIKE '%$ms_num%'";
+		}
+		if($resp != "")
+		{
+			$query_msg .= " AND md.resp = '$resp'";
+		}
+		$query_msg .= " Group By md.ms_num, md.ac_type
+						Order By md.ms_num ASC";
+		$query = $this->db->query($query_msg);
   		return $query->result_array();
 	}
 	

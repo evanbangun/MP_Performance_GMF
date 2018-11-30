@@ -66,7 +66,6 @@ class Task extends CI_Controller {
 					   'ac_type' => $this->input->post('ac_type_post'));
 		$array_change = array('resp' => $this->input->post('resp_change_post'));
 		$this->m_task->update_resp($array_where, $array_change);
-		redirect($_SERVER['HTTP_REFERER']);
 	}
 }
 

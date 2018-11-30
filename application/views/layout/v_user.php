@@ -88,7 +88,7 @@
                     {
                     ?>
                       <td><span class="label label-warning">Evaluating</span></td>
-                      <td></td>
+                      <td><?php echo $la['name']; ?></td>
                     <?php
                     }
                     else if($la['status'] == 3)
@@ -119,7 +119,7 @@
                     else if($la['status'] == 5)
                     {
                       echo '<td><span class="label label-warning">Verifying</span></td>
-                            <td></td>';
+                            <td>'.$la["name"].'</td>';
                     }
                     else if($la['status'] == 6)
                     {

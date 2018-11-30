@@ -26,27 +26,56 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
+                    <label for="exampleInputEmail1">A/C Type</label>
+                    <select name="ac_type_post" class="form-control select2" style="width: 100%;">
+                      <?php
+                        foreach ($list_actype as $lact)
+                        {
+                      ?>
+                          <option value="<?php echo $lact['ac_type']; ?>"<?php if(isset($ac_type) && $ac_type == $lact['ac_type']){ echo "selected"; } ?>><?php echo $lact['ac_type']; ?></option>
+                      <?php
+                        }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
                     <label for="exampleInputEmail1">MP Number</label>
-                    <input name="ms_num_post" type="text" class="form-control" id="exampleInputEmail1"
+                    <input name="ms_num_post" type="text" class="form-control"
                     <?php 
                       if(isset($ms_num))
                       {
                         echo "value=".$ms_num;
-
                       }
                     ?>>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">MP Responsibility</label>
-                    <input name="resp_post" type="text" class="form-control" id="exampleInputEmail1"
-                    <?php 
-                      if(isset($resp))
-                      {
-                        echo "value=".$resp;
-                      }
-                    ?>>
+                    <label for="exampleInputEmail1">Responsible</label>
+                    <select name="resp_post" class="form-control select2" style="width: 100%;">
+                    	  <option value=""></option>
+                      <?php
+                        foreach ($list_resp as $lresp)
+                        {
+                      ?>
+                          <option value="<?php echo $lresp['resp']; ?>"<?php if(isset($resp) && $resp == $lresp['resp']){ echo "selected"; } ?>><?php echo $lresp['resp']; ?></option>
+                      <?php
+                        }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Date range:</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" name="reservation" class="form-control pull-right" id="reservation" value="<?php if(isset($reservation)) { echo $reservation; } ?>">
+                    </div>
                   </div>
                 </div>
                 <!-- <div class="col-md-2">
@@ -61,9 +90,9 @@
                     <input type="email" class="form-control" id="exampleInputEmail1">
                   </div>
                 </div> -->
-                <input type="hidden" name="date_min_post" value="<?php echo $date_min_post; ?>">
-                <input type="hidden" name="date_max_post" value="<?php echo $date_max_post; ?>">
-                <input type="hidden" name="ac_type_post" value="<?php echo $ac_type_post; ?>">
+                <input type="hidden" name="date_min_post" value="<?php if(isset($date_min_post)) { echo $date_min_post; } ?>">
+                <input type="hidden" name="date_max_post" value="<?php if(isset($date_min_post)) { echo $date_max_post; } ?>">
+                <input type="hidden" name="ac_type_post" value="<?php echo $ac_type; ?>">
                 <div class="col-md-2" style="margin-top:1.7em">
                   <button type="submit" class="btn btn-block btn-primary">Filter</button>
                 </div>
@@ -83,23 +112,11 @@
             <div class="box-header">
               <h3 class="box-title"><b><?php echo count($result); ?> Maintenance Program Task Found</b></h3>
             <form method="POST" action="<?php echo base_url('index.php/report/report_pdf_search') ?>" target="_blank">
-              <input type="hidden" name="date_min_post" value="<?php echo $date_min_post; ?>">
-              <input type="hidden" name="date_max_post" value="<?php echo $date_max_post; ?>">
-              <input type="hidden" name="ac_type_post" value="<?php echo $ac_type_post; ?>">
-              <input name="ms_num_post" type="hidden"
-              <?php
-                if(isset($resp))
-                {
-                  echo " value=".$ms_num;
-                }
-              ?>>
-              <input name="resp_post" type="hidden"
-              <?php
-                if(isset($resp))
-                {
-                  echo " value=".$resp;
-                }
-              ?>>
+              <input type="hidden" name="date_min_post" value="<?php if(isset($date_min_post)) { echo $date_min_post; } ?>">
+              <input type="hidden" name="date_max_post" value="<?php if(isset($date_min_post)) { echo $date_max_post; } ?>">
+              <input type="hidden" name="ac_type_post" value="<?php echo $ac_type; ?>">
+              <input name="ms_num_post" type="hidden" <?php if(isset($resp)){ echo " value=".$ms_num; } ?>>
+              <input name="resp_post" type="hidden" <?php if(isset($resp)){ echo " value=".$resp; } ?>>
               <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-download"></i>Generate PDF</button>
             </form>
             </div>

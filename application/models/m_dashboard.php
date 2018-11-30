@@ -8,7 +8,13 @@ class m_dashboard extends CI_Model
 		return $query->result_array();
 	}
 
-	public function search($ac_type, $date_min, $date_max)
+	public function resp()
+	{
+		$query = $this->db->query("	SELECT DISTINCT resp FROM msi_data WHERE resp != ''");
+		return $query->result_array();
+	}
+
+	public function search($ac_type)
 	{
 		$query = $this->db->query(
 	    					"SELECT CASE WHEN gmfu.recommendation = 1 THEN 'Remain'
@@ -38,7 +44,7 @@ class m_dashboard extends CI_Model
 									Left Join (SELECT er.ms_num as ms_num, er.ac_type as ac_type, er.id_user as id_garuda, u.name as name_garuda
 											   FROM ev_remarks er
 											   LEFT JOIN users u on er.id_user = u.id_user) as garudau ON md.ms_num = garudau.ms_num AND md.ac_type = garudau.ac_type
-									WHERE md.ac_type = '$ac_type' AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'
+									WHERE md.ac_type = '$ac_type'
 									Group By md.ms_num, md.ac_type
 									Order By md.ms_num ASC");
 		return $query->result_array();
@@ -77,12 +83,12 @@ class m_dashboard extends CI_Model
 									";
 		if($ms_num != "")
 		{
-			$query_msg .= " AND md.ms_num = '$ms_num'";
+			$query_msg .= " AND md.ms_num LIKE '%$ms_num%'";
 		}
 		if($resp != "")
 		{
 			$query_msg .= " AND md.resp = '$resp'";
-		}				   
+		}
 		$query_msg .= " Group By md.ms_num, md.ac_type
 						Order By md.ms_num ASC";
 		$query = $this->db->query($query_msg);

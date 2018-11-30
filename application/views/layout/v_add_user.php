@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control" name="password" required="required">
+                                    <input type="password" class="form-control" name="password" required="required" value="">
                                 </div>
                                 <div class="form-group">
                                     <label>Name</label>
@@ -155,7 +155,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <input type="submit" class="btn btn-primary pull-right"  id="add-user" value="Add">
+                        <input onclick="submit_add_user()" type="button" class="btn btn-primary pull-right"  id="add-user" value="Add">
                     </div>
                     </form>
                 </div>
@@ -249,7 +249,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <input type="submit" class="btn btn-primary pull-right" id="edit-user" value="Update">
+                        <input onclick="submit_edit_user()" type="button" class="btn btn-primary pull-right" id="edit-user" value="Update">
                     </div>
                     </form>
                 </div>
@@ -262,6 +262,49 @@
     <!-- /.content -->
 </div>
 <script>
+function submit_add_user()
+{
+    swal({
+          title: 'Add user ?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#D8D8D8',
+          confirmButtonText: 'Add',
+        }).then((result) => {
+          if (result.value) {
+            swal({
+                title: 'User Added',
+                type: "success",
+                showConfirmButton: true,
+              }).then((result) => {
+                $('form#add_user').submit();
+              });
+          }
+        })
+}
+
+function submit_edit_user()
+{
+    swal({
+          title: 'Submit changes ?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#D8D8D8',
+          confirmButtonText: 'Edit',
+        }).then((result) => {
+          if (result.value) {
+            swal({
+                title: 'User Edited',
+                type: "success",
+                showConfirmButton: true,
+              }).then((result) => {
+                $('form#edit_user').submit();
+              });
+          }
+        })
+}
 
 function modaleditUser($id){
     var id = $id;
@@ -272,7 +315,8 @@ function modaleditUser($id){
             dataType:"json",
             success:function(data){  
                      $('#id_user_edit').val(data.id_user); 
-                     $('#username_edit').val(data.username);  
+                     $('#username_edit').val(data.username);
+                     $('#password_edit').val('');  
                      $('#name_edit').val(data.name);  
                      $('#no_pegawai_edit').val(data.no_pegawai);  
                      $('#role_edit').val(data.role);  
@@ -287,26 +331,28 @@ function modaleditUser($id){
 function deleteUser($id){
     var id = $id;
     swal({
-        title: "Are you sure you want to delete this user?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-    .then((isChange) => {
-        if (isChange)
-        {
-            $.ajax({
+      title: 'Are you sure you want to delete this user?',
+      text: "This action can not be reverted",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Delete'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
             url: '<?php echo base_url("index.php/crud_user/delete_user_by_id"); ?>',
             type: 'POST',
             data: { id_user: id},
             success:function(data){
-                    swal("User has been deleted!", {
-                    icon: "success",
+                    swal({
+                    title: "User has been deleted!",
+                    type: "success",
                     }).then(function(){location.reload();});   
                 }  
-          });    
-        } 
-    });
+          });
+      }
+    })
 }
 
 function roleAdd() {
