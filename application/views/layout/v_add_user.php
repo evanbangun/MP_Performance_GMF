@@ -182,8 +182,8 @@
                                     <input type="text" class="form-control" id="username_edit" name="username" required="required">
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" id="password_edit" name="password" required="required">
+                                    <label>Password</label><br>
+                                    <span id="password_edit"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Name</label>
@@ -316,7 +316,8 @@ function modaleditUser($id){
             success:function(data){  
                      $('#id_user_edit').val(data.id_user); 
                      $('#username_edit').val(data.username);
-                     $('#password_edit').val('');  
+                     $('#password_edit').empty();
+                     $('#password_edit').append("Click <a href='#' onclick='resetPassword("+data.id_user+")'>here</a> to reset password");
                      $('#name_edit').val(data.name);  
                      $('#no_pegawai_edit').val(data.no_pegawai);  
                      $('#role_edit').val(data.role);  
@@ -326,6 +327,33 @@ function modaleditUser($id){
                      $('#modal-edit-user').modal('show');  
                 }  
           });
+}
+
+function resetPassword($id){
+    var id = $id;
+    swal({
+      title: "Are you sure you want to reset this user's password ?",
+      text: "This action can not be reverted",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Reset'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+            url: '<?php echo base_url("index.php/crud_user/reset_password"); ?>',
+            type: 'POST',
+            data: { id_user: id},
+            success:function(data){
+                    swal({
+                    title: "Password has been reset!",
+                    type: "success",
+                    });   
+                }  
+          });
+      }
+    })
 }
 
 function deleteUser($id){
@@ -354,6 +382,7 @@ function deleteUser($id){
       }
     })
 }
+
 
 function roleAdd() {
     // console.log('Test');

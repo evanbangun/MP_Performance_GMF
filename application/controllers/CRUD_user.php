@@ -57,7 +57,6 @@ class CRUD_user extends CI_Controller {
 	{		
 		$data = array(
 						'username' => $this->input->post('username'),
-						'password' => md5($this->input->post('password')),
 						'name' => $this->input->post('name'),
 						'no_pegawai' => $this->input->post('no_pegawai'),
 						'role' => $this->input->post('role'),
@@ -77,6 +76,14 @@ class CRUD_user extends CI_Controller {
 		$this->m_crud_user->update_user('users', $data, $this->input->post('id_user'));
 		
 		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function reset_password()
+	{
+		$data = array(
+						'password' => md5('Aeroas1@')
+						);
+		$this->m_crud_user->update_user('users', $data, $this->input->post('id_user'));
 	}
 
 	public function get_user_by_id()
