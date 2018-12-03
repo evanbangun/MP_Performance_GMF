@@ -409,7 +409,7 @@ foreach ($list_task as $lt)
             </tr>
             <tr>
                 <th colspan="4"></th>
-                <th align="center"><img src="assets/img/sign.png" alt="test alt attribute" width="100" height="100" border="0" /></th>
+                <th align="center"><img src="" alt="test alt attribute" width="100" height="100" border="0" /></th>
             </tr>
             <tr>    
                 <th colspan="4"></th>

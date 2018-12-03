@@ -144,7 +144,11 @@ class m_dashboard extends CI_Model
 									Left Join (SELECT er.ms_num as ms_num, er.ac_type as ac_type, er.id_user as id_garuda, u.name as name_garuda
 											   FROM ev_remarks er
 											   LEFT JOIN users u on er.id_user = u.id_user) as garudau ON md.ms_num = garudau.ms_num AND md.ac_type = garudau.ac_type
-									WHERE md.ac_type = '$data[ac_type_post]' AND md.effdate >= '$data[date_min_post]' AND md.effdate <= '$data[date_max_post]'";
+									WHERE md.ac_type = '$data[ac_type_post]'";
+		if($data['date_min_post'] != "" && $data['date_max_post'] != "")
+		{
+			$query_msg .= "   AND md.effdate >= '".$data['date_min_post']."' AND md.effdate <= '".$data['date_max_post']."'";
+		}
 		if($data['ms_num_post'] != '')
 		{
 			$query_text .= " AND md.ms_num = '".$data['ms_num_post']."'";
