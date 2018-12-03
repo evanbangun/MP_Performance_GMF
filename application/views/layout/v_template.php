@@ -345,8 +345,25 @@
 <!-- <script src="dist/js/demo.js"></script> -->
 <!-- Date Range Picker -->
 <script>
-  $('#reservation').daterangepicker()
+  $(function() {
+    $('#reservation').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    });
+
+    $('#reservation').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#reservation').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
+  });
 </script>
+
 <script>
 $(document).ready(function() {
   //console.log('asdadasdd');

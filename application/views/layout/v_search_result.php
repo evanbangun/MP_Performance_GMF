@@ -67,22 +67,22 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label>Date range:</label>
                     <div class="input-group">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" name="reservation" class="form-control pull-right" id="reservation" value="<?php if(isset($reservation)) { echo $reservation; } ?>">
+                      <input type="text" name="reservation" class="form-control pull-right" id="reservation" value="<?php if(isset($reservation)) { echo $reservation; } ?>" readonly="true">
                     </div>
                   </div>
                 </div>
-                <div class="col-md-1">
+                <!-- <div class="col-md-1">
                   <button style="margin-top:2.2em" type="button" class="btn btn-default btn-sm">
                       <span class="fa fa-trash"></span> 
                   </button>
-                </div>
+                </div> -->
                 <!-- <div class="col-md-2">
                   <div class="form-group">
                     <label for="exampleInputEmail1">ATA</label>

@@ -82,21 +82,21 @@
                         if(isset($list_assignment) && is_array($list_assignment))
                         {
                       ?>
-                            value="<?php echo $date_min_v; ?> - <?php echo $date_max_v; ?>"
+                            value="<?php echo $reservation; ?>"
                       <?php  
                         }
                       ?>
-                      >
+                      readonly="true">
                     </div>
                     <!-- /.input group -->
                   </div>
                   <!-- /.form group -->
                 </div>
-                <div class="col-md-1">
+                <!-- <div class="col-md-1">
                   <button style="margin-top:2.2em" type="button" class="btn btn-default btn-sm">
                       <span class="fa fa-trash"></span> 
                   </button>
-                </div>
+                </div> -->
                 <div class="col-md-2 pull-right" style="margin-top:1.7em">
                   <button type="submit" class="btn btn-block btn-primary">Search</button>
                 </div>

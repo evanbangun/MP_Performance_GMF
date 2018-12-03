@@ -58,11 +58,19 @@ class Dashboard extends CI_Controller {
 		$ac_type = $this->input->post('ac_type_post');
 
 		$reservation = $this->input->post('reservation');
-		$date_range = explode(" - ",$reservation);
-		$date = date_create_from_format('m/d/Y', $date_range[0]);
-		$date_min = $date->format('Y-m-d');
-		$date = date_create_from_format('m/d/Y', $date_range[1]);
-		$date_max = $date->format('Y-m-d');
+		if($reservation != '')
+		{
+			$date_range = explode(" - ",$reservation);
+			$date = date_create_from_format('m/d/Y', $date_range[0]);
+			$date_min = $date->format('Y-m-d');
+			$date = date_create_from_format('m/d/Y', $date_range[1]);
+			$date_max = $date->format('Y-m-d');
+		}
+		else
+		{
+			$date_min = '';
+			$date_max = '';
+		}
 		
 		$ms_num = $this->input->post('ms_num_post');
 		$resp = $this->input->post('resp_post');
