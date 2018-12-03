@@ -69,7 +69,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <!-- Date range -->
                   <div class="form-group">
                     <label>Date range:</label>
@@ -92,7 +92,12 @@
                   </div>
                   <!-- /.form group -->
                 </div>
-                <div class="col-md-2" style="margin-top:1.7em">
+                <div class="col-md-1">
+                  <button style="margin-top:2.2em" type="button" class="btn btn-default btn-sm">
+                      <span class="fa fa-trash"></span> 
+                  </button>
+                </div>
+                <div class="col-md-2 pull-right" style="margin-top:1.7em">
                   <button type="submit" class="btn btn-block btn-primary">Search</button>
                 </div>
                 <!-- /.col -->

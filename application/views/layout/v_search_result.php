@@ -24,7 +24,7 @@
             <?php echo form_open('dashboard/filter_search/'); ?>
             <div class="box-body">
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
                     <label for="exampleInputEmail1">A/C Type</label>
                     <select name="ac_type_post" class="form-control select2" style="width: 100%;">
@@ -39,7 +39,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
                     <label for="exampleInputEmail1">MP Number</label>
                     <input name="ms_num_post" type="text" class="form-control"
@@ -51,7 +51,7 @@
                     ?>>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Responsible</label>
                     <select name="resp_post" class="form-control select2" style="width: 100%;">
@@ -67,7 +67,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
                     <label>Date range:</label>
                     <div class="input-group">
@@ -77,6 +77,11 @@
                       <input type="text" name="reservation" class="form-control pull-right" id="reservation" value="<?php if(isset($reservation)) { echo $reservation; } ?>">
                     </div>
                   </div>
+                </div>
+                <div class="col-md-1">
+                  <button style="margin-top:2.2em" type="button" class="btn btn-default btn-sm">
+                      <span class="fa fa-trash"></span> 
+                  </button>
                 </div>
                 <!-- <div class="col-md-2">
                   <div class="form-group">
