@@ -70,7 +70,7 @@ $html = '
         <th align="center" width="50"><b>TASK CODE</b></th>
         <th align="center" width="70"><b>A/C EFF./ ENG. EFF.</b></th>
         <th align="center" width="70"><b>CURRENT THRESHOLD</b></th>
-        <th align="center"  width="70"><b>CURRENT INTERVAL</b></th>
+        <th align="center" width="70"><b>CURRENT INTERVAL</b></th>
         <th align="center"><b>RECOMMENDED THRESHOLD</b></th>
         <th align="center"><b>RECOMMENDED INTERVAL</b></th>
         <th align="center"><b>SIGN CODE</b></th>
