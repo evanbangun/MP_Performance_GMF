@@ -2,7 +2,7 @@
   <section class="content-header">
     <h1>
       <i class="fa fa-dashboard"></i> Dashboard 
-      <div class="btn-group">
+      <!-- <div class="btn-group">
         <button type="button" class="btn btn-default">All</button>
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
           <span class="caret"></span>
@@ -12,11 +12,10 @@
           <li><a href="#">All</a></li>
           <li><a href="#">User</a></li>
         </ul>
-      </div>
+      </div> -->
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="<?php echo base_url('index.php') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
     </ol>
     </section>
     <!-- Main content -->

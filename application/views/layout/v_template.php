@@ -125,6 +125,7 @@
 
                 <p>
                   <?php echo $this->session->userdata('name') ?> - <?php echo $this->session->userdata('unit') ?>
+                  <small><?php echo $this->session->userdata('ac_type') ?> - <?php echo $this->session->userdata('resp') ?></small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -152,8 +153,9 @@
           <img src="<?=base_url()?>assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $this->session->userdata('name') ?></p>
-          <a href="#"><?php echo $this->session->userdata('unit') ?></a>
+          <p><?php echo $this->session->userdata('name') ?> - <?php echo $this->session->userdata('unit') ?> <br>
+          </p>
+          <a href="#"><?php echo $this->session->userdata('ac_type') ?> - <?php echo $this->session->userdata('resp') ?></a>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -177,7 +179,7 @@
           {
         ?>
           <li><a href="<?php echo base_url('index.php/assignment'); ?>"><i class="fa fa-user"></i> <span>Assign Task</span></a></li>
-          <li><a href="<?php echo base_url('index.php/crud_user'); ?>"><i class="fa fa-users"></i> <span>Add User</span></a></li>
+          <li><a href="<?php echo base_url('index.php/crud_user'); ?>"><i class="fa fa-users"></i> <span>Users</span></a></li>
         <?php  
           }
         ?>
@@ -399,6 +401,17 @@ $(document).ready(function() {
               }  
         });
   }
+
+  //Active Tree
+  var url = window.location;
+  // for sidebar menu but not for treeview submenu
+  $('ul.sidebar-menu a').filter(function() {
+      return this.href == url;
+  }).parent().siblings().removeClass('active').end().addClass('active');
+  // for treeview which is like a submenu
+  $('ul.treeview-menu a').filter(function() {
+      return this.href == url;
+  }).parentsUntil(".sidebar-menu > .treeview-menu").siblings().removeClass('active').end().addClass('active');
 </script>
 <script>
   $(function () {

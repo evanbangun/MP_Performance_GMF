@@ -12,9 +12,7 @@
 				MP Item Performance Data
 			</h1>
 			<ol class="breadcrumb">
-				<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-				<li class="">Dashboard</li>
-				<li>Search MP Task</li>
+				<li><a href="<?php echo base_url('index.php') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 				<li class="active">MP Item Performance Data</li>
 			</ol>
 		</section>
@@ -108,16 +106,8 @@
 										<tr>
 											<td><b>Interval: </b></td>
 											<td><?php echo $list_task->intval ?></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
-										<tr>
 											<td><b>Threshold: </b></td>
 											<td><?php echo $list_task->intval_threshold ?></td>
-											<td></td>
-											<td></td>
 											<td></td>
 											<td></td>
 										</tr>
@@ -508,7 +498,7 @@
 													if($task_evaluation != NULL)
 													{
 														?>
-														<b> <?php echo $task_evaluation[0]['name']; ?></b><br> <?php echo $task_evaluation[0]['reason'];
+														<b> <?php echo $task_evaluation[0]['name']; ?></b> - <?php echo $task_evaluation[0]['create_date']; ?><br> <?php echo $task_evaluation[0]['reason'];
 														?> <?php 
 													}
 												?>
@@ -541,7 +531,9 @@
 												<?php 
 													if($task_remarks != NULL)
 													{
-														echo $task_remarks[0]['remarks'];
+														?>
+														<b> <?php echo $task_remarks[0]['name']; ?></b> - <?php echo $task_remarks[0]['create_date']; ?><br> <?php echo $task_remarks[0]['remarks'];
+														?> <?php
 													}
 												?>
 											</p>

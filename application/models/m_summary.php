@@ -12,9 +12,9 @@ class m_summary extends CI_Model
                                             END as recommendation,
                                             md.ms_num, md.ac_type, md.task_code, me.ac_eff, mr.ref_man, gmfu.id_gmf as id_gmf, gmfu.name_gmf as name_gmf, garudau.id_garuda as id_garuda, garudau.name_garuda as name_garuda, gmfu.signature,
 											concat(md.task_desc,'<br><br>', md.task_subdesc) as descr,
-											group_concat(DISTINCT concat('>>', ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
-											group_concat(DISTINCT concat('>>', mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
-											group_concat(DISTINCT concat('>>', mit.code_int,' ',mit.int_num,' ', mit.int_dim ) SEPARATOR '<br>') as intval_threshold,
+											group_concat(DISTINCT concat(ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
+											group_concat(DISTINCT concat(mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
+											group_concat(DISTINCT concat(mit.code_int,' ',mit.int_num,' ', mit.int_dim ) SEPARATOR '<br>') as intval_threshold,
 											SUBSTRING_INDEX(GROUP_CONCAT(CAST(gmfu.rec_threshold AS CHAR) ORDER BY gmfu.create_date DESC),',',1) AS rec_threshold,
 											SUBSTRING_INDEX(GROUP_CONCAT(CAST(gmfu.rec_interval AS CHAR) ORDER BY gmfu.create_date DESC),',',1) AS rec_interval
 									FROM msi_data md

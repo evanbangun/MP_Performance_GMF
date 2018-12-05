@@ -45,10 +45,10 @@ class M_task extends CI_Model{
     public function getTaskDataByMSNum($ms_num, $ac_type){
         $q_detailmsi = $this->db->query("   SELECT md.ms_num, md.ac_type, md.task_code, md.rvcd, md.resp, md.task_title, md.effdate, md.cat, mz.zone, ma.access, me.ac_eff,
                                             concat(md.task_desc,'<br><br>', md.task_subdesc) as descr,
-                                            group_concat(DISTINCT concat('>>', ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
-                                            group_concat(DISTINCT concat('>>', mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
-                                            group_concat(DISTINCT concat('>>', mit.code_int,' ',mit.int_num,' ', mit.int_dim ) SEPARATOR '<br>') as intval_threshold,
-                                            group_concat(DISTINCT concat('>>', mr.ref_man)  SEPARATOR '<br>') as ref
+                                            group_concat(DISTINCT concat(ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
+                                            group_concat(DISTINCT concat(mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
+                                            group_concat(DISTINCT concat(mit.code_int,' ',mit.int_num,' ', mit.int_dim ) SEPARATOR '<br>') as intval_threshold,
+                                            group_concat(DISTINCT concat(mr.ref_man)  SEPARATOR '<br>') as ref
                                             FROM msi_data md
                                             Left Join msi_access ma ON md.ms_num = ma.ms_num AND md.ac_type = ma.ac_type
                                             Left Join msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type

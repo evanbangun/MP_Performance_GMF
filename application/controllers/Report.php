@@ -6,6 +6,7 @@ class Report extends CI_Controller {
         {   
             parent::__construct();
             $this->load->library('Pdf');
+            // $this->load->library('Wkhtml');
             $this->load->model('m_task');
             $this->load->model('m_summary');
             $this->load->model('m_dashboard');
@@ -112,10 +113,11 @@ class Report extends CI_Controller {
     }
 
     public function report_mpdf_summary(){
+        // require_once('mikehaertl/phpwkhtmltopdf/src/Pdf.php');
 
-        $mpdf = new \Mpdf\Mpdf();
+        // $mpdf = new \Mpdf\Mpdf();
 
-        $mpdf->SetFont('Arial');
+        $pdf->SetFont('Arial');
         $html = $this->load->view('layout/v_mpdf_summary',[], true);
         // $mpdf->SetHTMLHeader('<table>
         //                         <tr>0" border="0" />
@@ -129,11 +131,14 @@ class Report extends CI_Controller {
         //                     </table>
         //                     <hr>', 'O', true);
         // $mpdf->SetHTMLFooter('<hr><div style="text-align: right;">{PAGENO} / {nb}</div>');
-       
-        $mpdf->SetMargins(5, 5, 5);
-        $mpdf->AddPage('L');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        $pdf = new WKPDF();
+        $pdf->set_html($html);
+        $pdf->render();
+        $pdf->output(WKPDF::$PDF_EMBEDDED,'sample.pdf');
+        // $mpdf->SetMargins(5, 5, 5);
+        // $mpdf->AddPage('L');
+        // $mpdf->WriteHTML($html);
+        // $mpdf->Output();
         exit();
 
 

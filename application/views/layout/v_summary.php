@@ -5,8 +5,8 @@
         <i class="fa fa-file"></i> Summary 
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Summary</li>
+        <li><a href="<?php echo base_url('index.php') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><i class="fa fa-file"></i> Summary</li>
       </ol>
     </section>
 
@@ -120,8 +120,8 @@
           if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
           {
           ?>
-            <!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_summary/'.$ac_type.'/'.$date_min.'/'.$date_max); ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a> -->
-            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_mpdf_summary/') ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
+            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_summary/'.$ac_type.'/'.$date_min.'/'.$date_max); ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
+            <!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_mpdf_summary/') ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a> -->
             <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_excel/'.$ac_type.'/'.$date_min.'/'.$date_max)?>" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a>
           <?php
           }

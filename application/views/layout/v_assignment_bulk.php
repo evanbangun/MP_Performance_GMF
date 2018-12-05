@@ -1,96 +1,93 @@
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        <i class="fa fa-user"></i> Assign Task 
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Assign Task</li>
-      </ol>
-    </section>
-
-    <!-- Main content -->
-      <div class="box">
-      <!-- /.box-header -->
-        <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>Type</th>
-                <th>Resp</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              <?php
-              if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
-              {  
-                $i = 0;
-                foreach ($list_assignment as $la)
-                {
-              ?>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <i class="fa fa-user"></i> Assign Task 
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="<?php echo base_url('index.php') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+      <li class="active"><i class="fa fa-user"></i> Assign Task</li>
+    </ol>
+  </section>
+  <section class="content">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
                   <tr>
-                    <td><?php echo ++$i ?></td>
-                    <td><?php echo $la['ac_type']; ?></td>
-                    <td><?php echo $la['resp']; ?></td>
-                    <td><a href="<?php echo base_url('index.php/assignment/detail_assignment/'.$la['ac_type'].'/'.$la['resp']); ?>"><button>Detail</button></a>
-                    <?php
-                    if($this->session->userdata('role') == 1)
-                    {
-                      if($la['count_data'] == $la['unassigned'])
-                      {
-                    ?>
-                        <!-- <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a> -->
-                        <button onclick="assign_eval(`<?php echo $la['ac_type']; ?>`, `<?php echo $la['resp']; ?>`)">Assign</button>
-                    <?php
-                      }
-                      else if ($la['count_data'] == $la['finished'])
-                      {
-                    ?>
-                        <!-- <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Re-Assign</button></a> -->
-                        <button onclick="assign_eval(`<?php echo $la['ac_type']; ?>`, `<?php echo $la['resp']; ?>`)">Re-Assign</button>
-                    <?php
-                      }
-                      else
-                      {
-                        echo '<button disabled>ASSIGNED</button>';
-                      }
-                    }
-                    else if($this->session->userdata('role') == 2)
-                    {
-                      if(!is_null($la['progressed']))
-                      {
-                    ?>
-                        <button disabled>Assigned</button>
-                    <?php
-                      }
-                      else if($la['count_data'] == $la['evaluated'])
-                      {
-                    ?>
-                        <!-- <a href="<?php echo base_url('index.php/assignment/assignment_verif/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a> -->
-                        <button onclick="assign_verif(`<?php echo $la['ac_type']; ?>`, `<?php echo $la['resp']; ?>`)">Assign</button>
-                    <?php
-                      }
-                    }
-                    ?>
-                    </td>
+                    <th>No.</th>
+                    <th>Type</th>
+                    <th>Resp</th>
+                    <th></th>
                   </tr>
-              <?php
-                }
-              }
-              ?>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  <?php if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment)){  
+                    $i = 0;
+                    foreach ($list_assignment as $la){
+                  ?>
+                      <tr>
+                        <td><?php echo ++$i ?></td>
+                        <td><?php echo $la['ac_type']; ?></td>
+                        <td><?php echo $la['resp']; ?></td>
+                        <td><a href="<?php echo base_url('index.php/assignment/detail_assignment/'.$la['ac_type'].'/'.$la['resp']); ?>"><button>Detail</button></a>
+                        <?php
+                        if($this->session->userdata('role') == 1)
+                        {
+                          if($la['count_data'] == $la['unassigned'])
+                          {
+                        ?>
+                          <!-- <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a> -->
+                            <button onclick="assign_eval(`<?php echo $la['ac_type']; ?>`, `<?php echo $la['resp']; ?>`)">Assign</button>
+                        <?php
+                          }
+                          else if ($la['count_data'] == $la['finished'])
+                          {
+                        ?>
+                          <!-- <a href="<?php echo base_url('index.php/assignment/assignment_eval/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Re-Assign</button></a> -->
+                          <button onclick="assign_eval(`<?php echo $la['ac_type']; ?>`, `<?php echo $la['resp']; ?>`)">Re-Assign</button>
+                        <?php
+                          }
+                          else
+                          {
+                            echo '<button disabled>ASSIGNED</button>';
+                          }
+                        }
+                        else if($this->session->userdata('role') == 2)
+                        {
+                          if(!is_null($la['progressed']))
+                          {
+                        ?>
+                          <button disabled>Assigned</button>
+                        <?php
+                          }
+                          else if($la['count_data'] == $la['evaluated'])
+                          {
+                        ?>
+                          <!-- <a href="<?php echo base_url('index.php/assignment/assignment_verif/'.$la['ac_type'].'/'.$la['resp'])?>"><button>Assign</button></a> -->
+                          <button onclick="assign_verif(`<?php echo $la['ac_type']; ?>`, `<?php echo $la['resp']; ?>`)">Assign</button>
+                        <?php
+                          }
+                        }
+                        ?>
+                        </td>
+                      </tr>
+                      <?php
+                        }
+                      }
+                      ?>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <!-- /.box-body -->
         </div>
-        <!-- /.box -->
+      </div>
+  </section>
+</div>
 
-      </section>
-      <!-- /.content -->
-    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>

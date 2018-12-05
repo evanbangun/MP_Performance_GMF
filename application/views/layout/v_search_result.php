@@ -5,9 +5,8 @@
         Search MP Task
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="">Dashboard</li>
-        <li class="active">Search MP Task</li>
+        <li><a href="<?php echo base_url('index.php') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"><a href="<?php echo form_open('dashboard/search/'); ?>">Search MP Task</a></li>
       </ol>
     </section>
 
@@ -122,7 +121,7 @@
               <input type="hidden" name="ac_type_post" value="<?php echo $ac_type; ?>">
               <input name="ms_num_post" type="hidden" <?php if(isset($resp)){ echo " value=".$ms_num; } ?>>
               <input name="resp_post" type="hidden" <?php if(isset($resp)){ echo " value=".$resp; } ?>>
-              <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-download"></i>Generate PDF</button>
+              <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</button>
             </form>
             </div>
             <!-- /.box-header -->
