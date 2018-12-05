@@ -96,7 +96,6 @@
                 </div> -->
                 <input type="hidden" name="date_min_post" value="<?php if(isset($date_min_post)) { echo $date_min_post; } ?>">
                 <input type="hidden" name="date_max_post" value="<?php if(isset($date_min_post)) { echo $date_max_post; } ?>">
-                <input type="hidden" name="ac_type_post" value="<?php echo $ac_type; ?>">
                 <div class="col-md-2" style="margin-top:1.7em">
                   <button type="submit" class="btn btn-block btn-primary">Filter</button>
                 </div>

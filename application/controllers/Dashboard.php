@@ -56,7 +56,7 @@ class Dashboard extends CI_Controller {
 			"container" => "layout/v_search_result"
 		);
 		$ac_type = $this->input->post('ac_type_post');
-
+		// var_dump($ac_type);die();
 		$reservation = $this->input->post('reservation');
 		if($reservation != '')
 		{
