@@ -120,9 +120,22 @@
           if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
           {
           ?>
-            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_summary/'.$ac_type.'/'.$date_min.'/'.$date_max); ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a>
-            <!-- <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_mpdf_summary/') ?>" type="button" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Generate PDF</a> -->
-            <a style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" target="_blank" href="<?php echo base_url('index.php/report/report_excel/'.$ac_type.'/'.$date_min.'/'.$date_max)?>" type="button" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</a>
+          <form method="POST" target="_blank" action="report/report_summary">
+            <input type="hidden" name="ac_type_post" value="<?php if(isset($ac_type)){ echo $ac_type; } ?>">
+            <input type="hidden" name="ms_num_post" value="<?php if(isset($ms_num)){ echo $ms_num; } ?>">
+            <input type="hidden" name="resp_post" value="<?php if(isset($resp)){ echo $resp; } ?>">
+            <input type="hidden" name="date_max_post" value="<?php if(isset($date_max)){ echo $date_max; } ?>">
+            <input type="hidden" name="date_min_post" value="<?php if(isset($date_min)){ echo $date_min; } ?>">
+            <button type="submit" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="btn btn-primary pull-right" ><i class="fa fa-download"></i> Generate PDF</button>
+          </form>
+          <form method="POST" target="_blank" action="report/report_excel">
+            <input type="hidden" name="ac_type_post" value="<?php if(isset($ac_type)){ echo $ac_type; } ?>">
+            <input type="hidden" name="ms_num_post" value="<?php if(isset($ms_num)){ echo $ms_num; } ?>">
+            <input type="hidden" name="resp_post" value="<?php if(isset($resp)){ echo $resp; } ?>">
+            <input type="hidden" name="date_max_post" value="<?php if(isset($date_max)){ echo $date_max; } ?>">
+            <input type="hidden" name="date_min_post" value="<?php if(isset($date_min)){ echo $date_min; } ?>">
+            <button type="submit" style="margin-top:0.5em; margin-right:0.5em; margin-bottom: 0.5em;  margin-left:0.5em;" class="btn btn-success pull-right"><i class="fa fa-download"></i> Generate Excel</button>
+          </form>
           <?php
           }
           ?>

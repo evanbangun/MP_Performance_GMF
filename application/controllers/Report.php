@@ -33,9 +33,10 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_pdf_performance', $data);
     }
 
-    public function report_summary($ac_type, $date_min, $date_max)
+    public function report_summary()
     {
-        $data['list_assignment'] = $this->m_summary->tampilassignment($ac_type, $date_min, $date_max);
+        $post = $this->input->post();
+        $data['list_assignment'] = $this->m_summary->tampilassignment($post['ac_type_post'], $post['date_min_post'], $post['date_max_post'], $post['ms_num_post'], $post['resp_post']);
         foreach ($data['list_assignment'] as $dla)
         {
             $data['list_task'][] = $this->m_task->getTaskDataByMSNum($dla['ms_num'], $dla['ac_type']);
@@ -71,9 +72,10 @@ class Report extends CI_Controller {
         $this->load->view('layout/v_pdf_search', $data);
     }
 
-    public function report_excel($ac_type, $date_min, $date_max)
+    public function report_excel()
     {
-        $data['list_assignment'] = $this->m_summary->tampilassignment($ac_type, $date_min, $date_max);
+        $post = $this->input->post();
+        $data['list_assignment'] = $this->m_summary->tampilassignment($post['ac_type_post'], $post['date_min_post'], $post['date_max_post'], $post['ms_num_post'], $post['resp_post']);
         $this->load->view('layout/v_excel_summary', $data);
     }
 
