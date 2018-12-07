@@ -53,14 +53,22 @@ class m_notifications extends CI_Model
 	public function get_notifications($id)
 	{
 		$query = $this->db->query(
-	    					"SELECT * FROM notifications_history WHERE id_user = '$id' AND unread = 1");
+	    					"SELECT * FROM notifications_history WHERE id_user = '$id' AND unread = 1 LIMIT 10");
 		return $query->result_array();
-	}	
+	}
 
-	public function update_notif_read($id)
+	public function get_notification_data($id)
+	{
+		$query = $this->db->query(
+	    					"SELECT id_user, src_notif FROM notifications_history WHERE id_notif_his = '$id' LIMIT 1");
+		return $query->row();
+	}
+
+	public function update_notif_read($id_user, $link)
 	{
 		$data = array('unread' => 0);    
-		$this->db->where('id_notif_his', $id);
-		$this->db->update('notifications_history', $data); 
+		$this->db->where('id_user', $id_user);
+		$this->db->where('src_notif', $link);
+		$this->db->update('notifications_history', $data);
 	}
 }

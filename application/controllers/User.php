@@ -67,26 +67,7 @@ class User extends CI_Controller {
 			$this->m_task->insert_task('ev_task_process', $data);
 		}
 
-		$data_v = array(
-			"container" => "layout/v_task_performance"
-		);
-		$data_v['list_resp'] = $this->m_task->getResp();
-		$data_v['list_task'] = $this->m_task->getTaskDataByMSNum($ms_num, $ac_type);
-		$data_v['table_sri'] = $this->m_task->getTableSRI($ms_num, $ac_type);
-		$data_v['table_delay'] = $this->m_task->getTableDelay($ms_num, $ac_type);
-		$data_v['table_removal'] = $this->m_task->getTableRemoval($ms_num, $ac_type);
-		//$data['table_summary'] = $this->m_task->getTableSummary($ms_num);
-		$data_v['finding'] = $this->m_task->getFinding($ms_num, $ac_type);
-		$data_v['count_acc'] = $this->m_task->countAcc($ms_num, $ac_type);
-		$data_v['count_finding'] = $this->m_task->countFinding($ms_num, $ac_type);
-		$data_v['rejected_finding'] = $this->m_task->rejectFinding($ms_num, $ac_type);
-		$data_v['task_process_detail'] = $this->m_task->task_process_detail($ms_num, $ac_type);
-		$data_v['task_evaluation'] = $this->m_task->task_evaluation($ms_num, $ac_type);
-		$data_v['task_remarks'] = $this->m_task->task_remarks($ms_num, $ac_type);
-		$data_v['history_log_remarks'] = $this->m_task->history_log_remarks($ms_num, $ac_type);
-		$data_v['history_log_reason'] = $this->m_task->history_log_reason($ms_num, $ac_type);
-
-		$this->load->view("layout/v_template", $data_v);
+		redirect('/task/task_performance/'.$ms_num.'/'.$ac_type);
 	}
 
 	public function insert_eval()
