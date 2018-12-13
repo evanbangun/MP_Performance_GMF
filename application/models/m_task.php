@@ -115,56 +115,57 @@ class M_task extends CI_Model{
 
     public function task_process_detail($ms_num, $ac_type)
     {
-    	$q_sri = $this->db->query("SELECT * FROM ev_task_process
-    										WHERE ms_num = '$ms_num' AND ac_type = '$ac_type'
-    										ORDER BY create_date DESC LIMIT 1"); 
+        $q_sri = $this->db->query("SELECT * FROM ev_task_process
+                                            WHERE ms_num = '$ms_num' AND ac_type = '$ac_type'
+                                            ORDER BY create_date DESC LIMIT 1"); 
 
-    	return $q_sri->row();
+        return $q_sri->row();
     }
 
     public function getTableSRI($ms_num, $ac_type){
-    	$q_sri = $this->db->query(
-    				"select * from table_sri where camp_no = '$ms_num' and Ac_type = '$ac_type'"); 
+        $q_sri = $this->db->query(
+                    "select * from table_sri where camp_no = '$ms_num' and Ac_type = '$ac_type'"); 
 
-    	return $q_sri->result_array();
+        return $q_sri->result_array();
     }
 
     public function getTableDelay($ms_num, $ac_type){
-		$q_delay = $this->db->query(
-					"select * from table_delay where camp_no = '$ms_num' and Ac_type = '$ac_type'");
+        $q_delay = $this->db->query(
+                    "select * from table_delay where camp_no = '$ms_num' and Ac_type = '$ac_type'");
 
-		return $q_delay->result_array();
+        return $q_delay->result_array();
     }
 
     public function getTableRemoval($ms_num, $ac_type){
-		$q_ucr = $this->db->query(
-					"select * from table_compremoval where camp = '$ms_num' and Ac_type = '$ac_type'");
+        $q_ucr = $this->db->query(
+                    "select * from table_compremoval where camp = '$ms_num' and Ac_type = '$ac_type'");
 
-		return $q_ucr->result_array();
+        return $q_ucr->result_array();
     }
 
     public function getTableSummary($ms_num){
-		$q_summary = $this->db->query(
-					"select * from table_summary where camp_no = '$ms_num'");
+        $q_summary = $this->db->query(
+                    "select * from table_summary where camp_no = '$ms_num'");
 
-		return $q_summary->row();
+        return $q_summary->row();
     }
 
     public function getFinding($ms_num, $ac_type){
-    	// $q_performance = $this->db->query("SELECT DISTINCT msi_performance_all.ac_reg as ac_reg, msi_performance_all.maint_type, msi_performance_all.date_acc, msi_performance_all.fhrs, msi_performance_all.fcyl, msi_performance_all.finding, msi_performance_all.operation, msi_performance_all.remark_finding FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'");
+        // $q_performance = $this->db->query("SELECT DISTINCT msi_performance_all.ac_reg as ac_reg, msi_performance_all.maint_type, msi_performance_all.date_acc, msi_performance_all.fhrs, msi_performance_all.fcyl, msi_performance_all.finding, msi_performance_all.operation, msi_performance_all.remark_finding FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'");
         $q_performance = $this->db->query("SELECT DISTINCT * FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num = '$ms_num' ORDER BY evaluasi_ke ASC");
 
-    	return $q_performance->result();
+        return $q_performance->result();
     }
 
-    public function countAcc($ms_num, $ac_type){
-    	$q_hitung_acc = $this->db->query("SELECT DISTINCT order_no, count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num = '$ms_num'");
+    public function countAcc($ms_num, $ac_type)
+    {
+        $q_hitung_acc = $this->db->query("SELECT DISTINCT order_no, count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num = '$ms_num'");
 
-    	return $q_hitung_acc->row();
+        return $q_hitung_acc->row();
     }
 
     public function countFinding($ms_num, $ac_type){
-        $q_hitung_acc = $this->db->query("SELECT DISTINCT count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num = '$ms_num'")->row();
+        $q_hitung_acc = $this->db->query("SELECT DISTINCT order_no, count(finding) as count_acc FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num = '$ms_num'")->row();
 
         $q_hitung_nil = $this->db->query("select distinct order_no, count(finding) as count_nil from msi_performance_all where finding = 'NIL' and msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'")->row();
 
@@ -179,14 +180,14 @@ class M_task extends CI_Model{
 
     public function task_evaluation($ms_num, $ac_type)
     {
-    	$query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name, ee.rec_threshold, ee.rec_interval, u.signature
-    								FROM ev_evaluation ee 
-    								LEFT JOIN users u ON ee.id_user = u.id_user
-    								WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'
-    								ORDER BY ee.create_date DESC
+        $query = $this->db->query(" SELECT ee.recommendation, ee.reason, ee.create_date, u.name, ee.rec_threshold, ee.rec_interval, u.signature
+                                    FROM ev_evaluation ee 
+                                    LEFT JOIN users u ON ee.id_user = u.id_user
+                                    WHERE ee.ms_num = '$ms_num' AND ee.ac_type = '$ac_type'
+                                    ORDER BY ee.create_date DESC
                                     LIMIT 10
-    								");
-    	return $query->result_array();
+                                    ");
+        return $query->result_array();
     }
 
     public function task_remarks($ms_num, $ac_type)
@@ -318,4 +319,78 @@ class M_task extends CI_Model{
                                     ");
         return true;
     }
+
+    public function getTaskDataByMSNum_bulk($ms_num, $ac_type){
+        $q_detailmsi = $this->db->query("   SELECT md.ms_num, md.ac_type, md.task_code, md.rvcd, md.resp, md.task_title, md.effdate, md.cat, mz.zone, ma.access, me.ac_eff,
+                                            concat(md.task_desc,'<br><br>', md.task_subdesc) as descr,
+                                            group_concat(DISTINCT concat(ms.sg_code,' ', ms.sg_num) SEPARATOR '<br>') as camp_sg,
+                                            group_concat(DISTINCT concat(mi.code_int,' ',mi.int_num,' ', mi.int_dim ) SEPARATOR '<br>') as intval,
+                                            group_concat(DISTINCT concat(mit.code_int,' ',mit.int_num,' ', mit.int_dim ) SEPARATOR '<br>') as intval_threshold,
+                                            group_concat(DISTINCT concat(mr.ref_man)  SEPARATOR '<br>') as ref
+                                            FROM msi_data md
+                                            Left Join msi_access ma ON md.ms_num = ma.ms_num AND md.ac_type = ma.ac_type
+                                            Left Join msi_interval mi ON md.ms_num = mi.ms_num AND md.ac_type = mi.ac_type
+                                            Left Join msi_interval_threshold mit ON md.ms_num = mit.ms_num AND md.ac_type = mit.ac_type
+                                            Left Join msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
+                                            Left Join msi_ref mr ON md.ms_num = mr.ms_num AND md.ac_type = mr.ac_type
+                                            Left Join msi_zone mz ON md.ms_num = mz.ms_num AND md.ac_type = mz.ac_type
+                                            Left Join msi_eff me ON md.ms_num = me.ms_num AND md.ac_type = me.ac_type
+                                            Where md.ac_type = '$ac_type' AND md.ms_num IN $ms_num
+                                            Group By md.ms_num
+                                            Order By md.ms_num asc");
+        
+        return $q_detailmsi->result();
+    }
+
+    public function getTableSRI_bulk($ms_num, $ac_type){
+        $q_sri = $this->db->query(
+                    "select * from table_sri where camp_no IN $ms_num and Ac_type = '$ac_type'");
+
+        return $q_sri->result_array();
+    }
+
+    public function getTableDelay_bulk($ms_num, $ac_type){
+        $q_delay = $this->db->query(
+                    "select * from table_delay where camp_no IN $ms_num and Ac_type = '$ac_type'");
+
+        return $q_delay->result_array();
+    }
+
+    public function getTableRemoval_bulk($ms_num, $ac_type){
+        $q_ucr = $this->db->query(
+                    "select * from table_compremoval where camp IN $ms_num and Ac_type = '$ac_type'");
+
+        return $q_ucr->result_array();
+    }
+
+    public function countAcc_bulk($ms_num, $ac_type){
+        $q_hitung_acc = $this->db->query("SELECT DISTINCT order_no, ms_num, count(finding) as count_acc,
+                                                          sum(case when finding = 'NIL' then 1 else 0 end) as count_nil
+                                              FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and  ms_num IN $ms_num GROUP BY ac_type, ms_num");
+        return $q_hitung_acc->result_array();
+    }
+
+    public function rejectFinding_bulk($ms_num, $ac_type){
+        $q_reject_finding = $this->db->query("SELECT ms_num, count(*) AS num_rejected FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num IN $ms_num and rejected = 1 GROUP BY  ms_num, ac_type ORDER BY ms_num ASC");
+        return $q_reject_finding->result_array();
+    }
+
+    public function task_evaluation_bulk($ms_num, $ac_type)
+    {
+        $query = $this->db->query(" SELECT ee.ms_num, ee.recommendation, ee.reason, ee.create_date, u.name, ee.rec_threshold, ee.rec_interval, u.signature
+                                    FROM ev_evaluation ee 
+                                    LEFT JOIN users u ON ee.id_user = u.id_user
+                                    WHERE ee.ms_num IN $ms_num AND ee.ac_type = '$ac_type'
+                                    ORDER BY ee.create_date DESC, ee.ms_num ASC
+                                    ");
+        return $query->result_array();
+    }
+
+    public function getFinding_bulk($ms_num, $ac_type){
+        // $q_performance = $this->db->query("SELECT DISTINCT msi_performance_all.ac_reg as ac_reg, msi_performance_all.maint_type, msi_performance_all.date_acc, msi_performance_all.fhrs, msi_performance_all.fcyl, msi_performance_all.finding, msi_performance_all.operation, msi_performance_all.remark_finding FROM msi_performance_all where msi_performance_all.ac_type = '$ac_type' and ms_num = '$ms_num'");
+        $q_performance = $this->db->query("SELECT DISTINCT * FROM msi_performance_all mpa where mpa.ac_type = '$ac_type' and ms_num IN $ms_num ORDER BY evaluasi_ke ASC, ms_num ASC");
+
+        return $q_performance->result();
+    }
+
 }

@@ -73,7 +73,7 @@ $subtable_x = '<table width="20px" height="1px" border="1"><tr><td> X</td></tr><
 // <td colspan="7">DISCUSS WITH ATR REGARDING NLG WHEEL/TIRE INSTALLATION MANUA (AMM JIC: 12-37-32 RAI 10010 001). RECOMMENDATION
 // TO ADD CLARITY TO THE MANUAL BY ATTACHING MILITIONAL FIGURE TO AVOID AMBIGUITY AND MISPERCEPTION OF THE MANUAL</td>
 // </tr>
-// <tr>B 
+// <tr> 
 // <td colspan="7">PK-GAF - SERVICING LDG SHOCK STRUT</td>
 // </tr>
 // <table border="1">
@@ -364,10 +364,10 @@ $temp .='
                     <td align="center">'.$f->date_acc.'</td>
                     <td align="center" colspan="4">'.$f->operation.'</td>
                     <td align="center">'.$f->remark_finding.'</td>
-                </tr>
-                </table>';
+                </tr>'
+                ;
     }
-
+    $temp .= '</table>';
     // output the HTML content
     $pdf->writeHTML($temp, true, false, true, false, '');
 }

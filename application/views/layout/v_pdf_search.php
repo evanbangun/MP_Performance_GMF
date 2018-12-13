@@ -1,17 +1,16 @@
 <?php
 
-// class MYPDF extends TCPDF {
-//     public function Header() {
-//         // Logo
-//         $image_file = K_PATH_IMAGES.'../../../assets/img/logo.png';
-//         $this->Image($image_file, 10, 10, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-//         // Set font
-//         $this->SetFont('helvetica', 'B', 20);
-//         // Title
-//         // $this->Cell(0, 15, 'MP Item Performance Data Evaluation', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-//     }
-// }
-use mikehaertl\wkhtmlto\Pdf;
+class MYPDF extends TCPDF {
+    public function Header() {
+        // Logo
+        $image_file = K_PATH_IMAGES.'../../../assets/img/logo.png';
+        $this->Image($image_file, 10, 10, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+        // Set font
+        $this->SetFont('helvetica', 'B', 20);
+        // Title
+        // $this->Cell(0, 15, 'MP Item Performance Data Evaluation', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    }
+}
 // create new PDF document
 $pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -168,26 +167,41 @@ foreach ($list_task as $lt)
     <table cellspacing="3">
         <tr>
             <td>No. Accomplishment:</td>
-            <td>'.$count_acc[$lt->ms_num][$lt->ac_type]->count_acc.'</td>
+            <td>';
+    if(isset($count_acc[$lt->ms_num]))
+    {
+        $html .= $count_acc[$lt->ms_num];
+    }
+        $html .= '</td>
             <td></td>
         </tr>
         <tr>
             <td>No. Finding:</td>
-            <td>'.$count_finding[$lt->ms_num][$lt->ac_type].'</td>
+            <td>';
+    if(isset($count_finding[$lt->ms_num]))
+    {
+        $html .= $count_finding[$lt->ms_num];
+    }
+        $html .= '</td>
             <td></td>
         </tr>
         <tr>
             <td>No. Rejected Finding:</td>
-            <td>'.$rejected_finding[$lt->ms_num][$lt->ac_type]->num_rejected.'</td>
+            <td>';
+    if(isset($rejected_finding[$lt->ms_num]))
+    {
+        $html .= $rejected_finding[$lt->ms_num];
+    }
+        $html .= '</td>
             <td></td>
         </tr>
         <tr>
             <td>Finding Ratio:</td>
             <td>';
 
-    if($count_acc[$lt->ms_num][$lt->ac_type]->count_acc > 0)
+    if(isset($count_acc[$lt->ms_num]) && $count_acc[$lt->ms_num] > 0)
     {
-        $html .= round((($count_finding[$lt->ms_num][$lt->ac_type] - $rejected_finding[$lt->ms_num][$lt->ac_type]->num_rejected)/$count_acc[$lt->ms_num][$lt->ac_type]->count_acc), 3);
+        $html .= round((($count_finding[$lt->ms_num] - $rejected_finding[$lt->ms_num]['num_rejected'])/$count_acc[$lt->ms_num]['count_acc']), 3);
     }
     else
     {
@@ -205,10 +219,19 @@ foreach ($list_task as $lt)
         <tr>
             <th colspan="5"><b>1. Any SRI related?</b></th>';
 
-    if (count($table_sri[$lt->ms_num][$lt->ac_type]) > 0)
+    if (isset($table_sri[$lt->ms_num]) && count($table_sri[$lt->ms_num]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
                   <th>No '.$subtable.'</th>';
+
+        foreach ($table_sri[$lt->ms_num] as $ts) {
+            $html .= '<tr>
+                    <td colspan="7">SRI NO '.$ts['sri_no'].' - '.$ts['sri_title'].' - '.$ts['Ac_type'].'</td>
+                  </tr>
+                  <tr>
+                    <td colspan="7">'.$ts['sri_desc'].'</td>
+                  </tr>';
+        }
     }
     else
     {
@@ -220,10 +243,16 @@ foreach ($list_task as $lt)
         <tr>
             <td colspan="5"><b>2. Any related delay to AOG, Accident, RTA, RTG?</b></td>';
 
-    if (count($table_delay[$lt->ms_num][$lt->ac_type]) > 0)
+    if (isset($table_delay[$lt->ms_num]) && count($table_delay[$lt->ms_num]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
                   <th>No '.$subtable.'</th>';
+
+        foreach ($table_delay[$lt->ms_num] as $td) {
+            $html .= '<tr> 
+                        <td colspan="7">'.$td['ac_reg'].' - '.$td['key_problem'].'</td>
+                      </tr>';
+        }
     }
     else
     {
@@ -235,10 +264,31 @@ foreach ($list_task as $lt)
         <tr>
             <td colspan="5"><b>3. Any unscheduled component removal?</b></td>';
 
-    if (count($table_removal[$lt->ms_num][$lt->ac_type]) > 0)
+    if (isset($table_removal[$lt->ms_num]) && count($table_removal[$lt->ms_num]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
-                  <th>No '.$subtable.'</th>';
+                  <th>No '.$subtable.'</th>
+                  <table border="1">
+                     <tr>
+                         <td align="center">PARTNO</td>
+                         <td align="center">PARTNAME</td>
+                         <td align="center">ALERTLEVEL</td>
+                         <td align="center">L12MRATE</td>
+                         <td align="center">L6MRATE</td>
+                         <td align="center">ALERTSTATUS</td>
+                    </tr>';
+
+        foreach ($table_removal[$lt->ms_num] as $tr) {
+            $html .= '<tr>
+                         <td align="center">'.$tr['PartNo'].'</td>
+                         <td align="center">'.$tr['PartName'].'</td>
+                         <td align="center">'.$tr['AlertLevel'].'</td>
+                         <td align="center">'.$tr['L12MRate'].'</td>
+                         <td align="center">'.$tr['L6MRate'].'</td>
+                         <td align="center">'.$tr['L12MAlertStatus'].' '.$tr['L6MAlertStatus'].'</td>
+                     </tr>';
+        }
+            $html .= '</table>';
     }
     else
     {
@@ -249,10 +299,10 @@ foreach ($list_task as $lt)
     $html .='</tr>
     </table>';
 
-    if(!empty($task_evaluation[$lt->ms_num][$lt->ac_type]))
+    if(isset($task_evaluation[$lt->ms_num]) && !empty($task_evaluation[$lt->ms_num]))
     {
         $ev_ke = -1;
-        foreach ($task_evaluation[$lt->ms_num][$lt->ac_type] as $te)
+        foreach ($task_evaluation[$lt->ms_num] as $te)
         {
             $ev_ke++;
             $temp = $html;
@@ -358,7 +408,7 @@ foreach ($list_task as $lt)
                             <th align="center" width="80"><b>REMARKS</b></th>
                         </tr>';
             $i = 0;
-            foreach ($finding[$lt->ms_num][$lt->ac_type] as $f)
+            foreach (isset($finding[$lt->ms_num]) && $finding[$lt->ms_num] as $f)
             {
                 if($ev_ke < $f['evaluasi_ke'])
                 {

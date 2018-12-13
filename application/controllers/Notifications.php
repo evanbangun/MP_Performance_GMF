@@ -30,6 +30,8 @@ class Notifications extends CI_Controller {
 		$link = $this->m_notifications->get_notification_data($this->input->post('id_notif_his'));
 
 		$this->m_notifications->update_notif_read($link->id_user, $link->src_notif);
+
+		
 	}
 
 	public function get_notifications()

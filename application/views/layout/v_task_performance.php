@@ -224,8 +224,7 @@
 												{
 												?>
 												<tr>
-													<td><?php echo $ts['sri_no']; ?></td>
-													<td><?php echo $ts['sri_title']; ?></td>
+													<td>SRI NO <?php echo $ts['sri_no']; ?> - <?php echo $ts['sri_title']; ?></td>
 													<td><?php echo $ts['sri_desc']; ?></td>
 												</tr>
 												<?php
@@ -571,7 +570,7 @@
 									<td>
 										<input type="hidden" id="finding<?php echo $num; ?>" value="<?php echo $row->id_ms_performance_all; ?>">
 										<?php
-											if($row->rejected)
+											if($row->rejected == 1)
 											{
 										?>
 											Rejected

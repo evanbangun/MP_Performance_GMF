@@ -11,9 +11,8 @@ class MYPDF extends TCPDF {
         // $this->Cell(0, 15, 'MP Item Performance Data Evaluation', 0, false, 'C', 0, '', 0, false, 'M', 'M');
     }
 }
-
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 // $pdf->SetCreator(PDF_CREATOR);
@@ -57,51 +56,51 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // Print a table
 
 // create some HTML content
-$pdf->SetPrintHeader(false);
-$pdf->AddPage('L', 'A4');
-$pdf->SetFont('dejavusans', '', 5);
+// $pdf->SetPrintHeader(false);
+// $pdf->AddPage('L', 'A4');
+// $pdf->SetFont('dejavusans', '', 5);
 
-$html = '
-<table border="1">
-    <tr>
-        <th align="center" width="20"><b>NO</b></th>
-        <th align="center"><b>MP NUMBER</b></th>
-        <th align="center" width="190"><b>DESCRIPTION</b></th>
-        <th align="center" width="50"><b>TASK CODE</b></th>
-        <th align="center" width="70"><b>A/C EFF./ ENG. EFF.</b></th>
-        <th align="center" width="70"><b>CURRENT THRESHOLD</b></th>
-        <th align="center" width="70"><b>CURRENT INTERVAL</b></th>
-        <th align="center"><b>RECOMMENDED THRESHOLD</b></th>
-        <th align="center"><b>RECOMMENDED INTERVAL</b></th>
-        <th align="center"><b>SIGN CODE</b></th>
-        <th align="center"><b>REFERENCE</b></th>
-        <th align="center"><b>GMF REVIEW</b></th>
-        <th align="center"><b>GARUDA REVIEW</b></th>
-    </tr>';
-    $i = 0;
-    foreach ($list_assignment as $la)
-    {
-        $html .= "<tr>
-                  <td>".++$i."</td>
-                  <td>".$la['ms_num']."</td>
-                  <td>".$la['descr']."</td>
-                  <td>".$la['task_code']."</td>
-                  <td>".$la['ac_eff']."</td>
-                  <td>".$la['intval_threshold']."</td>
-                  <td>".$la['intval']."</td>
-                  <td>".$la['rec_threshold']."</td>
-                  <td>".$la['rec_interval']."</td>
-                  <td>".$la['camp_sg']."</td>
-                  <td>".$la['ref_man']."</td>
-                  <td>".$la['name_gmf']."</td>
-                  <td>".$la['name_garuda']."</td>
-                </tr>";
-    }
+// $html = '
+// <table border="1">
+//     <tr>
+//         <th align="center" width="20"><b>NO</b></th>
+//         <th align="center"><b>MP NUMBER</b></th>
+//         <th align="center" width="190"><b>DESCRIPTION</b></th>
+//         <th align="center" width="50"><b>TASK CODE</b></th>
+//         <th align="center" width="70"><b>A/C EFF./ ENG. EFF.</b></th>
+//         <th align="center" width="70"><b>CURRENT THRESHOLD</b></th>
+//         <th align="center"  width="70"><b>CURRENT INTERVAL</b></th>
+//         <th align="center"><b>RECOMMENDED THRESHOLD</b></th>
+//         <th align="center"><b>RECOMMENDED INTERVAL</b></th>
+//         <th align="center"><b>SIGN CODE</b></th>
+//         <th align="center"><b>REFERENCE</b></th>
+//         <th align="center"><b>GMF REVIEW</b></th>
+//         <th align="center"><b>GARUDA REVIEW</b></th>
+//     </tr>';
+//     $i = 0;
+//     foreach ($list_assignment as $la)
+//     {
+//         $html .= "<tr>
+//                   <td>".++$i."</td>
+//                   <td>".$la['ms_num']."</td>
+//                   <td>".$la['descr']."</td>
+//                   <td>".$la['task_code']."</td>
+//                   <td>".$la['ac_eff']."</td>
+//                   <td>".$la['intval_threshold']."</td>
+//                   <td>".$la['intval']."</td>
+//                   <td>".$la['rec_threshold']."</td>
+//                   <td>".$la['rec_interval']."</td>
+//                   <td>".$la['camp_sg']."</td>
+//                   <td>".$la['ref_man']."</td>
+//                   <td>".$la['name_gmf']."</td>
+//                   <td>".$la['name_garuda']."</td>
+//                 </tr>";
+//     }
 
-$html .= '</table>';
+// $html .= '</table>';
 
-// output the HTML content
-$pdf->writeHTML($html, true, false, true, false, '');
+// // output the HTML content
+// $pdf->writeHTML($html, true, false, true, false, '');
 
 $subtable = '<table width="20px" height="1px" border="1"><tr><td></td></tr></table>';
 $subtable_checked = '<table width="20px" height="1px" border="1"><tr><td> V</td></tr></table>';
@@ -168,41 +167,26 @@ foreach ($list_task as $lt)
     <table cellspacing="3">
         <tr>
             <td>No. Accomplishment:</td>
-            <td>';
-    if(isset($count_acc[$lt->ms_num]))
-    {
-        $html .= $count_acc[$lt->ms_num];
-    }
-        $html .= '</td>
+            <td>'.$count_acc[$lt->ms_num][$lt->ac_type]->count_acc.'</td>
             <td></td>
         </tr>
         <tr>
             <td>No. Finding:</td>
-            <td>';
-    if(isset($count_finding[$lt->ms_num]))
-    {
-        $html .= $count_finding[$lt->ms_num];
-    }
-        $html .= '</td>
+            <td>'.$count_finding[$lt->ms_num][$lt->ac_type].'</td>
             <td></td>
         </tr>
         <tr>
             <td>No. Rejected Finding:</td>
-            <td>';
-    if(isset($rejected_finding[$lt->ms_num]))
-    {
-        $html .= $rejected_finding[$lt->ms_num];
-    }
-        $html .= '</td>
+            <td>'.$rejected_finding[$lt->ms_num][$lt->ac_type]->num_rejected.'</td>
             <td></td>
         </tr>
         <tr>
             <td>Finding Ratio:</td>
             <td>';
 
-    if(isset($count_acc[$lt->ms_num]) && $count_acc[$lt->ms_num] > 0)
+    if($count_acc[$lt->ms_num][$lt->ac_type]->count_acc > 0)
     {
-        $html .= round((($count_finding[$lt->ms_num] - $rejected_finding[$lt->ms_num]['num_rejected'])/$count_acc[$lt->ms_num]['count_acc']), 3);
+        $html .= round((($count_finding[$lt->ms_num][$lt->ac_type] - $rejected_finding[$lt->ms_num][$lt->ac_type]->num_rejected)/$count_acc[$lt->ms_num][$lt->ac_type]->count_acc), 3);
     }
     else
     {
@@ -220,19 +204,10 @@ foreach ($list_task as $lt)
         <tr>
             <th colspan="5"><b>1. Any SRI related?</b></th>';
 
-    if (isset($table_sri[$lt->ms_num]) && count($table_sri[$lt->ms_num]) > 0)
+    if (count($table_sri[$lt->ms_num][$lt->ac_type]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
                   <th>No '.$subtable.'</th>';
-
-        foreach ($table_sri[$lt->ms_num] as $ts) {
-            $html .= '<tr>
-                    <td colspan="7">SRI NO '.$ts['sri_no'].' - '.$ts['sri_title'].' - '.$ts['Ac_type'].'</td>
-                  </tr>
-                  <tr>
-                    <td colspan="7">'.$ts['sri_desc'].'</td>
-                  </tr>';
-        }
     }
     else
     {
@@ -244,16 +219,10 @@ foreach ($list_task as $lt)
         <tr>
             <td colspan="5"><b>2. Any related delay to AOG, Accident, RTA, RTG?</b></td>';
 
-    if (isset($table_delay[$lt->ms_num]) && count($table_delay[$lt->ms_num]) > 0)
+    if (count($table_delay[$lt->ms_num][$lt->ac_type]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
                   <th>No '.$subtable.'</th>';
-
-        foreach ($table_delay[$lt->ms_num] as $td) {
-            $html .= '<tr> 
-                        <td colspan="7">'.$td['ac_reg'].' - '.$td['key_problem'].'</td>
-                      </tr>';
-        }
     }
     else
     {
@@ -265,31 +234,10 @@ foreach ($list_task as $lt)
         <tr>
             <td colspan="5"><b>3. Any unscheduled component removal?</b></td>';
 
-    if (isset($table_removal[$lt->ms_num]) && count($table_removal[$lt->ms_num]) > 0)
+    if (count($table_removal[$lt->ms_num][$lt->ac_type]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
-                  <th>No '.$subtable.'</th>
-                  <table border="1">
-                     <tr>
-                         <td align="center">PARTNO</td>
-                         <td align="center">PARTNAME</td>
-                         <td align="center">ALERTLEVEL</td>
-                         <td align="center">L12MRATE</td>
-                         <td align="center">L6MRATE</td>
-                         <td align="center">ALERTSTATUS</td>
-                    </tr>';
-
-        foreach ($table_removal[$lt->ms_num] as $tr) {
-            $html .= '<tr>
-                         <td align="center">'.$tr['PartNo'].'</td>
-                         <td align="center">'.$tr['PartName'].'</td>
-                         <td align="center">'.$tr['AlertLevel'].'</td>
-                         <td align="center">'.$tr['L12MRate'].'</td>
-                         <td align="center">'.$tr['L6MRate'].'</td>
-                         <td align="center">'.$tr['L12MAlertStatus'].' '.$tr['L6MAlertStatus'].'</td>
-                     </tr>';
-        }
-            $html .= '</table>';
+                  <th>No '.$subtable.'</th>';
     }
     else
     {
@@ -300,10 +248,10 @@ foreach ($list_task as $lt)
     $html .='</tr>
     </table>';
 
-    if(isset($task_evaluation[$lt->ms_num]) && !empty($task_evaluation[$lt->ms_num]))
+    if(!empty($task_evaluation[$lt->ms_num][$lt->ac_type]))
     {
         $ev_ke = -1;
-        foreach ($task_evaluation[$lt->ms_num] as $te)
+        foreach ($task_evaluation[$lt->ms_num][$lt->ac_type] as $te)
         {
             $ev_ke++;
             $temp = $html;
@@ -409,7 +357,7 @@ foreach ($list_task as $lt)
                             <th align="center" width="80"><b>REMARKS</b></th>
                         </tr>';
             $i = 0;
-            foreach (isset($finding[$lt->ms_num]) && $finding[$lt->ms_num] as $f)
+            foreach ($finding[$lt->ms_num][$lt->ac_type] as $f)
             {
                 if($ev_ke < $f['evaluasi_ke'])
                 {
