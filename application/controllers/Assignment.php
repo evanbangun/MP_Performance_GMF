@@ -37,11 +37,75 @@ class Assignment extends CI_Controller {
 			"container" => "layout/v_detail_assignment"
 		);
 
+		$data['ac_type'] = $ac_type;
+		$data['resp'] = $resp;
+
 		$data['list_assignment'] = $this->m_assignment->tampilassignment($ac_type, $resp);
 		$data['list_user'] = $this->m_assignment->get_user($this->session->userdata('role'));
 
 		$this->load->view("layout/v_template", $data);
 	}
+	
+	public function detail_assignment_ajax()
+	{
+		$ac_type = $_POST['ac_type'];
+		$resp = $_POST['resp'];
+
+		$list = $this->m_assignment->detail_assignment($ac_type, $resp);
+		$data=array();
+
+		$i = 1;
+		foreach ($list as $grid) {
+			$row=array();
+
+			$row[]=($_POST['start']) + $i++;
+			$row[]='<a href="'.base_url('index.php/task/task_performance/'.$grid['ms_num'].'/'.$grid['ac_type']).'">'.$grid['ms_num'].'</a>';
+		    $row[]=$grid['ac_type'];
+       	    $row[]=$grid['resp'];
+          	$row[]=$grid['descr'];
+            $row[]=$grid['intval'];
+            $row[]=$grid['rvcd'];
+            $row[]=$grid['camp_sg'];
+            if($grid['status'] == "" || $grid['status'] == 0 )
+            {
+              $row[] = '<span class="label label-default">Unassigned</span>';
+            }
+            else if($grid['status'] == 1 || $grid['status'] == 4)
+            {
+              $row[] = '<span class="label label-primary">Assigned</span>';
+            }
+            else if($grid['status'] == 2)
+            {
+              $row[] = '<span class="label label-warning">Evaluating</span>';
+            }
+            else if($grid['status'] == 3)
+            {
+              $row[] = '<span class="label label-info">Evaluated</span>';
+            }
+            else if($grid['status'] == 5)
+            {
+              $row[] = '<span class="label label-warning">Verifying</span>';
+            }
+            else if($grid['status'] == 6)
+            {
+              $row[] = '<span class="label label-success">Verified</span>';
+            }
+            
+            $data[] = $row;          
+
+		}
+
+
+		$output = array(
+			"draw" 				=> $_POST['draw'],
+			"recordsTotal" 		=> $this->m_assignment->count_all($ac_type, $resp),
+			"recordsFiltered" 	=> $this->m_assignment->count_filtered($ac_type, $resp),
+			"data" 				=> $data,
+		);
+
+		echo json_encode($output);
+	}
+	
 
 	public function assignment_eval()
 	{

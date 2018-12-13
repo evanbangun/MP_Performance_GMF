@@ -14,7 +14,7 @@
       <div class="box">
         <!-- /.box-header -->
         <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="assignment_detail" class="table table-bordered table-striped">
             <thead>
             <tr>
               <th>No.</th>
@@ -29,146 +29,6 @@
               <!-- <th>PIC</th> -->
             </tr>
             </thead>
-            <tbody>
-            <?php
-            if(isset($list_assignment) && is_array($list_assignment) && count($list_assignment))
-            {  
-              $i = 0;
-              foreach ($list_assignment as $la)
-              {
-            ?>
-                <tr>
-                  <td><?php echo ++$i ?></td>
-                  <input type="hidden" id="msnum<?php echo $i; ?>" value="<?php echo $la['ms_num']; ?>">
-                  <input type="hidden" id="actype<?php echo $i; ?>" value="<?php echo $la['ac_type']; ?>">
-                  <td><a href="<?php echo base_url('index.php/task/task_performance/'.$la['ms_num'].'/'.$la['ac_type']); ?>"><?php echo $la['ms_num']; ?></a></td>
-                  <td><?php echo $la['ac_type']; ?></td>
-                  <td><?php echo $la['resp']; ?></td>
-                  <td><?php echo $la['descr']; ?></td>
-                  <td><?php echo $la['intval']; ?></td>
-                  <td><?php echo $la['rvcd']; ?></td>
-                  <td><?php echo $la['camp_sg']; ?></td>
-                  <input type="hidden" id="status<?php echo $i; ?>" value="<?php echo $la['status']; ?>">
-                  <?php
-                    if($la['status'] == "" || $la['status'] == 0 )
-                    {
-                      echo '<td><span class="label label-default">Unassigned</span></td>';
-                    }
-                    else if($la['status'] == 1 || $la['status'] == 4)
-                    {
-                      echo '<td><span class="label label-primary">Assigned</span></td>';
-                    }
-                    else if($la['status'] == 2)
-                    {
-                      echo '<td><span class="label label-warning">Evaluating</span></td>';
-                    }
-                    else if($la['status'] == 3)
-                    {
-                      echo '<td><span class="label label-info">Evaluated</span></td>';
-                    }
-                    else if($la['status'] == 5)
-                    {
-                      echo '<td><span class="label label-warning">Verifying</span></td>';
-                    }
-                    else if($la['status'] == 6)
-                    {
-                      echo '<td><span class="label label-success">Verified</span></td>';
-                    }
-                  ?>
-                  <!-- <td>
-                    <?php
-                    if($this->session->userdata('role') == 1)
-                    {
-                    ?>
-                      <div class="form-group">
-                      <?php
-                        if($la['status'] == "" || $la['status'] == 0 )
-                        {
-                      ?>
-                          <select onchange="changePIC(<?php echo $i; ?>)" id="changepic<?php echo $i; ?>" class="form-control">
-                            <option value="">--Select PIC--</option>
-                            <?php
-                              foreach ($list_user as $lu)
-                              {
-                            ?>
-                            <option value="<?php echo $lu['id_user']; ?>"><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
-                            <?php
-                              }
-                            ?>
-                          </select>
-                      <?php
-                        }
-                        else if($la['status'] >= 1)
-                        {
-                      ?>
-                          <input type="hidden" id="changepic<?php echo $i; ?>" value="<?php echo $la['id_user']; ?>">
-                          <select class="form-control" disabled>
-                            <?php
-                              foreach ($list_user as $lu)
-                              {
-                            ?>
-                            <option <?php if($lu['id_user'] == $la['id_user']){echo 'selected';}?>><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
-                            <?php
-                              }
-                            ?>
-                          </select>
-                          <button onclick="reassign(<?php echo $i; ?>)">Re-assign</button>  
-                      <?php
-                        }
-                      ?>
-                      </div>
-                    <?php
-                    }
-                    else if($this->session->userdata('role') == 2)
-                    {
-                    ?>
-                      <div class="form-group">
-                      <?php
-                        if($la['status'] == 2 && $la['checked'] < 3 )
-                        {
-                      ?>
-                          <select onchange="changePIC(<?php echo $i; ?>)" id="changepic<?php echo $i; ?>" class="form-control">
-                            <option value="">--Select PIC--</option>
-                            <?php
-                              foreach ($list_user as $lu)
-                              {
-                            ?>
-                            <option value="<?php echo $lu['id_user']; ?>"><?php echo $lu['name']; ?> - <?php echo $lu['no_pegawai']; ?></option>
-                            <?php
-                              }
-                            ?>
-                          </select>
-                      <?php
-                        }
-                        else if($la['status'] >= 1)
-                        {
-                      ?>
-                          <input type="hidden" id="changepic<?php echo $i; ?>" >
-                          <select class="form-control" disabled>
-                          <option><?php echo $la['name']; ?> - <?php echo $la['no_pegawai']; ?></option>
-                          </select>
-                          <?php
-                            if($la['status'] == 2)
-                            {
-                          ?>
-                              <button onclick="reassign(<?php echo $i; ?>)">Re-assign</button>
-                          <?php
-                            }
-                          ?>
-                      <?php
-                        }
-                      ?>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </td> -->
-                </tr>
-            <?php
-              }
-            }
-            ?>
-            </tbody>
           </table>
         </div>
         <!-- /.box-body -->
@@ -178,6 +38,74 @@
     </section>
     <!-- /.content -->
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      // alert("Hello! I am an alert box!!");
+      loadDataTable();
+      
+    });
+
+    function loadDataTable(){
+      $('#assignment_detail').dataTable({
+        "bDestroy"      : true,
+        "stateSave"     : false,
+        "searching"       : true,
+        "select"          : true,
+        "bLengthChange"   : false,
+        "scrollCollapse"  : false,
+        "bPaginate"       : true,
+        "bInfo"           : true,
+        "bSort"           : false,
+        "aLengthMenu"   : [[30, 50, 75, -1], [30, 50, 75, "All"]],
+        "pageLength"    : 10,
+        "processing"      : true, //Feature control the processing indicator.
+        "serverSide"    : true, //Feature control DataTables' server-side processing mode.
+        "order"       : [], //Initial no order.
+        //"dom"               : 'Bfrtip',
+        //"buttons"     : ['copy', 'csv', 'excel', 'pdf', 'print'],
+        "fnRowCallback"   : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+          // $(nRow).css('color', 'white');                
+          // $('td', nRow).css('background-color', 'rgba(51, 110, 123,0.2)');
+        },
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+          "url" : "<?php echo base_url('index.php/assignment/detail_assignment_ajax/'); ?>",
+          "type"  : "POST",
+          "data"  : {"ac_type" : "<?php echo $ac_type; ?>",
+                     "resp" : "<?php echo $resp; ?>"}
+        },
+        // "language": {
+        //   "processing": "<center><p><img src='<?php echo base_url('assets/img/loader.gif');?>' /> Please Wait</p></center>"
+        // },
+          //"processing": "Sedang loading data, harap tunggu . . ."
+        //Set column definition initialisation properties.
+        "columnDefs" : [
+          { 
+            "orderable" : false, //set not orderable
+            "targets" : 1, //first column / numbering column
+          }//,
+          //{ 
+            //"targets": 2, // your case first column
+            //"className": "text-center",
+          //},
+        ]
+        /*,"rowCallback": function( row, data, index ) {
+          if ( data[2] == "OK" ) {
+            $("td:eq(2), row").css("background-color","green");
+           
+          }else{
+            $("td:eq(-0), row").css("background-color","green");
+          }
+        },*/
+      });
+    }
+  </script>
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
