@@ -202,7 +202,24 @@ foreach ($list_task as $lt)
 
     if(isset($count_acc[$lt->ms_num]) && $count_acc[$lt->ms_num] > 0)
     {
-        $html .= round((($count_finding[$lt->ms_num] - $rejected_finding[$lt->ms_num]['num_rejected'])/$count_acc[$lt->ms_num]['count_acc']), 3);
+        $a = $count_acc[$lt->ms_num];
+        if(isset($count_finding[$lt->ms_num]))
+        {
+            $b = $count_finding[$lt->ms_num];
+        }
+        else
+        {
+            $b = 0;
+        }
+        if(isset($rejected_finding[$lt->ms_num]))
+        {
+            $c = $rejected_finding[$lt->ms_num];
+        }
+        else
+        {
+            $c = 0;
+        }
+        $html .= round((($b - $c)/$a), 3);
     }
     else
     {
@@ -223,7 +240,7 @@ foreach ($list_task as $lt)
     if (isset($table_sri[$lt->ms_num]) && count($table_sri[$lt->ms_num]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
-                  <th>No '.$subtable.'</th>';
+                  <th>No '.$subtable.'</th></tr>';
 
         foreach ($table_sri[$lt->ms_num] as $ts) {
             $html .= '<tr>
@@ -237,17 +254,17 @@ foreach ($list_task as $lt)
     else
     {
         $html .= '<th>Yes '.$subtable.'</th>
-                  <th>No '.$subtable_checked.'</th>';
+                  <th>No '.$subtable_checked.'</th></tr>';
     }
 
-    $html .='</tr>
+    $html .='
         <tr>
             <td colspan="5"><b>2. Any related delay to AOG, Accident, RTA, RTG?</b></td>';
 
     if (isset($table_delay[$lt->ms_num]) && count($table_delay[$lt->ms_num]) > 0)
     {
         $html .= '<th>Yes '.$subtable_checked.'</th>
-                  <th>No '.$subtable.'</th>';
+                  <th>No '.$subtable.'</th></tr>';
 
         foreach ($table_delay[$lt->ms_num] as $td) {
             $html .= '<tr> 
@@ -258,10 +275,10 @@ foreach ($list_task as $lt)
     else
     {
         $html .= '<th>Yes '.$subtable.'</th>
-                  <th>No '.$subtable_checked.'</th>';
+                  <th>No '.$subtable_checked.'</th></tr>';
     }
 
-    $html .='</tr>
+    $html .='
         <tr>
             <td colspan="5"><b>3. Any unscheduled component removal?</b></td>';
 

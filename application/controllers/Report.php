@@ -110,7 +110,7 @@ class Report extends CI_Controller {
         $data['finding'][][] = [];
         foreach ($data['finding_bulk'] as $fb)
         {
-            $data['finding'][$fb['ms_num']][] = $fb;
+            $data['finding'][$fb->ms_num][] = $fb;
         }
 
         $this->load->view('layout/v_pdf_summary', $data);
@@ -191,7 +191,7 @@ class Report extends CI_Controller {
         $data['finding'][][] = [];
         foreach ($data['finding_bulk'] as $fb)
         {
-            $data['finding'][$fb['ms_num']][] = $fb;
+            $data['finding'][$fb->ms_num][] = $fb;
         }
 
         $this->load->view('layout/v_pdf_search', $data);

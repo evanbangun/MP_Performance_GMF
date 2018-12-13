@@ -40,8 +40,8 @@ class Assignment extends CI_Controller {
 		$data['ac_type'] = $ac_type;
 		$data['resp'] = $resp;
 
-		$data['list_assignment'] = $this->m_assignment->tampilassignment($ac_type, $resp);
-		$data['list_user'] = $this->m_assignment->get_user($this->session->userdata('role'));
+		// $data['list_assignment'] = $this->m_assignment->tampilassignment($ac_type, $resp);
+		// $data['list_user'] = $this->m_assignment->get_user($this->session->userdata('role'));
 
 		$this->load->view("layout/v_template", $data);
 	}
