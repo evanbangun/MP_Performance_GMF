@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- <script src="<?=base_url()?>assets/js/pace.js"></script>
+  <link rel="stylesheet" href="<?=base_url()?>assets/css/pace.css"> -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>MP Performance | Dashboard</title>
@@ -415,22 +417,7 @@ $(document).ready(function() {
 </script>
 <script>
   $(function () {
-    // $('#example1').DataTable()
     $('#example1').DataTable({
-      'paging'      : true,
-      'lengthChange': true,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true
-    })  
-  })
-</script>
-<script>
-  $(function () {
-    // $('#example1').DataTable()
-    $('#summary_table').DataTable({
-      'scrollX'     : true,
       'paging'      : true,
       'lengthChange': true,
       'searching'   : true,

@@ -90,13 +90,13 @@
               <h3 class="box-title">Search MP Task</h3>
             </div>
             <!-- /.box-header -->
-            <?php echo form_open('dashboard/search/'); ?>
+            <?php echo form_open('dashboard/filter_search/'); ?>
             <div class="box-body">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>A/C Type</label>
-                    <select name="ac_type" class="form-control select2" style="width: 100%;">
+                    <select name="ac_type_post" class="form-control select2" style="width: 100%;">
                       <?php
                         foreach ($list_actype as $lact)
                         {

@@ -113,7 +113,7 @@
       <!-- /.row -->
       <div class="box">
             <div class="box-header">
-              <h3 class="box-title"><b><?php echo count($result); ?> Maintenance Program Task Found</b></h3>
+              <!-- <h3 class="box-title"><b><?php echo count($result); ?> Maintenance Program Task Found</b></h3> -->
             <form method="POST" action="<?php echo base_url('index.php/report/report_pdf_search') ?>" target="_blank">
               <input type="hidden" name="date_min_post" value="<?php if(isset($date_min_post)) { echo $date_min_post; } ?>">
               <input type="hidden" name="date_max_post" value="<?php if(isset($date_min_post)) { echo $date_max_post; } ?>">
@@ -125,7 +125,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="search_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>No.</th>
@@ -139,7 +139,7 @@
                   <th>Status</th>
                 </tr>
                 </thead>
-                <tbody>
+                <!-- <tbody>
                 <?php 
                   $num = 1;
                   foreach($result as $row): 
@@ -187,7 +187,7 @@
                   </td>
                 </tr>
                 <?php endforeach ?>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
             <!-- /.box-body -->
@@ -197,3 +197,77 @@
     </section>
     <!-- /.content -->
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var ac_type = '<?php if(isset($ac_type)){ echo $ac_type; } ?>';
+      var ms_num = '<?php if(isset($ms_num)){ echo $ms_num; } ?>';
+      var resp = '<?php if(isset($resp)){ echo $resp; } ?>';
+      var date_max = '<?php if(isset($date_max_post)){ echo $date_max_post; } ?>';
+      var date_min = '<?php if(isset($date_min_post)){ echo $date_min_post; } ?>';
+      loadDataTable(ac_type, ms_num, resp, date_max, date_min);
+    });
+
+    function loadDataTable(ac_type, ms_num, resp, date_max, date_min){
+      $('#search_table').dataTable({
+        "scrollX"       : true,
+        "bDestroy"      : true,
+        "stateSave"     : false,
+        "searching"       : true,
+        "select"          : true,
+        "bLengthChange"   : false,
+        "scrollCollapse"  : false,
+        "bPaginate"       : true,
+        "bInfo"           : true,
+        "bSort"           : false,
+        "aLengthMenu"   : [[30, 50, 75, -1], [30, 50, 75, "All"]],
+        "pageLength"    : 10,
+        "processing"      : true, //Feature control the processing indicator.
+        "serverSide"    : true, //Feature control DataTables' server-side processing mode.
+        "order"       : [], //Initial no order.
+        //"dom"               : 'Bfrtip',
+        //"buttons"     : ['copy', 'csv', 'excel', 'pdf', 'print'],
+        "fnRowCallback"   : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+          // $(nRow).css('color', 'white');                
+          // $('td', nRow).css('background-color', 'rgba(51, 110, 123,0.2)');
+        },
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+          "url" : "<?php echo base_url('index.php/dashboard/search_ajax/'); ?>",
+          "type"  : "POST",
+          "data"  : {"ac_type" : ac_type,
+                     "ms_num" : ms_num,
+                     "resp" : resp,
+                     "date_max" : date_max,
+                     "date_min" : date_min}
+        },
+        "language": {
+          "processing": "<center><img src='<?php echo base_url('assets/img/loading_icon.gif');?>' /></center>"
+        },
+          // "processing": "Sedang loading data, harap tunggu . . ."
+        //Set column definition initialisation properties.
+        "columnDefs" : [
+          { 
+            "orderable" : false, //set not orderable
+            "targets" : 1, //first column / numbering column
+          }//,
+          //{ 
+            //"targets": 2, // your case first column
+            //"className": "text-center",
+          //},
+        ]
+        /*,"rowCallback": function( row, data, index ) {
+          if ( data[2] == "OK" ) {
+            $("td:eq(2), row").css("background-color","green");
+           
+          }else{
+            $("td:eq(-0), row").css("background-color","green");
+          }
+        },*/
+      });
+    }
+  </script>
