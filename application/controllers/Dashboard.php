@@ -162,12 +162,13 @@ class Dashboard extends CI_Controller {
 
 		}
 
-
+		$count_row = $this->m_dashboard->count_all($ac_type, $date_min, $date_max, $ms_num, $resp);
 		$output = array(
 			"draw" 				=> $_POST['draw'],
-			"recordsTotal" 		=> $this->m_dashboard->count_all($ac_type, $date_min, $date_max, $ms_num, $resp),
-			"recordsFiltered" 	=> $this->m_dashboard->count_filtered($ac_type, $date_min, $date_max, $ms_num, $resp),
+			"recordsTotal" 		=> $count_row,
+			"recordsFiltered" 	=> $count_row,
 			"data" 				=> $data,
+			"order" 			=> $_POST['order'],
 		);
 
 		echo json_encode($output);

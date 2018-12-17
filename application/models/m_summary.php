@@ -22,6 +22,7 @@ class m_summary extends CI_Model
 									Left Join msi_sg ms ON md.ms_num = ms.ms_num AND md.ac_type = ms.ac_type
 									Left Join msi_eff me ON md.ms_num = me.ms_num AND md.ac_type = me.ac_type
 									Left Join msi_interval_threshold mit ON md.ms_num = mit.ms_num AND md.ac_type = mit.ac_type
+					   				LEFT JOIN msi_performance_all mpa ON mpa.ms_num = md.ms_num AND mpa.ac_type = md.ac_type
 									Left Join msi_ref mr ON md.ms_num = mr.ms_num AND md.ac_type = mr.ac_type
 									Left Join (SELECT ee.ms_num as ms_num, ee.ac_type as ac_type, ee.id_user as id_gmf, ee.recommendation as recommendation, u.name as name_gmf, ee.rec_threshold as rec_threshold, ee.rec_interval as rec_interval, ee.create_date as create_date, u.signature as signature
 											   FROM ev_evaluation ee
@@ -32,7 +33,7 @@ class m_summary extends CI_Model
 									WHERE md.ac_type = '$ac_type'";
 		if($date_max != "" && $date_min != "")
 		{
-			$query_msg .= " AND md.effdate >= '$date_min' AND md.effdate <= '$date_max'";
+			$query_msg .= " AND mpa.date_acc <= '$date_max' AND mpa.date_acc >= '$date_min'";
 		}
 		if($ms_num != "")
 		{
@@ -48,7 +49,8 @@ class m_summary extends CI_Model
   		return $query->result_array();
 	}
 
-	private $column_search 	= array('recommendation', 'ms_num', 'ac_type', 'task_code', 'ac_eff', 'ref_man', 'id_gmf', 'name_gmf', 'id_garuda', 'name_garuda', 'descr', 'camp_sg', 'intval_threshold', 'rec_threshold', 'rec_interval');  
+	private $column_search 	= array('recommendation', 'ms_num', 'ac_type', 'task_code', 'ac_eff', 'ref_man', 'id_gmf', 'name_gmf', 'id_garuda', 'name_garuda', 'descr', 'camp_sg', 'intval_threshold', 'rec_threshold', 'rec_interval');
+	private $column_view 	= array('ms_num', 'task_code', 'ac_eff', 'descr', 'intval_threshold', 'rec_threshold', 'intval', 'rec_interval', 'camp_sg', 'ref_man', 'recommendation', 'name_gmf', 'name_garuda');  
 
 	public function __construct()
     {
@@ -108,9 +110,25 @@ class m_summary extends CI_Model
 				else{
 					$query .= " OR ".$item." LIKE '%". $_POST['search']['value']."%'";
 				}
-				
 			}
 			$i++;
+		}
+
+    	$i = 0;
+		foreach($_POST['order'] as $order_by)
+		{
+			if($order_by['column'] > 0)
+			{
+				if($i===0)
+				{
+					$query .= " ORDER BY ".$this->column_view[$order_by['column'] - 1]." ". $order_by['dir'];
+				}
+				else
+				{
+					$query .= ", ".$this->column_view[$order_by['column'] - 1]." ".$order_by['dir'];
+				}
+				$i++;
+			}
 		}
 		return $query;
     }

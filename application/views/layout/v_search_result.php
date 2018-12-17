@@ -227,7 +227,8 @@
         "pageLength"    : 10,
         "processing"      : true, //Feature control the processing indicator.
         "serverSide"    : true, //Feature control DataTables' server-side processing mode.
-        "order"       : [], //Initial no order.
+        "ordering"       : true,
+        "orderMulti"     : true,
         //"dom"               : 'Bfrtip',
         //"buttons"     : ['copy', 'csv', 'excel', 'pdf', 'print'],
         "fnRowCallback"   : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -253,7 +254,7 @@
         "columnDefs" : [
           { 
             "orderable" : false, //set not orderable
-            "targets" : 1, //first column / numbering column
+            "targets" : 0, //first column / numbering column
           }//,
           //{ 
             //"targets": 2, // your case first column

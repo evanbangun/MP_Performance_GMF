@@ -138,6 +138,7 @@ class m_dashboard extends CI_Model
 									Left Join msi_eff me ON md.ms_num = me.ms_num AND md.ac_type = me.ac_type
 									Left Join msi_interval_threshold mit ON md.ms_num = mit.ms_num AND md.ac_type = mit.ac_type
 									Left Join msi_ref mr ON md.ms_num = mr.ms_num AND md.ac_type = mr.ac_type
+					   				LEFT JOIN msi_performance_all mpa ON mpa.ms_num = md.ms_num AND mpa.ac_type = md.ac_type
 									Left Join (SELECT ee.ms_num as ms_num, ee.ac_type as ac_type, ee.id_user as id_gmf, ee.recommendation as recommendation, u.name as name_gmf, ee.rec_threshold as rec_threshold, ee.rec_interval as rec_interval, ee.create_date as create_date, u.signature as signature
 											   FROM ev_evaluation ee
 											   LEFT JOIN users u on ee.id_user = u.id_user) as gmfu ON md.ms_num = gmfu.ms_num AND md.ac_type = gmfu.ac_type
@@ -147,7 +148,7 @@ class m_dashboard extends CI_Model
 									WHERE md.ac_type = '$data[ac_type_post]'";
 		if($data['date_min_post'] != "" && $data['date_max_post'] != "")
 		{
-			$query_msg .= "   AND md.effdate >= '".$data['date_min_post']."' AND md.effdate <= '".$data['date_max_post']."'";
+			$query_text .= " AND mpa.date_acc >= '".$data['date_min_post']."' AND mpa.date_acc <= '".$data['date_max_post']."'";
 		}
 		if($data['ms_num_post'] != '')
 		{
@@ -164,6 +165,7 @@ class m_dashboard extends CI_Model
 	}
 
 	private $column_search 	= array('recommendation', 'ms_num', 'ac_type', 'task_code', 'ac_eff', 'ref_man', 'id_gmf', 'name_gmf', 'id_garuda', 'name_garuda', 'descr', 'camp_sg', 'intval_threshold', 'rec_threshold', 'rec_interval', 'status_text');  
+	private $column_view 	= array('ms_num', 'ac_type', 'resp', 'descr', 'intval', 'rvcd', 'camp_sg', 'status_text');
 
 	public function __construct()
     {
@@ -235,6 +237,23 @@ class m_dashboard extends CI_Model
 				
 			}
 			$i++;
+		}
+		
+		$i = 0;
+		foreach($_POST['order'] as $order_by)
+		{
+			if($order_by['column'] > 0)
+			{
+				if($i===0)
+				{
+					$query .= " ORDER BY ".$this->column_view[$order_by['column'] - 1]." ". $order_by['dir'];
+				}
+				else
+				{
+					$query .= ", ".$this->column_view[$order_by['column'] - 1]." ".$order_by['dir'];
+				}
+				$i++;
+			}
 		}
 		return $query;
     }

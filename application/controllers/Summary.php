@@ -56,6 +56,7 @@ class Summary extends CI_Controller {
 
 	public function summary_ajax()
 	{
+		// var_dump($_POST['order']);die();
 		$ac_type = $_POST['ac_type'];
 		$ms_num = $_POST['ms_num'];
 		$resp = $_POST['resp'];
@@ -88,12 +89,13 @@ class Summary extends CI_Controller {
 
 		}
 
-
+		$count_row = $this->m_summary->count_all($ac_type, $date_min, $date_max, $ms_num, $resp);
 		$output = array(
 			"draw" 				=> $_POST['draw'],
-			"recordsTotal" 		=> $this->m_summary->count_all($ac_type, $date_min, $date_max, $ms_num, $resp),
-			"recordsFiltered" 	=> $this->m_summary->count_filtered($ac_type, $date_min, $date_max, $ms_num, $resp),
+			"recordsTotal" 		=> $count_row,
+			"recordsFiltered" 	=> $count_row,
 			"data" 				=> $data,
+			"order" 			=> $_POST['order'],
 		);
 
 		echo json_encode($output);
