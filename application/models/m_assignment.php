@@ -100,6 +100,7 @@ class m_assignment extends CI_Model
 
 
 	private $column_search 	= array('ms_num', 'ac_type', 'task_code', 'rvcd', 'resp', 'id_user', 'status', 'descr', 'camp_sg', 'intval', 'status_text');  
+	private $column_view 	= array('ms_num', 'ac_type', 'resp', 'descr', 'intval', 'rvcd', 'camp_sg', 'status_text');  
 
 	public function __construct()
     {
@@ -141,6 +142,23 @@ class m_assignment extends CI_Model
 				
 			}
 			$i++;
+		}
+		
+    	$i = 0;
+		foreach($_POST['order'] as $order_by)
+		{
+			if($order_by['column'] > 0)
+			{
+				if($i===0)
+				{
+					$query .= " ORDER BY ".$this->column_view[$order_by['column'] - 1]." ". $order_by['dir'];
+				}
+				else
+				{
+					$query .= ", ".$this->column_view[$order_by['column'] - 1]." ".$order_by['dir'];
+				}
+				$i++;
+			}
 		}
 		return $query;
     }

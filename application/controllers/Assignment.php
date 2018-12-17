@@ -95,11 +95,11 @@ class Assignment extends CI_Controller {
 
 		}
 
-
+		$count_row = $this->m_assignment->count_all($ac_type, $resp);
 		$output = array(
 			"draw" 				=> $_POST['draw'],
-			"recordsTotal" 		=> $this->m_assignment->count_all($ac_type, $resp),
-			"recordsFiltered" 	=> $this->m_assignment->count_filtered($ac_type, $resp),
+			"recordsTotal" 		=> $count_row,
+			"recordsFiltered" 	=> $count_row,
 			"data" 				=> $data,
 		);
 
